@@ -9,18 +9,20 @@ import "./styles.scss";
 
 export default function Header() {
   return (
-    <Box className="header-class-name">
-      <Box className="buttons-area">
-        <Button classes={{ root: "button-style" }}>Produtos</Button>
-        <Button classes={{ root: "button-style" }}>Estoque</Button>
-        <Button classes={{ root: "button-style" }}>Pedidos</Button>
-        <Button classes={{ root: "button-style" }}>Vendas</Button>
-      </Box>
+    <Box className="menu-class-name">
+      <Box className="define-header-size">
+        <Box className="buttons-area">
+          <Button classes={{ root: "button-style" }}>Produtos</Button>
+          <Button classes={{ root: "button-style" }}>Estoque</Button>
+          <Button classes={{ root: "button-style" }}>Pedidos</Button>
+          <Button classes={{ root: "button-style" }}>Vendas</Button>
+        </Box>
 
-      <Box className="avatar-area">
-        <Avatar alt="Remy Sharp" />
+        <Box className="avatar-area">
+          <Avatar alt="Remy Sharp" />
 
-        <ArrowDropDownIcon />
+          <ArrowDropDownIcon />
+        </Box>
       </Box>
     </Box>
   );
