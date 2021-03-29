@@ -1,14 +1,16 @@
-import logo from './logo.svg';
+import React from "react";
+// import logo from './logo.svg';
 
-import Header from '../src/components/header';
-import Login from '../src/pages/login'
+import Header from "./components/teste";
+// import Login from "./pages/login";
 
-import './App.css';
+import "./App.css";
 
 function App() {
   return (
     <div className="App">
-      <Login />
+      <Header />
+      {/* <Login /> */}
     </div>
   );
 }
