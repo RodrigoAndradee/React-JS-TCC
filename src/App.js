@@ -4,7 +4,7 @@ import React from "react";
 // import Header from "./components/header";
 import Login from "./pages/login";
 
-import "./App.css";
+import "./styles/App.scss";
 
 function App() {
   return (
