@@ -1,0 +1,29 @@
+.left-side-login {
+  width: 70%;
+  height: 100vh;
+  float: left;
+}
+
+.right-side-login {
+  height: 100vh;
+  width: 30%;
+  float: right;
+  display: flex;
+  padding: 0 10px 0 10px;
+  // align-items: center;
+  justify-content: center;
+
+  .input-text {
+    font-size: 20px;
+    margin-bottom: 30px;
+  }
+
+  .login-button {
+    // background-color: black;
+    color: black;
+    border: none;
+    width: 70%;
+    height: auto;
+    font-size: 20px;
+  }
+}

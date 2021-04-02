@@ -1,16 +1,14 @@
 import React from "react";
 // import logo from './logo.svg';
 
-// import Header from "./components/header";
-import Login from "./pages/login";
+import Route from "./routes/Routes";
 
 import "./styles/App.scss";
 
 function App() {
   return (
     <div className="App">
-      {/* <Header /> */}
-      <Login />
+      <Route />
     </div>
   );
 }

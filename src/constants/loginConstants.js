@@ -1,8 +1,8 @@
 const loginConstants = {
   userName: "Usuário",
   userPassword: "Senha",
-  loginButton: "Login",
-  applicationIntro: "Bem vindo ao, {Nome do Sistema}",
+  loginButton: "Entrar",
+  applicationIntro: "Bem vindo(a) ao, {Nome do Sistema}",
 };
 
 const textFieldType = {
