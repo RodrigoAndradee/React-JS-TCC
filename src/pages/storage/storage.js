@@ -2,11 +2,13 @@ import React from "react";
 
 import Header from "../../components/header/header";
 
-export default function homeScreen() {
+import "./storage.scss";
+
+export default function Storage() {
   return (
     <>
       <Header />
-      HOME SCREEN
+      STORAGE
     </>
   );
 }

@@ -1,10 +1,11 @@
 const routes = {
-  login: "/",
-  orders: "orders",
+  home_screen: "/",
+  orders: "/orders",
+  others: "*",
   products: "/products",
   sales: "/sales",
-  signin: "/signin",
+  sign_in: "/signin",
   storage: "/storage",
 };
 
-export default { routes };
+export default routes;

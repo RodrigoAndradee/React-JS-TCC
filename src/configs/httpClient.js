@@ -24,7 +24,7 @@ const httpClient = new HTTPClient("localhost:8081", "/");
 httpClient.attachResponseInterceptors(
   (response) => response,
   (error) => {
-    // console.log(error);
+    console.log(error);
   }
 );
 

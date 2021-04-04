@@ -1,3 +1,5 @@
+@import "../../styles/colors.scss";
+
 .left-side-login {
   width: 70%;
   height: 100vh;
@@ -8,19 +10,23 @@
   height: 100vh;
   width: 30%;
   float: right;
-  // display: flex;
-  padding: 0 100px 0 100px;
+  padding: 0 50px 0 50px;
+  display: flex;
+  flex-direction: column;
   justify-content: center;
+
+  .welcome-text {
+    color: $color-primary;
+  }
 
   .input-text {
     font-size: 20px;
-    margin-bottom: 30px;
   }
 
   .login-button {
-    color: black;
-    border-color: black;
-    background-color: white;
+    color: $color-primary;
+    border-color: $color-primary;
+    background-color: $color-white;
     width: 70%;
     height: auto;
     font-size: 20px;
