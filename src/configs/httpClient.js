@@ -1,8 +1,7 @@
 import axios from "axios";
 
 class HTTPClient {
-  constructor(host, prefix) {
-    this.prefix = prefix;
+  constructor(host) {
     this.axiosInstance = axios.create({ baseURL: host });
   }
 
@@ -11,7 +10,8 @@ class HTTPClient {
   }
 
   post(path, ...args) {
-    return this.axiosInstance.post(path, ...args);
+    console.log("args: ", args);
+    return this.axiosInstance(path, ...args);
   }
 
   attachResponseInterceptors(...interceptors) {
@@ -19,7 +19,7 @@ class HTTPClient {
   }
 }
 
-const httpClient = new HTTPClient("localhost:8081", "/");
+const httpClient = new HTTPClient("http://192.168.15.200:8081");
 
 httpClient.attachResponseInterceptors(
   (response) => response,

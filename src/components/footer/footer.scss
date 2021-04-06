@@ -1,0 +1,18 @@
+@import "../../styles/colors.scss";
+
+.footer-bar {
+  width: 100%;
+  border-top: 1px solid $color-primary;
+  position: absolute;
+  bottom: 0;
+
+  .version-footer {
+    float: left;
+    margin-left: 10px;
+  }
+
+  .date-footer {
+    float: right;
+    margin-right: 10px;
+  }
+}

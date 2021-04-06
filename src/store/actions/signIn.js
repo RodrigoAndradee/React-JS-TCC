@@ -5,15 +5,22 @@ import { USER_INFO } from "../reducers/actionTypes";
 function signIn({ userName, password }) {
   return async (dispatch) => {
     try {
-      const url = "http://192.168.15.200:8081/internal/login";
-      const { data } = await httpClient.post(url, {
-        userName,
-        password,
-      });
+      const url = "internal/login";
+
+      const requestBody = { userName, password };
+
+      const config = {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      };
+
+      const data = await httpClient.post(url, requestBody, config);
 
       console.log("data: ", data);
       dispatch({ userInfo: data, type: USER_INFO });
     } catch (error) {
+      console.log("error: ", error);
       dispatch({ userInfo: [], type: USER_INFO });
     }
   };
