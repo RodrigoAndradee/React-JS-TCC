@@ -11,7 +11,6 @@
     },
     "rules": {
         "react/jsx-filename-extension": [1, { "extensions": [".js"] }],
-        "prettier/prettier": "error",
         "camelcase": "off",
         "import/prefer-default-export": "off",
         "react/jsx-props-no-spreading": "off",
