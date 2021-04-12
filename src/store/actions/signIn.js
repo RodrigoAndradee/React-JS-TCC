@@ -7,15 +7,7 @@ function signIn({ userName, password }) {
     try {
       const url = "internal/login";
 
-      const requestBody = { userName, password };
-
-      const config = {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-      };
-
-      const data = await httpClient.post(url, requestBody, config);
+      const data = await httpClient.post(url, { userName, password });
 
       console.log("data: ", data);
       dispatch({ userInfo: data, type: USER_INFO });

@@ -2,6 +2,8 @@ import React from "react";
 
 import "./footer.scss";
 
+const { version: clientVersion } = require("../../../package.json");
+
 export default function Footer() {
   const currentdate = new Date();
   const dateFormated = `${currentdate.getUTCDate()}/${
@@ -11,7 +13,8 @@ export default function Footer() {
   return (
     <div className="footer-bar">
       <div className="version-footer">
-        <span>Versão Cliente 1.0.1 </span>|<span> Versão Servidor 1.2.1</span>
+        <span>Versão Cliente {clientVersion} </span>|
+        <span> Versão Servidor 1.2.1</span>
       </div>
 
       <div className="date-footer">
