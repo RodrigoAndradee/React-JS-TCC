@@ -10,7 +10,6 @@ class HTTPClient {
   }
 
   post(path, ...args) {
-    console.log("args: ", args);
     return this.axiosInstance.post(path, ...args);
   }
 

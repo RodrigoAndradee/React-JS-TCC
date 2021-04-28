@@ -66,15 +66,10 @@ export default function Products() {
   };
 
   const onSubmit = (productInfo) => {
-    console.log(productInfo);
-
     if (drawerState.isEditing) {
       console.log("editando produto");
     } else {
       CreateProductActions(productInfo)(dispatchCreateProductData);
-
-      dispatchProductsInfoData();
-      console.log(createProductData);
     }
   };
 
