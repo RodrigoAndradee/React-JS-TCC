@@ -1,21 +1,19 @@
 import httpClient from "../../configs/httpClient";
 
-import { USER_INFO } from "../reducers/actionTypes";
+import { USER_INFO } from "../reducers/ActionTypes";
 
-function signIn({ userName, password }) {
+function SignIn({ userName, password }) {
   return async (dispatch) => {
     try {
       const url = "internal/login";
 
       const data = await httpClient.post(url, { userName, password });
 
-      console.log("data: ", data);
       dispatch({ userInfo: data, type: USER_INFO });
     } catch (error) {
-      console.log("error: ", error);
-      dispatch({ userInfo: [], type: USER_INFO });
+      dispatch({ userInfo: error, type: USER_INFO });
     }
   };
 }
 
-export { signIn };
+export { SignIn };

@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { Card } from "antd";
 import { PlusCircleOutlined } from "@ant-design/icons";
 
-import "./addProductCard.scss";
+import "./AddProductCard.scss";
 
 export default function AddProducCard(props) {
   const { handleCreateProduct } = props;

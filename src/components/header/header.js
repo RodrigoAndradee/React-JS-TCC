@@ -3,16 +3,16 @@ import { NavLink } from "react-router-dom";
 
 import { Button } from "antd";
 
-import pageName from "../../constants/uiConstants";
+import { PAGE_NAME } from "../../constants/UiConstants";
 
-import "./header.scss";
+import "./Header.scss";
 
 export default function Header() {
   return (
     <div className="menu-bar">
       <div className="center-menu">
         <div className="left-menu">
-          {pageName.map(({ label, url, exact = false }) => (
+          {PAGE_NAME.map(({ label, url, exact = false }) => (
             <NavLink
               className="link"
               activeClassName="-active"

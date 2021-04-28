@@ -1,0 +1,4 @@
+const SEND_BUTTON_LABEL = "Enviar";
+const CANCEL_BUTTON_LABEL = "Cancelar";
+
+export { CANCEL_BUTTON_LABEL, SEND_BUTTON_LABEL };

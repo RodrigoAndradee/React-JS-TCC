@@ -1,13 +1,8 @@
-const loginConstants = {
-  userName: "Usuário",
-  userPassword: "Senha",
-  loginButton: "Entrar",
-  applicationIntro: "Bem vindo(a) ao, {Nome do Sistema}",
+const LOGIN_CONSTANTS = {
+  USER_NAME: "Usuário",
+  USER_PASSWORD: "Senha",
+  LOGIN_BUTTON: "Entrar",
+  APP_INTRO: "Bem vindo(a) ao, Churras Já",
 };
 
-const textFieldType = {
-  password: "password",
-  email: "email",
-};
-
-export { loginConstants, textFieldType };
+export { LOGIN_CONSTANTS };

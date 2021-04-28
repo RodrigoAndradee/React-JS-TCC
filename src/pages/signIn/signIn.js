@@ -1,57 +1,56 @@
 import React, { useReducer } from "react";
+import { useHistory } from "react-router-dom";
+
+import isNil from "lodash.isnil";
+
 import { Button, Form, Input } from "antd";
 
-import { loginConstants } from "../../constants/loginConstants";
+import { LOGIN_CONSTANTS } from "../../constants/LoginConstants";
 
 import loginImage from "../../assets/loginImage.jpeg";
 
-import { login } from "../../store/reducers/signIn";
-import { signIn } from "../../store/actions/signIn";
+import { LoginReducer } from "../../store/reducers/SignIn";
+import { SignIn } from "../../store/actions/SignIn";
 
 import "antd/dist/antd.css";
-import "./signIn.scss";
+import "./SignIn.scss";
 
 export default function Login() {
-  const {
-    applicationIntro,
-    loginButton,
-    userName,
-    userPassword,
-  } = loginConstants;
+  const [userInfoData, dispatchUserInfodata] = useReducer(LoginReducer);
+  const history = useHistory();
 
-  const [userInfoData, dispatchUserInfodata] = useReducer(login);
-  console.log("userInfoData: ", userInfoData);
+  const { APP_INTRO, LOGIN_BUTTON, USER_NAME, USER_PASSWORD } = LOGIN_CONSTANTS;
 
-  const onFinish = (e) => {
-    signIn(e)(dispatchUserInfodata);
+  const tryLogin = (userInfo) => {
+    SignIn(userInfo)(dispatchUserInfodata);
   };
+
+  if (!isNil(userInfoData)) {
+    if (userInfoData.status === 200) {
+      history.push("/");
+    } else {
+      // alert("ERRO");
+    }
+  }
 
   return (
     <>
       <img className="left-side-login" src={loginImage} alt="" />
 
-      <Form className="right-side-login" onFinish={onFinish}>
-        <h1 className="welcome-text">{applicationIntro}</h1>
+      <Form className="right-side-login" onFinish={tryLogin}>
+        <h1>{APP_INTRO}</h1>
+
         <Form.Item name="userName">
-          <Input key="username" placeholder={userName} className="input-text" />
+          <Input placeholder={USER_NAME} className="input-text" />
         </Form.Item>
+
         <Form.Item name="password">
-          <Input.Password
-            key="password"
-            placeholder={userPassword}
-            className="input-text"
-          />
+          <Input.Password placeholder={USER_PASSWORD} className="input-text" />
         </Form.Item>
-        <Form.Item>
-          <Button
-            type="primary"
-            htmlType="submit"
-            // loading={}
-            className="login-button"
-          >
-            {loginButton}
-          </Button>
-        </Form.Item>
+
+        <Button type="primary" htmlType="submit" className="login-button">
+          {LOGIN_BUTTON}
+        </Button>
       </Form>
     </>
   );

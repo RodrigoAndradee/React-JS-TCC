@@ -1,4 +1,4 @@
-const routes = {
+const ROUTES = {
   home_screen: "/",
   orders: "/orders",
   others: "*",
@@ -8,4 +8,4 @@ const routes = {
   storage: "/storage",
 };
 
-export default routes;
+export { ROUTES };

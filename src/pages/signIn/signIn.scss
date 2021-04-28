@@ -14,21 +14,18 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-
-  .welcome-text {
-    color: $color-primary;
-  }
+  align-items: center;
 
   .input-text {
-    font-size: 20px;
+    width: 450px;
   }
 
   .login-button {
     color: $color-primary;
     border-color: $color-primary;
     background-color: $color-white;
-    width: 70%;
     height: auto;
+    width: 70%;
     font-size: 20px;
   }
 }

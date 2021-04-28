@@ -1,14 +1,14 @@
 import React from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 
-import routes from "../constants/routesConstants";
+import { ROUTES } from "../constants/RoutesConstants";
 
-import Login from "../pages/signIn/signIn";
-import HomeScreen from "../pages/homeScreen/homeScreen";
-import Orders from "../pages/orders/orders";
-import Sales from "../pages/sales/sales";
-import Products from "../pages/products/products";
-import Storage from "../pages/storage/storage";
+import Login from "../pages/signIn/SignIn";
+import HomeScreen from "../pages/homeScreen/HomeScreen";
+import Orders from "../pages/orders/Orders";
+import Sales from "../pages/sales/Sales";
+import Products from "../pages/products/Products";
+import Storage from "../pages/storage/Storage";
 
 function Routes() {
   const {
@@ -19,7 +19,8 @@ function Routes() {
     sales,
     sign_in,
     storage,
-  } = routes;
+  } = ROUTES;
+
   return (
     <Switch>
       <Route path={sign_in} component={Login} />

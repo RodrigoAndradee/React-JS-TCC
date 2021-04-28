@@ -1,134 +1,140 @@
-import React, { useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 
-import { Input, Row, Col } from "antd";
+import { Col, Pagination, Row } from "antd";
 
-import Header from "../../components/header/header";
-import Footer from "../../components/footer/footer";
+import Header from "../../components/header/Header";
+import Footer from "../../components/footer/Footer";
+import Toolbar from "../../components/toolbar/Toolbar";
 
-import AddProductCard from "../../components/productsCards/addProductCard/addProductCard";
-import ProductsCard from "../../components/productsCards/productCard/productCard";
+import ProductsCard from "../../components/productsCards/productCard/ProductCard";
+import BasicDrawer from "../../components/basicDrawer/BasicDrawer";
+import ProductsForm from "./form/ProductsForm";
 
-import "./products.scss";
+import {
+  CreateProductActions,
+  ProductsActions,
+} from "../../store/actions/Products";
+import {
+  CreateProductReducer,
+  ProductsReducer,
+} from "../../store/reducers/Products";
 
-const arrayOfCards = [
-  {
-    name: "Picanha Maturata",
-    description: "Carne de Primeira",
-    weight: "350g",
-    photo:
-      "https://www.beefpoint.com.br/wp-content/uploads/2020/03/AAK5oqN-360x233.jpeg",
-    disabled: false,
-  },
-  {
-    name: "Maminha",
-    description: "Carne de Primeira",
-    weight: "550g",
-    photo:
-      "https://www.beefpoint.com.br/wp-content/uploads/2020/03/AAK5oqN-360x233.jpeg",
-    disabled: true,
-  },
-  {
-    name: "Maminha",
-    description: "Carne de Primeira",
-    weight: "550g",
-    photo:
-      "https://www.beefpoint.com.br/wp-content/uploads/2020/03/AAK5oqN-360x233.jpeg",
-    disabled: false,
-  },
-  {
-    name: "Maminha",
-    description: "Carne de Primeira",
-    weight: "550g",
-    photo:
-      "https://www.beefpoint.com.br/wp-content/uploads/2020/03/AAK5oqN-360x233.jpeg",
-    disabled: false,
-  },
+import "./Products.scss";
 
-  {
-    name: "Maminha",
-    description: "Carne de Primeira",
-    weight: "550g",
-    photo:
-      "https://www.beefpoint.com.br/wp-content/uploads/2020/03/AAK5oqN-360x233.jpeg",
-    disabled: false,
-  },
-  {
-    name: "Maminha",
-    description: "Carne de Primeira",
-    weight: "550g",
-    photo:
-      "https://www.beefpoint.com.br/wp-content/uploads/2020/03/AAK5oqN-360x233.jpeg",
-    disabled: false,
-  },
-  {
-    name: "Maminha",
-    description: "Carne de Primeira",
-    weight: "550g",
-    photo:
-      "https://www.beefpoint.com.br/wp-content/uploads/2020/03/AAK5oqN-360x233.jpeg",
-    disabled: false,
-  },
-
-  {
-    name: "Maminha",
-    description: "Carne de Primeira",
-    weight: "550g",
-    photo:
-      "https://www.beefpoint.com.br/wp-content/uploads/2020/03/AAK5oqN-360x233.jpeg",
-    disabled: false,
-  },
-  {
-    name: "Maminha",
-    description: "Carne de Primeira",
-    weight: "550g",
-    photo:
-      "https://www.beefpoint.com.br/wp-content/uploads/2020/03/AAK5oqN-360x233.jpeg",
-    disabled: false,
-  },
-];
-
-const { Search } = Input;
+const pageSize = 8;
 
 export default function Products() {
-  const [loadingSearch, setLoadingSearch] = useState(false);
+  const [drawerState, setDrawerState] = useState({
+    isEditing: false,
+    drawerState: false,
+  });
+  const [paginataionValues, setPaginationValues] = useState({
+    min: 0,
+    max: 8,
+    currentPage: 1,
+  });
+  const [currentProduct, setCurrentProduct] = useState(null);
 
-  const onSearch = () => {
-    setLoadingSearch(true);
+  const [productsInfoData, dispatchProductsInfoData] = useReducer(
+    ProductsReducer
+  );
+  const [createProductData, dispatchCreateProductData] = useReducer(
+    CreateProductReducer
+  );
+
+  const onClose = () => {
+    setDrawerState({
+      isEditing: false,
+      drawerState: false,
+    });
+    setCurrentProduct(null);
   };
 
-  function createProduct() {
-    console.log("TO CRIANDO");
-  }
+  const editProduct = (product) => {
+    setDrawerState({
+      isEditing: true,
+      drawerState: true,
+    });
+    setCurrentProduct(product);
+  };
+
+  const handleCreateProduct = () => {
+    setDrawerState({
+      isEditing: false,
+      drawerState: true,
+    });
+  };
+
+  const onSubmit = (productInfo) => {
+    console.log(productInfo);
+
+    if (drawerState.isEditing) {
+      console.log("editando produto");
+    } else {
+      CreateProductActions(productInfo)(dispatchCreateProductData);
+
+      dispatchProductsInfoData();
+      console.log(createProductData);
+    }
+  };
+
+  const handleChangePageNumber = (page) => {
+    setPaginationValues({
+      min: (page - 1) * pageSize,
+      max: page * pageSize,
+      currentPage: page,
+    });
+  };
+
+  useEffect(() => {
+    ProductsActions()(dispatchProductsInfoData);
+  }, []);
 
   return (
     <div className="main-div-products">
       <Header />
 
-      <Search
-        placeholder="Digite o Nome de um Produto"
-        onSearch={onSearch}
-        loading={loadingSearch}
-        className="search-bar"
+      <BasicDrawer
+        currentProduct={currentProduct}
+        className="products-drawer"
+        drawerContent={() => <ProductsForm currentProduct={currentProduct} />}
+        isOpen={drawerState.drawerState}
+        onClose={onClose}
+        onFinish={onSubmit}
+        title={drawerState.isEditing ? "Editando Produto" : "Adicionar Produto"}
       />
 
-      <div className="products-body">
-        <Row gutter={[16, 16]}>
-          <Col span={6}>
-            <AddProductCard
-              key="add-product"
-              handleCreateProduct={createProduct}
-            />
-          </Col>
-          {arrayOfCards.map((cardInfo, index) => {
-            const key = index;
-            return (
-              <Col span={6} key={key}>
-                <ProductsCard productsInfo={cardInfo} />
-              </Col>
-            );
-          })}
-        </Row>
-      </div>
+      <Toolbar createProduct={handleCreateProduct} />
+
+      {productsInfoData && productsInfoData.length ? (
+        <>
+          <Row gutter={[16, 16]} className="products-body">
+            {productsInfoData
+              .slice(paginataionValues.min, paginataionValues.max)
+              .map((cardInfo) => {
+                return (
+                  <Col span={6} key={cardInfo.id} className="products-card">
+                    <ProductsCard
+                      editProduct={editProduct}
+                      productsInfo={cardInfo}
+                    />
+                  </Col>
+                );
+              })}
+          </Row>
+
+          <Pagination
+            className="pagination-products"
+            current={paginataionValues.currentPage}
+            onChange={handleChangePageNumber}
+            pageSize={pageSize}
+            total={productsInfoData && productsInfoData.length}
+          />
+        </>
+      ) : (
+        <h1>Você não possui produtos cadastrados</h1>
+      )}
+
       <Footer />
     </div>
   );

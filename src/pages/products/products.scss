@@ -4,14 +4,17 @@
   align-items: center;
   height: 100vh;
 
-  .search-bar {
-    width: 1280px;
-    margin: 15px 0 15px 0;
-    padding: 0 15px 15px 0;
+  .pagination-products {
+    position: absolute;
+    bottom: 40px;
   }
+
   .products-body {
-    width: 1280px;
-    height: 100vh;
-    overflow-x: auto;
+    width: 80%;
+
+    .products-card {
+      display: flex;
+      justify-content: center;
+    }
   }
 }
