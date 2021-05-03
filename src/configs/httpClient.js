@@ -13,8 +13,8 @@ class HTTPClient {
     return this.axiosInstance.post(path, ...args);
   }
 
-  patch(path, ...args) {
-    return this.axiosInstance.patch(path, ...args);
+  put(path, ...args) {
+    return this.axiosInstance.put(path, ...args);
   }
 
   attachResponseInterceptors(...interceptors) {

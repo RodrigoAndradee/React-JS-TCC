@@ -1,6 +1,12 @@
 import httpClient from "../../configs/httpClient";
+import {
+  CREATE_PRODUCT_INFO,
+  EDIT_PRODUCT_INFO,
+  PRODUCTS_INFO,
+} from "../reducers/ActionTypes";
 
-import { CREATE_PRODUCT_INFO, PRODUCTS_INFO } from "../reducers/ActionTypes";
+const defaultImage =
+  "https://www.beefpoint.com.br/wp-content/uploads/2020/03/AAK5oqN-360x233.jpeg";
 
 function ProductsActions() {
   return async (dispatch) => {
@@ -18,10 +24,7 @@ function ProductsActions() {
 
 function CreateProductActions(productInfo) {
   // eslint-disable-next-line no-param-reassign
-  productInfo.defaultImage =
-    "https://www.beefpoint.com.br/wp-content/uploads/2020/03/AAK5oqN-360x233.jpeg";
-  // eslint-disable-next-line no-param-reassign
-  productInfo.enabled = true;
+  productInfo.defaultImage = defaultImage;
 
   return async (dispatch) => {
     try {
@@ -36,4 +39,21 @@ function CreateProductActions(productInfo) {
   };
 }
 
-export { CreateProductActions, ProductsActions };
+function UpdateProductActions(productInfo) {
+  // eslint-disable-next-line no-param-reassign
+  productInfo.defaultImage = defaultImage;
+
+  return async (dispatch) => {
+    try {
+      const url = `/product/updateProduct/${productInfo.id}`;
+
+      const data = await httpClient.put(url, productInfo);
+
+      dispatch({ editProductInfo: data.data, type: EDIT_PRODUCT_INFO });
+    } catch (error) {
+      dispatch({ editProductInfo: error, type: EDIT_PRODUCT_INFO });
+    }
+  };
+}
+
+export { CreateProductActions, ProductsActions, UpdateProductActions };

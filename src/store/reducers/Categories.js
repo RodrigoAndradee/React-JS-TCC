@@ -1,6 +1,6 @@
 import { CATEGORY_INFO } from "./ActionTypes";
 
-export function CategorysReducer(state = {}, action) {
+export function categoriesReducer(state = {}, action) {
   const { categoryInfo, type } = action;
 
   switch (type) {

@@ -1,45 +1,55 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { Form, Input, Select } from "antd";
+import { Form, Input, Select, Switch } from "antd";
 
-import { PRODUCT_INFO } from "../../../constants/productsFormConstants";
+import {
+  FIELD_PLACEHOLDER,
+  FIELD_REQUIRED,
+  FIELD_TYPE,
+  PRODUCT_INFO,
+} from "../../../constants/productsFormConstants";
 
 import "../Products.scss";
 
-const arrayOfTypes = ["Kg (Quilos)", "g (Gramas)"];
-const arrayOfCategorys = ["Carnes", "Carvão", "Condimentos"];
-
 const { Option } = Select;
 
-function ProductsForm({ currentProduct }) {
-  const isEditProduct = currentProduct && currentProduct !== null;
+const { category, description, name } = FIELD_TYPE;
+const {
+  categoryPlaceholder,
+  descriptionPlaceholder,
+  namePlaceholder,
+} = FIELD_PLACEHOLDER;
+const { requiredCategory, requiredDescription, requiredName } = FIELD_REQUIRED;
+const {
+  productCategory,
+  productDescription,
+  productName,
+  // productUnity,
+} = PRODUCT_INFO;
 
+function ProductsForm({ categoriesInfoData, currentProduct }) {
   return (
     <>
-      <b>{PRODUCT_INFO.PRODUCT_NAME}:</b>
+      <b>{productName}:</b>
       <Form.Item
-        name="name"
-        initialValue={isEditProduct ? currentProduct.name : ""}
-        rules={[{ required: true, message: "Digite o nome do Produto" }]}
+        initialValue={currentProduct ? currentProduct.name : null}
+        name={name}
+        rules={[{ required: true, message: requiredName }]}
       >
-        <Input
-          key="product_name"
-          placeholder="Nome do Produto"
-          className="input"
-        />
+        <Input placeholder={namePlaceholder} />
       </Form.Item>
 
-      <b>{PRODUCT_INFO.PRODUCT_DESCRIPTION}:</b>
+      <b>{productDescription}:</b>
       <Form.Item
-        name="description"
-        initialValue={isEditProduct ? currentProduct.description : ""}
-        rules={[{ required: true, message: "Digite a descrição do Produto" }]}
+        initialValue={currentProduct ? currentProduct.description : null}
+        name={description}
+        rules={[{ required: true, message: requiredDescription }]}
       >
-        <Input key="description" placeholder="Descrição" />
+        <Input placeholder={descriptionPlaceholder} />
       </Form.Item>
 
-      <b>{PRODUCT_INFO.PRODUCT_UNITY_TYPE}:</b>
+      {/* <b>{PRODUCT_INFO.PRODUCT_UNITY_TYPE}:</b>
       <Form.Item name="product_type_unity" initialValue="Kg (Quilos)">
         <Select>
           {arrayOfTypes.map((type, index) => {
@@ -50,36 +60,71 @@ function ProductsForm({ currentProduct }) {
             );
           })}
         </Select>
-      </Form.Item>
+      </Form.Item> */}
 
-      <b>{PRODUCT_INFO.PRODUCT_CATEGORY}:</b>
-      <Form.Item name="type" initialValue="Carnes">
-        <Select>
-          {arrayOfCategorys.map((type, index) => {
-            return (
-              <Option key={`product-category ${index + 1}`} value={type}>
-                {type}
-              </Option>
-            );
-          })}
+      <b>{productCategory}:</b>
+      <Form.Item
+        initialValue={currentProduct ? currentProduct.type : null}
+        name={category}
+        rules={[{ required: true, message: requiredCategory }]}
+      >
+        <Select placeholder={categoryPlaceholder}>
+          {categoriesInfoData &&
+            categoriesInfoData.map((type, index) => {
+              return (
+                <Option
+                  key={`product-category ${index + 1}`}
+                  value={type.category}
+                  enabled={type.enabled}
+                >
+                  {type.category}
+                </Option>
+              );
+            })}
         </Select>
       </Form.Item>
+
+      <b>Produto disponível:</b>
+      <Form.Item
+        initialValue={currentProduct ? currentProduct.enabled : false}
+        name="enabled"
+      >
+        <Switch
+          defaultChecked={currentProduct ? currentProduct.enabled : false}
+        />
+      </Form.Item>
+
+      {/* Procurar uma solução para isso */}
+      <Form.Item
+        name="id"
+        initialValue={currentProduct ? currentProduct.id : null}
+      />
+      {/* Procurar uma solução para isso */}
     </>
   );
 }
 
-export default ProductsForm;
-
 ProductsForm.propTypes = {
+  categoriesInfoData: PropTypes.arrayOf(
+    PropTypes.shape({
+      category: PropTypes.string,
+      enabled: PropTypes.bool,
+      id: PropTypes.string,
+    })
+  ),
   currentProduct: PropTypes.shape({
-    name: PropTypes.string,
     description: PropTypes.string,
-    type: PropTypes.string,
+    id: PropTypes.string,
+    name: PropTypes.string,
     photo: PropTypes.string,
-    disabled: PropTypes.bool,
+    type: PropTypes.string,
+    enabled: PropTypes.bool,
   }),
 };
 
 ProductsForm.defaultProps = {
+  categoriesInfoData: [],
   currentProduct: null,
 };
+
+export default ProductsForm;

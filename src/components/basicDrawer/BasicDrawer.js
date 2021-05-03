@@ -4,7 +4,8 @@ import { Button, Drawer, Form } from "antd";
 
 import {
   CANCEL_BUTTON_LABEL,
-  SEND_BUTTON_LABEL,
+  CREATE_BUTTON_LABEL,
+  EDIT_BUTTON_LABEL,
 } from "../../constants/drawerConstants";
 
 import "./BasicDrawer.scss";
@@ -12,11 +13,13 @@ import "./BasicDrawer.scss";
 export default function BasicDrawer({
   className,
   drawerContent,
+  isEditing,
   isOpen,
   onClose,
   onFinish,
   title,
 }) {
+  const buttonLabel = isEditing ? EDIT_BUTTON_LABEL : CREATE_BUTTON_LABEL;
   return (
     <Drawer
       className={`products-drawer ${className}`}
@@ -35,8 +38,9 @@ export default function BasicDrawer({
             htmlType="submit"
             type="primary"
           >
-            {SEND_BUTTON_LABEL}
+            {buttonLabel}
           </Button>
+
           <Button className="button button-cancel" onClick={onClose}>
             {CANCEL_BUTTON_LABEL}
           </Button>
@@ -49,6 +53,7 @@ export default function BasicDrawer({
 BasicDrawer.propTypes = {
   className: PropTypes.string,
   drawerContent: PropTypes.func,
+  isEditing: PropTypes.bool,
   isOpen: PropTypes.bool,
   onClose: PropTypes.func,
   onFinish: PropTypes.func,
@@ -58,6 +63,7 @@ BasicDrawer.propTypes = {
 BasicDrawer.defaultProps = {
   className: "",
   drawerContent: () => null,
+  isEditing: false,
   isOpen: false,
   onClose: () => {},
   onFinish: () => {},

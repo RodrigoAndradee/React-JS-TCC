@@ -1,26 +1,15 @@
-import React, { useEffect, useReducer } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 
 import { Button, Col, Input, Row, Select } from "antd";
 import { PlusCircleOutlined } from "@ant-design/icons";
-
-import { CategoryActions } from "../../store/actions/Categorys";
-import { CategorysReducer } from "../../store/reducers/Categorys";
 
 import "./Toolbar.scss";
 
 const { Search } = Input;
 const { Option } = Select;
 
-function Toolbar({ createProduct }) {
-  const [categorysInfoData, dispatchCategorysInfoData] = useReducer(
-    CategorysReducer
-  );
-
-  useEffect(() => {
-    CategoryActions()(dispatchCategorysInfoData);
-  }, []);
-
+function Toolbar({ categoriesInfoData, createProduct }) {
   return (
     <Row gutter={[16, 16]} className="toolbar">
       <Col span={8}>
@@ -37,8 +26,8 @@ function Toolbar({ createProduct }) {
           className="select-category"
           placeholder="Selecione uma categoria"
         >
-          {categorysInfoData &&
-            categorysInfoData.map((item, index) => {
+          {categoriesInfoData &&
+            categoriesInfoData.map((item, index) => {
               return (
                 <Option key={`category-item ${index + 1}`}>
                   {item.category}
@@ -63,11 +52,19 @@ function Toolbar({ createProduct }) {
 }
 
 Toolbar.propTypes = {
+  categoriesInfoData: PropTypes.arrayOf(
+    PropTypes.shape({
+      category: PropTypes.string,
+      enabled: PropTypes.bool,
+      id: PropTypes.string,
+    })
+  ),
   createProduct: PropTypes.func,
 };
 
 Toolbar.defaultProps = {
-  createProduct: {},
+  categoriesInfoData: [{}],
+  createProduct: () => {},
 };
 
 export default Toolbar;

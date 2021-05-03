@@ -34,7 +34,7 @@ export default function ProductCard({ editProduct, productsInfo }) {
           </span>
 
           <span>
-            <b>Peso:</b> {productsInfo.type}
+            <b>Categoria:</b> {productsInfo.type}
           </span>
         </div>
       </div>
