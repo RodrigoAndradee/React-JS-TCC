@@ -5,7 +5,7 @@ import { Col, Pagination, Row } from "antd";
 import BasicDrawer from "../../components/basicDrawer/BasicDrawer";
 import Footer from "../../components/footer/Footer";
 import Header from "../../components/header/Header";
-import ProductsCard from "../../components/productsCards/productCard/ProductCard";
+import ProductsCard from "../../components/productsCards/ProductCard";
 import ProductsForm from "./form/ProductsForm";
 import Toolbar from "../../components/toolbar/Toolbar";
 
