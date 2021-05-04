@@ -3,7 +3,7 @@ import { Route, Switch, Redirect } from "react-router-dom";
 
 import { ROUTES } from "../constants/routesConstants";
 
-import Login from "../pages/signIn/signIn";
+import Login from "../pages/signIn/SignIn";
 import HomeScreen from "../pages/homeScreen/HomeScreen";
 import Orders from "../pages/orders/Orders";
 import Sales from "../pages/sales/Sales";
