@@ -1,9 +1,9 @@
 import React from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 
-import { ROUTES } from "../constants/RoutesConstants";
+import { ROUTES } from "../constants/routesConstants";
 
-import Login from "../pages/signIn/SignIn";
+import Login from "../pages/signIn/signIn";
 import HomeScreen from "../pages/homeScreen/HomeScreen";
 import Orders from "../pages/orders/Orders";
 import Sales from "../pages/sales/Sales";

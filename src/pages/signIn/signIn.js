@@ -5,7 +5,7 @@ import isNil from "lodash.isnil";
 
 import { Button, Form, Input } from "antd";
 
-import { LOGIN_CONSTANTS } from "../../constants/LoginConstants";
+import { LOGIN_CONSTANTS } from "../../constants/loginConstants";
 
 import loginImage from "../../assets/loginImage.jpeg";
 
