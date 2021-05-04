@@ -19,6 +19,7 @@ export const FIELD_TYPE = {
   name: "name",
   category: "type",
   description: "description",
+  enabled: "enabled",
 };
 
 export const PRODUCT_INFO = {
@@ -26,4 +27,5 @@ export const PRODUCT_INFO = {
   productDescription: "Descrição",
   productName: "Nome",
   productUnity: "Tipo de Unidade",
+  productEnabled: "Produto Disponível",
 };

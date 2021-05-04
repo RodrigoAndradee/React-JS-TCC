@@ -77,7 +77,10 @@ export default function Products() {
     setDrawerState({ isEditing: false, drawerState: false });
 
     if (drawerState.isEditing) {
-      UpdateProductActions(productInfo)(dispatchUpdateProductData);
+      UpdateProductActions(
+        productInfo,
+        currentProduct.id
+      )(dispatchUpdateProductData);
     } else {
       CreateProductActions(productInfo)(dispatchCreateProductData);
     }

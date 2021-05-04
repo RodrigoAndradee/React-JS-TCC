@@ -14,7 +14,7 @@ import "../Products.scss";
 
 const { Option } = Select;
 
-const { category, description, name } = FIELD_TYPE;
+const { category, description, enabled, name } = FIELD_TYPE;
 const {
   categoryPlaceholder,
   descriptionPlaceholder,
@@ -24,6 +24,7 @@ const { requiredCategory, requiredDescription, requiredName } = FIELD_REQUIRED;
 const {
   productCategory,
   productDescription,
+  productEnabled,
   productName,
   // productUnity,
 } = PRODUCT_INFO;
@@ -84,22 +85,15 @@ function ProductsForm({ categoriesInfoData, currentProduct }) {
         </Select>
       </Form.Item>
 
-      <b>Produto disponível:</b>
+      <b>{productEnabled}:</b>
       <Form.Item
-        initialValue={currentProduct ? currentProduct.enabled : false}
-        name="enabled"
+        defaultChecked={currentProduct ? currentProduct.enabled : false}
+        name={enabled}
       >
         <Switch
           defaultChecked={currentProduct ? currentProduct.enabled : false}
         />
       </Form.Item>
-
-      {/* Procurar uma solução para isso */}
-      <Form.Item
-        name="id"
-        initialValue={currentProduct ? currentProduct.id : null}
-      />
-      {/* Procurar uma solução para isso */}
     </>
   );
 }

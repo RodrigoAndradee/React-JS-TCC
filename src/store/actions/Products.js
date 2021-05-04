@@ -39,13 +39,13 @@ function CreateProductActions(productInfo) {
   };
 }
 
-function UpdateProductActions(productInfo) {
+function UpdateProductActions(productInfo, productID) {
   // eslint-disable-next-line no-param-reassign
   productInfo.defaultImage = defaultImage;
 
   return async (dispatch) => {
     try {
-      const url = `/product/updateProduct/${productInfo.id}`;
+      const url = `/product/updateProduct/${productID}`;
 
       const data = await httpClient.put(url, productInfo);
 
