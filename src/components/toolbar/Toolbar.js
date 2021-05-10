@@ -4,32 +4,44 @@ import PropTypes from "prop-types";
 import { Button, Col, Input, Row, Select } from "antd";
 import { PlusCircleOutlined } from "@ant-design/icons";
 
+import { TOOLBAR_CONSTANTS } from "../../constants/toolBarConstants";
+
 import "./Toolbar.scss";
 
 const { Search } = Input;
 const { Option } = Select;
+const { addProduct, searchProduct, selectCategory } = TOOLBAR_CONSTANTS;
 
-function Toolbar({ categoriesInfoData, createProduct }) {
+function Toolbar({
+  categoriesInfoData,
+  createProduct,
+  onSearchByName,
+  onSelectCategory,
+}) {
   return (
     <Row gutter={[16, 16]} className="toolbar">
       <Col span={8}>
         <Search
-          placeholder="Digite o Nome de um Produto"
-          // onSearch={onSearch}
-          // loading={loadingSearch}
+          allowClear
           className="search-bar"
+          onSearch={onSearchByName}
+          placeholder={searchProduct}
+          defaultValue={null}
         />
       </Col>
 
       <Col span={8}>
         <Select
+          allowClear
           className="select-category"
-          placeholder="Selecione uma categoria"
+          onClear={onSelectCategory}
+          onSelect={onSelectCategory}
+          placeholder={selectCategory}
         >
           {categoriesInfoData &&
-            categoriesInfoData.map((item, index) => {
+            categoriesInfoData.map((item) => {
               return (
-                <Option key={`category-item ${index + 1}`}>
+                <Option key={item.category} disabled={!item.enabled}>
                   {item.category}
                 </Option>
               );
@@ -44,7 +56,7 @@ function Toolbar({ categoriesInfoData, createProduct }) {
           className="add-product-button"
           onClick={createProduct}
         >
-          Produtos
+          {addProduct}
         </Button>
       </Col>
     </Row>
@@ -58,13 +70,10 @@ Toolbar.propTypes = {
       enabled: PropTypes.bool,
       id: PropTypes.string,
     })
-  ),
-  createProduct: PropTypes.func,
-};
-
-Toolbar.defaultProps = {
-  categoriesInfoData: [{}],
-  createProduct: () => {},
+  ).isRequired,
+  createProduct: PropTypes.func.isRequired,
+  onSearchByName: PropTypes.func.isRequired,
+  onSelectCategory: PropTypes.func.isRequired,
 };
 
 export default Toolbar;

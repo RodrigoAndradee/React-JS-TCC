@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 
 import { Form, Input, Select, Switch } from "antd";
@@ -30,6 +30,9 @@ const {
 } = PRODUCT_INFO;
 
 function ProductsForm({ categoriesInfoData, currentProduct }) {
+  const [switchChecked, setSwitchChecked] = useState(
+    currentProduct ? currentProduct.enabled : false
+  );
   return (
     <>
       <b>{productName}:</b>
@@ -50,19 +53,6 @@ function ProductsForm({ categoriesInfoData, currentProduct }) {
         <Input placeholder={descriptionPlaceholder} />
       </Form.Item>
 
-      {/* <b>{PRODUCT_INFO.PRODUCT_UNITY_TYPE}:</b>
-      <Form.Item name="product_type_unity" initialValue="Kg (Quilos)">
-        <Select>
-          {arrayOfTypes.map((type, index) => {
-            return (
-              <Option key={`product_type ${index + 1}`} value={type}>
-                {type}
-              </Option>
-            );
-          })}
-        </Select>
-      </Form.Item> */}
-
       <b>{productCategory}:</b>
       <Form.Item
         initialValue={currentProduct ? currentProduct.type : null}
@@ -71,14 +61,15 @@ function ProductsForm({ categoriesInfoData, currentProduct }) {
       >
         <Select placeholder={categoryPlaceholder}>
           {categoriesInfoData &&
-            categoriesInfoData.map((type, index) => {
+            categoriesInfoData.map((item) => {
               return (
                 <Option
-                  key={`product-category ${index + 1}`}
-                  value={type.category}
-                  enabled={type.enabled}
+                  key={item.id}
+                  value={item.category}
+                  // enabled={item.enabled}
+                  disabled={!item.enabled}
                 >
-                  {type.category}
+                  {item.category}
                 </Option>
               );
             })}
@@ -86,12 +77,12 @@ function ProductsForm({ categoriesInfoData, currentProduct }) {
       </Form.Item>
 
       <b>{productEnabled}:</b>
-      <Form.Item
-        defaultChecked={currentProduct ? currentProduct.enabled : false}
-        name={enabled}
-      >
+      <Form.Item checked={switchChecked} name={enabled}>
         <Switch
-          defaultChecked={currentProduct ? currentProduct.enabled : false}
+          checked={switchChecked}
+          onChange={(e) => {
+            setSwitchChecked(e);
+          }}
         />
       </Form.Item>
     </>

@@ -5,6 +5,8 @@ import {
   PRODUCTS_INFO,
 } from "../reducers/ActionTypes";
 
+import sendNotification from "../../helpers/NotificationsHelper";
+
 const defaultImage =
   "https://www.beefpoint.com.br/wp-content/uploads/2020/03/AAK5oqN-360x233.jpeg";
 
@@ -17,6 +19,8 @@ function ProductsActions() {
 
       dispatch({ productsInfo: data.data, type: PRODUCTS_INFO });
     } catch (error) {
+      sendNotification("ERROR", error, "Erro ao Obter os Produtos");
+
       dispatch({ productsInfo: error, type: PRODUCTS_INFO });
     }
   };
@@ -32,9 +36,13 @@ function CreateProductActions(productInfo) {
 
       const data = await httpClient.post(url, productInfo);
 
-      dispatch({ createProductInfo: data.data, type: CREATE_PRODUCT_INFO });
+      dispatch({ createProductInfo: data, type: CREATE_PRODUCT_INFO });
+
+      sendNotification("SUCCESS", "Produto Criado com Sucesso", "Sucesso");
     } catch (error) {
       dispatch({ createProductInfo: error, type: CREATE_PRODUCT_INFO });
+
+      sendNotification("ERROR", "Erro ao Criar Produto", "Erro");
     }
   };
 }
@@ -49,9 +57,13 @@ function UpdateProductActions(productInfo, productID) {
 
       const data = await httpClient.put(url, productInfo);
 
-      dispatch({ editProductInfo: data.data, type: EDIT_PRODUCT_INFO });
+      dispatch({ editProductInfo: data, type: EDIT_PRODUCT_INFO });
+
+      sendNotification("SUCCESS", "Produto Editado com Sucesso", "Sucesso");
     } catch (error) {
       dispatch({ editProductInfo: error, type: EDIT_PRODUCT_INFO });
+
+      sendNotification("ERROR", "Erro ao Editar Produto", "Erro");
     }
   };
 }
