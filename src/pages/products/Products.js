@@ -1,12 +1,11 @@
 import React, { useEffect, useReducer, useState } from "react";
 
-import { Col, Pagination, Row } from "antd";
-
 import BasicDrawer from "../../components/basicDrawer/BasicDrawer";
 import Footer from "../../components/footer/Footer";
 import Header from "../../components/header/Header";
-import ProductsCard from "../../components/productsCards/ProductCard";
+
 import ProductsForm from "./form/ProductsForm";
+import ProductsPagination from "./productsPagination/ProductsPagination";
 import Toolbar from "../../components/toolbar/Toolbar";
 
 import {
@@ -22,21 +21,28 @@ import {
 import { CategoryActions } from "../../store/actions/Categories";
 import { categoriesReducer } from "../../store/reducers/Categories";
 
+import {
+  capitalizeFirstLetter,
+  filterProductByName,
+  filterSelectedCategory,
+} from "../../helpers/ProductsHelper";
+
+import { BUTTONS_LABELS, TITLE_LABELS } from "../../constants/drawerConstants";
+
 import "./Products.scss";
 
-const pageItemsCount = 8;
+const { cancelButton, createButton, editButton } = BUTTONS_LABELS;
+const { addProductLabel, editProductLabel } = TITLE_LABELS;
 
-export default function Products() {
+function Products() {
   const [drawerState, setDrawerState] = useState({
     isEditing: false,
     drawerState: false,
   });
-  const [paginationValue, setPaginationValues] = useState({
-    min: 0,
-    max: 8,
-    currentPage: 1,
-  });
   const [currentProduct, setCurrentProduct] = useState(null);
+
+  const [filteredProducts, setFilteredProducts] = useState(null);
+
   const [productsInfoData, dispatchProductsInfoData] = useReducer(
     ProductsReducer
   );
@@ -50,6 +56,14 @@ export default function Products() {
     UpdateProductReducer
   );
 
+  const confirmationButtonLabel = drawerState.isEditing
+    ? editButton
+    : createButton;
+
+  const drawerTitle = drawerState.isEditing
+    ? editProductLabel
+    : addProductLabel;
+
   const onClose = () => {
     setDrawerState({
       isEditing: false,
@@ -58,11 +72,21 @@ export default function Products() {
     setCurrentProduct(null);
   };
 
+  const turnProductEnabledOrDisabled = (product, enabled) => {
+    const enhancementProduct = { ...product, enabled };
+
+    UpdateProductActions(
+      enhancementProduct,
+      enhancementProduct.id
+    )(dispatchUpdateProductData);
+  };
+
   const editProduct = (product) => {
     setDrawerState({
       isEditing: true,
       drawerState: true,
     });
+
     setCurrentProduct(product);
   };
 
@@ -73,30 +97,43 @@ export default function Products() {
     });
   };
 
-  const onSubmit = (productInfo) => {
+  const onSubmitForm = (productInfo) => {
     setDrawerState({ isEditing: false, drawerState: false });
+
+    const enhancementProductInfo = capitalizeFirstLetter(productInfo);
 
     if (drawerState.isEditing) {
       UpdateProductActions(
-        productInfo,
+        enhancementProductInfo,
         currentProduct.id
       )(dispatchUpdateProductData);
     } else {
-      CreateProductActions(productInfo)(dispatchCreateProductData);
+      CreateProductActions(enhancementProductInfo)(dispatchCreateProductData);
     }
   };
 
-  const handleChangePageNumber = (page) => {
-    setPaginationValues({
-      min: (page - 1) * pageItemsCount,
-      max: page * pageItemsCount,
-      currentPage: page,
-    });
+  const onSelectCategory = (selectedCategory) => {
+    const filteredValues = filterSelectedCategory(
+      productsInfoData,
+      selectedCategory
+    );
+
+    setFilteredProducts(filteredValues);
+  };
+
+  const onSearchByName = (typedName) => {
+    const filteredValues = filterProductByName(productsInfoData, typedName);
+
+    setFilteredProducts(filteredValues);
   };
 
   useEffect(() => {
     CategoryActions()(dispatchCategoriesInfoData);
   }, []);
+
+  useEffect(() => {
+    setFilteredProducts(productsInfoData);
+  }, [productsInfoData]);
 
   useEffect(() => {
     ProductsActions()(dispatchProductsInfoData);
@@ -107,55 +144,42 @@ export default function Products() {
       <Header />
 
       <BasicDrawer
+        cancelButton={cancelButton}
         className="products-drawer"
+        confirmationButton={confirmationButtonLabel}
         drawerContent={() => (
           <ProductsForm
             currentProduct={currentProduct}
             categoriesInfoData={categoriesInfoData}
           />
         )}
-        isEditing={drawerState.isEditing}
         isOpen={drawerState.drawerState}
         onClose={onClose}
-        onFinish={onSubmit}
-        title={drawerState.isEditing ? "Editar Produto" : "Adicionar Produto"}
+        onFinish={onSubmitForm}
+        title={drawerTitle}
       />
 
-      <Toolbar
-        categoriesInfoData={categoriesInfoData}
-        createProduct={handleCreateProduct}
-      />
+      {categoriesInfoData && (
+        <Toolbar
+          categoriesInfoData={categoriesInfoData}
+          createProduct={handleCreateProduct}
+          onSearchByName={onSearchByName}
+          onSelectCategory={onSelectCategory}
+        />
+      )}
 
-      {productsInfoData && productsInfoData.length ? (
-        <>
-          <Row gutter={[16, 16]} className="products-body">
-            {productsInfoData
-              .slice(paginationValue.min, paginationValue.max)
-              .map((cardInfo) => {
-                return (
-                  <Col span={6} key={cardInfo.id} className="products-card">
-                    <ProductsCard
-                      editProduct={editProduct}
-                      productsInfo={cardInfo}
-                    />
-                  </Col>
-                );
-              })}
-          </Row>
-
-          <Pagination
-            className="pagination-products"
-            current={paginationValue.currentPage}
-            onChange={handleChangePageNumber}
-            pageSize={pageItemsCount}
-            total={productsInfoData && productsInfoData.length}
-          />
-        </>
+      {filteredProducts ? (
+        <ProductsPagination
+          editProduct={editProduct}
+          productsInfoData={filteredProducts}
+          turnProductEnabledOrDisabled={turnProductEnabledOrDisabled}
+        />
       ) : (
         <h1>Você não possui produtos cadastrados</h1>
       )}
-
       <Footer />
     </div>
   );
 }
+
+export default Products;

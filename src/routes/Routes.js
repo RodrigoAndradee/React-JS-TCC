@@ -8,7 +8,7 @@ import HomeScreen from "../pages/homeScreen/HomeScreen";
 import Orders from "../pages/orders/Orders";
 import Sales from "../pages/sales/Sales";
 import Products from "../pages/products/Products";
-import Storage from "../pages/storage/Storage";
+import Storage from "../pages/stock/Stock";
 
 function Routes() {
   const {

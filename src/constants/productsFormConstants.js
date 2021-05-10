@@ -1,8 +1,3 @@
-export const PRODUCT_CATEGORY = "Categoria";
-export const PRODUCT_DESCRIPTION_LABEL = "Descrição";
-export const PRODUCT_NAME_LABEL = "Nome";
-export const PRODUCT_UNITY_TYPE = "Tipo de Unidade";
-
 export const FIELD_PLACEHOLDER = {
   categoryPlaceholder: "Selecione uma categoria",
   descriptionPlaceholder: "Descrição",

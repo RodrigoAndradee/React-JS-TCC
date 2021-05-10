@@ -1,5 +1,12 @@
-const CANCEL_BUTTON_LABEL = "Cancelar";
-const CREATE_BUTTON_LABEL = "Criar";
-const EDIT_BUTTON_LABEL = "Editar";
+const TITLE_LABELS = {
+  addProductLabel: "Adicionar Produto",
+  editProductLabel: "Editar Produto",
+};
 
-export { CANCEL_BUTTON_LABEL, CREATE_BUTTON_LABEL, EDIT_BUTTON_LABEL };
+const BUTTONS_LABELS = {
+  cancelButton: "Cancelar",
+  createButton: "Criar",
+  editButton: "Editar",
+};
+
+export { BUTTONS_LABELS, TITLE_LABELS };
