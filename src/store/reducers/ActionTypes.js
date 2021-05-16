@@ -11,3 +11,4 @@ export const CATEGORY_INFO = Symbol("CATEGORY_INFO");
 
 /* Stock */
 export const STOCK_INFO = Symbol("STOCK_INFO");
+export const CREATE_STOCK_INFO = Symbol("CREATE_STOCK_INFO");

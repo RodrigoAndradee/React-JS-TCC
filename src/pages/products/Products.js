@@ -162,9 +162,10 @@ function Products() {
       {categoriesInfoData && (
         <Toolbar
           categoriesInfoData={categoriesInfoData}
-          createProduct={handleCreateProduct}
+          onClickAddButton={handleCreateProduct}
           onSearchByName={onSearchByName}
           onSelectCategory={onSelectCategory}
+          buttonLabel="Produto"
         />
       )}
 

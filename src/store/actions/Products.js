@@ -27,14 +27,13 @@ function ProductsActions() {
 }
 
 function CreateProductActions(productInfo) {
-  // eslint-disable-next-line no-param-reassign
-  productInfo.defaultImage = defaultImage;
+  const enhancementProductInfo = { ...productInfo, defaultImage };
 
   return async (dispatch) => {
     try {
       const url = "/product/createProduct";
 
-      const data = await httpClient.post(url, productInfo);
+      const data = await httpClient.post(url, enhancementProductInfo);
 
       dispatch({ createProductInfo: data, type: CREATE_PRODUCT_INFO });
 
@@ -48,14 +47,13 @@ function CreateProductActions(productInfo) {
 }
 
 function UpdateProductActions(productInfo, productID) {
-  // eslint-disable-next-line no-param-reassign
-  productInfo.defaultImage = defaultImage;
+  const enhancementProductInfo = { ...productInfo, defaultImage };
 
   return async (dispatch) => {
     try {
       const url = `/product/updateProduct/${productID}`;
 
-      const data = await httpClient.put(url, productInfo);
+      const data = await httpClient.put(url, enhancementProductInfo);
 
       dispatch({ editProductInfo: data, type: EDIT_PRODUCT_INFO });
 
