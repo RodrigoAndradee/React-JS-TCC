@@ -12,9 +12,9 @@
   .products-body {
     width: 1280px;
 
-    .products-card {
+    .ant-card-actions {
       display: flex;
-      justify-content: center;
+      align-items: center;
     }
   }
 }

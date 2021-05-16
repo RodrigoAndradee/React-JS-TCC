@@ -1,11 +1,21 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { Col, Pagination, Row } from "antd";
+
+import { Col, Pagination, Row, Tooltip, Switch } from "antd";
+import { EditOutlined } from "@ant-design/icons";
+
+import {
+  EDIT_PRODUCT_LABEL,
+  ENABLE_PRODUCT,
+} from "../../../constants/productsCardConstants";
+
+import { productObjectShape } from "../../../types/Products.Proptypes";
 
 import BasicCard from "../../../components/basicCard/BasicCard";
 
 import "../Products.scss";
 
+const defaultPlacement = "bottom";
 const pageItemsCount = 8;
 
 function ProductsPagination({
@@ -27,6 +37,26 @@ function ProductsPagination({
     });
   };
 
+  const optionsCardButton = (cardInfo) => {
+    return [
+      <Tooltip title={EDIT_PRODUCT_LABEL} placement={defaultPlacement}>
+        <EditOutlined key="edit" onClick={() => editProduct(cardInfo)} />
+      </Tooltip>,
+
+      <Tooltip
+        title={ENABLE_PRODUCT[cardInfo.enabled]}
+        placement={defaultPlacement}
+      >
+        <Switch
+          defaultChecked={cardInfo.enabled}
+          onChange={(e) => turnProductEnabledOrDisabled(cardInfo, e)}
+          className="change-enabled"
+          size="small"
+        />
+      </Tooltip>,
+    ];
+  };
+
   return (
     <>
       <Row gutter={[16, 16]} className="products-body">
@@ -34,11 +64,10 @@ function ProductsPagination({
           .slice(paginationValue.min, paginationValue.max)
           .map((cardInfo) => {
             return (
-              <Col span={6} key={cardInfo.id} className="products-card">
+              <Col span={6} key={cardInfo.id}>
                 <BasicCard
-                  editProduct={editProduct}
                   productsInfo={cardInfo}
-                  turnProductEnabledOrDisabled={turnProductEnabledOrDisabled}
+                  optionsButton={() => optionsCardButton(cardInfo)}
                 />
               </Col>
             );
@@ -58,16 +87,7 @@ function ProductsPagination({
 }
 
 ProductsPagination.propTypes = {
-  productsInfoData: PropTypes.arrayOf(
-    PropTypes.shape({
-      description: PropTypes.string,
-      id: PropTypes.string,
-      name: PropTypes.string,
-      photo: PropTypes.string,
-      type: PropTypes.string,
-      enabled: PropTypes.bool,
-    })
-  ).isRequired,
+  productsInfoData: PropTypes.arrayOf(productObjectShape).isRequired,
   editProduct: PropTypes.func,
   turnProductEnabledOrDisabled: PropTypes.func,
 };

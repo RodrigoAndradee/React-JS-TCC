@@ -1,16 +1,14 @@
 import React from "react";
 
 import { SOFTWARE_VERSION } from "../../constants/footerConstants";
+import { generateCurrentDate } from "../../helpers/DateGeneratorHelper";
 
 import "./Footer.scss";
 
 const { version: clientVersion } = require("../../../package.json");
 
 export default function Footer() {
-  const currentDate = new Date();
-  const dateFormatted = `${currentDate.getUTCDate()}/${
-    currentDate.getUTCMonth() + 1
-  }/${currentDate.getUTCFullYear()}`;
+  const currentDate = generateCurrentDate();
 
   return (
     <div className="footer-bar">
@@ -22,7 +20,7 @@ export default function Footer() {
       </div>
 
       <div className="date-footer">
-        <span>{dateFormatted}</span>
+        <span>{currentDate}</span>
       </div>
     </div>
   );

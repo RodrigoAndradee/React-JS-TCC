@@ -1,6 +1,4 @@
 import React, { useReducer } from "react";
-import { useHistory } from "react-router-dom";
-import isNil from "lodash.isnil";
 
 import { Button, Form, Input } from "antd";
 
@@ -15,28 +13,31 @@ import "antd/dist/antd.css";
 import "./SignIn.scss";
 
 export default function Login() {
-  const [userInfoData, dispatchUserInfodata] = useReducer(LoginReducer);
-  const history = useHistory();
-
   const { APP_INTRO, LOGIN_BUTTON, USER_NAME, USER_PASSWORD } = LOGIN_CONSTANTS;
 
-  const tryLogin = (userInfo) => {
-    SignIn(userInfo)(dispatchUserInfodata);
+  const [userInfoData, dispatchUserInfoData] = useReducer(LoginReducer);
+
+  const attemptLogin = (userInfo) => {
+    SignIn(userInfo)(dispatchUserInfoData);
   };
 
-  if (!isNil(userInfoData)) {
-    if (userInfoData.status === 200) {
-      history.push("/");
-    } else {
-      // alert("ERRO");
-    }
+  if (userInfoData && userInfoData.status === 200) {
+    localStorage.setItem(
+      "userInfo",
+      JSON.stringify({
+        id: userInfoData.data.id,
+        role: userInfoData.data.role,
+      })
+    );
+
+    window.location = "/home";
   }
 
   return (
     <>
       <img className="left-side-login" src={loginImage} alt="" />
 
-      <Form className="right-side-login" onFinish={tryLogin}>
+      <Form className="right-side-login" onFinish={attemptLogin}>
         <h1>{APP_INTRO}</h1>
 
         <Form.Item name="userName">

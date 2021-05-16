@@ -1,11 +1,11 @@
 import * as PropTypes from "prop-types";
 
-const productObjectShape = PropTypes.shape({
-  defaultImage: PropTypes.string.isRequired,
+export const productObjectShape = PropTypes.shape({
+  defaultImage: PropTypes.string,
   description: PropTypes.string,
   enabled: PropTypes.bool,
   id: PropTypes.string,
   name: PropTypes.string,
-  photo: PropTypes.string,
+  photo: PropTypes.arrayOf(PropTypes.string),
   type: PropTypes.string,
 });

@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 
 import { ROUTES } from "../constants/routesConstants";
 
@@ -9,33 +9,43 @@ import Orders from "../pages/orders/Orders";
 import Sales from "../pages/sales/Sales";
 import Products from "../pages/products/Products";
 import Storage from "../pages/stock/Stock";
+import PrivateRoute from "./PrivateRoute";
+import NotFound from "../pages/notFound/Notfound";
 
 function Routes() {
-  const {
-    others,
-    home_screen,
-    orders,
-    products,
-    sales,
-    sign_in,
-    storage,
-  } = ROUTES;
+  const { home, orders, products, sales, sign_in, stock, others } = ROUTES;
 
   return (
     <Switch>
-      <Route path={sign_in} component={Login} />
+      <Route component={Login} exact={sign_in.exact} path={sign_in.path} />
 
-      <Route exact path={home_screen} component={HomeScreen} />
+      <PrivateRoute
+        component={HomeScreen}
+        exact={home.exact}
+        path={home.path}
+      />
 
-      <Route path={orders} component={Orders} />
+      <PrivateRoute
+        component={Orders}
+        exact={orders.exact}
+        path={orders.path}
+      />
 
-      <Route path={sales} component={Sales} />
+      <PrivateRoute component={Sales} exact={sales.exact} path={sales.path} />
 
-      <Route path={products} component={Products} />
+      <PrivateRoute
+        component={Products}
+        exact={products.exact}
+        path={products.path}
+      />
 
-      <Route path={storage} component={Storage} />
+      <PrivateRoute component={Storage} exact={stock.exact} path={stock.path} />
 
-      <Route path={others} render={() => <Redirect to={home_screen} />} />
+      <PrivateRoute
+        component={NotFound}
+        exact={others.exact}
+        path={others.path}
+      />
     </Switch>
   );
 }

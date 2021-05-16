@@ -22,9 +22,10 @@
     "react-hooks/exhaustive-deps": "warn"
   },
   "globals": {
-    "window": true,
     "document": true,
+    "FormData": true,
+    "localStorage": true,
     "navigator": true,
-    "FormData": true
+    "window": true
   }
 }

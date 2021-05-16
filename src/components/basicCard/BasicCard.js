@@ -1,46 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { EditOutlined } from "@ant-design/icons";
-import { Card, Tooltip } from "antd";
 
-import { StyledSwitch } from "../../styles/StyledSwitch.styles";
-
-import {
-  EDIT_PRODUCT_LABEL,
-  ENABLE_PRODUCT,
-} from "../../constants/productsCardConstants";
+import { Card } from "antd";
+import { productObjectShape } from "../../types/Products.Proptypes";
 
 import "./BasicCard.scss";
 
 const { Meta } = Card;
-const defaultPlacement = "bottom";
 
-export default function BasicCard({
-  editProduct,
-  productsInfo,
-  turnProductEnabledOrDisabled,
-}) {
-  const actionsContent = [
-    <Tooltip title={EDIT_PRODUCT_LABEL} placement={defaultPlacement}>
-      <EditOutlined key="edit" onClick={() => editProduct(productsInfo)} />
-    </Tooltip>,
-
-    <Tooltip
-      title={ENABLE_PRODUCT[productsInfo.enabled]}
-      placement={defaultPlacement}
-    >
-      <StyledSwitch
-        defaultChecked={productsInfo.enabled}
-        onChange={(e) => turnProductEnabledOrDisabled(productsInfo, e)}
-        className="change-enabled"
-        size="small"
-      />
-    </Tooltip>,
-  ];
-
+function BasicCard({ optionsButton, productsInfo }) {
   return (
     <Card
-      actions={actionsContent}
+      actions={optionsButton()}
       cover={
         <img
           alt="productImage"
@@ -55,20 +26,8 @@ export default function BasicCard({
 }
 
 BasicCard.propTypes = {
-  editProduct: PropTypes.func,
-  productsInfo: PropTypes.shape({
-    defaultImage: PropTypes.string,
-    description: PropTypes.string,
-    enabled: PropTypes.bool,
-    id: PropTypes.string,
-    name: PropTypes.string,
-    photo: PropTypes.string,
-    type: PropTypes.string,
-  }).isRequired,
-  turnProductEnabledOrDisabled: PropTypes.func,
+  productsInfo: productObjectShape.isRequired,
+  optionsButton: PropTypes.func.isRequired,
 };
 
-BasicCard.defaultProps = {
-  editProduct: () => {},
-  turnProductEnabledOrDisabled: () => {},
-};
+export default BasicCard;

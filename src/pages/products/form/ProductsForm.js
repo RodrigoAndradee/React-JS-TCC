@@ -13,7 +13,6 @@ import {
 import "../Products.scss";
 
 const { Option } = Select;
-
 const { category, description, enabled, name } = FIELD_TYPE;
 const {
   categoryPlaceholder,
@@ -35,7 +34,7 @@ function ProductsForm({ categoriesInfoData, currentProduct }) {
   );
   return (
     <>
-      <b>{productName}:</b>
+      <b>{productName}</b>
       <Form.Item
         initialValue={currentProduct ? currentProduct.name : null}
         name={name}
@@ -44,7 +43,7 @@ function ProductsForm({ categoriesInfoData, currentProduct }) {
         <Input placeholder={namePlaceholder} />
       </Form.Item>
 
-      <b>{productDescription}:</b>
+      <b>{productDescription}</b>
       <Form.Item
         initialValue={currentProduct ? currentProduct.description : null}
         name={description}
@@ -53,7 +52,7 @@ function ProductsForm({ categoriesInfoData, currentProduct }) {
         <Input placeholder={descriptionPlaceholder} />
       </Form.Item>
 
-      <b>{productCategory}:</b>
+      <b>{productCategory}</b>
       <Form.Item
         initialValue={currentProduct ? currentProduct.type : null}
         name={category}
@@ -76,7 +75,7 @@ function ProductsForm({ categoriesInfoData, currentProduct }) {
         </Select>
       </Form.Item>
 
-      <b>{productEnabled}:</b>
+      <b>{productEnabled}</b>
       <Form.Item checked={switchChecked} name={enabled}>
         <Switch
           checked={switchChecked}
