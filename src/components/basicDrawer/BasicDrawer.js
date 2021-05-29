@@ -7,7 +7,7 @@ import "./BasicDrawer.scss";
 function BasicDrawer({
   cancelButton,
   className,
-  confirmationButton,
+  confirmButton,
   drawerContent,
   isOpen,
   onClose,
@@ -32,7 +32,7 @@ function BasicDrawer({
             htmlType="submit"
             type="primary"
           >
-            {confirmationButton}
+            {confirmButton}
           </Button>
 
           <Button className="button button-cancel" onClick={onClose}>
@@ -45,9 +45,9 @@ function BasicDrawer({
 }
 
 BasicDrawer.propTypes = {
-  cancelButton: PropTypes.string.isRequired,
+  cancelButton: PropTypes.string,
   className: PropTypes.string,
-  confirmationButton: PropTypes.string.isRequired,
+  confirmButton: PropTypes.string,
   drawerContent: PropTypes.func,
   isOpen: PropTypes.bool,
   onClose: PropTypes.func,
@@ -56,7 +56,9 @@ BasicDrawer.propTypes = {
 };
 
 BasicDrawer.defaultProps = {
+  cancelButton: "Cancelar",
   className: "",
+  confirmButton: "Confirmar",
   drawerContent: () => {},
   isOpen: false,
   onClose: () => {},

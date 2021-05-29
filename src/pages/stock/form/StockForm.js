@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { arrayOf } from "prop-types";
 
 import { DatePicker, Form, InputNumber, Select } from "antd";
@@ -6,16 +6,19 @@ import { DatePicker, Form, InputNumber, Select } from "antd";
 import { productObjectShape } from "../../../types/Products.Proptypes";
 
 const { Option } = Select;
+const FormItem = Form.Item;
 
 function StockForm({ productsInfo }) {
-  const onChange = (date, dateString) => {
-    console.log("date: ", date);
-    console.log(dateString);
+  const [dateString, setDateString] = useState();
+
+  const onChange = (date, dateStrings) => {
+    setDateString(dateStrings);
   };
+
   return (
     <>
       <b>Selecione um Produto</b>
-      <Form.Item
+      <FormItem
         name="productId"
         rules={[{ required: true, message: "Selecione um produto" }]}
       >
@@ -23,8 +26,6 @@ function StockForm({ productsInfo }) {
           placeholder="Selecione um Produto"
           showSearch
           filterOption={(input, option) => {
-            console.log("option: ", option);
-
             if (
               option.children.toLowerCase().includes(input.toLocaleLowerCase())
             ) {
@@ -44,29 +45,27 @@ function StockForm({ productsInfo }) {
               );
             })}
         </Select>
-      </Form.Item>
+      </FormItem>
 
       <b>Quantidade do Produto</b>
-      <Form.Item
+      <FormItem
         name="quantity"
-        rules={[
-          { required: true, message: "É necessário digitar uma quantidade" },
-        ]}
+        rules={[{ required: true, message: "Digite uma quantidade" }]}
       >
         <InputNumber
           placeholder="Digite a quantidade do produto"
           style={{ width: "100%" }}
           min={1}
         />
-      </Form.Item>
+      </FormItem>
 
       <b>Preço do Produto</b>
-      <Form.Item
+      <FormItem
         name="price"
         rules={[
           {
             required: true,
-            message: "É necessário digitar o valor do produto",
+            message: "Digite o valor do produto",
           },
         ]}
       >
@@ -75,21 +74,22 @@ function StockForm({ productsInfo }) {
           style={{ width: "100%" }}
           min={0.1}
         />
-      </Form.Item>
+      </FormItem>
 
       <b>Data de Vencimento</b>
-      <Form.Item
+      <FormItem
         name="dueDate"
         rules={[
           {
             required: true,
-            message: "É necessário digitar o valor do produto",
+            message: "Selecione a data de vencimento",
           },
         ]}
-        // initialValue="2021-05-14"
+        initialValue={dateString}
+        value={dateString}
       >
-        <DatePicker onChange={onChange} />
-      </Form.Item>
+        <DatePicker format="DD/MM/YYYY" onChange={onChange} />
+      </FormItem>
     </>
   );
 }

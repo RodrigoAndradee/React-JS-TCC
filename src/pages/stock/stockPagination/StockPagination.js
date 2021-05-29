@@ -60,7 +60,7 @@ function StockPagination({ stockData }) {
             const { product: productInfo } = cardInfo;
 
             return (
-              <Col span={6} key={productInfo.id}>
+              <Col span={6} key={cardInfo.id}>
                 <BasicCard
                   productsInfo={productInfo}
                   optionsButton={() => optionsCardButton(cardInfo)}

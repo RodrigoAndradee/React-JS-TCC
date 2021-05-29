@@ -14,8 +14,6 @@ function StockActions() {
       dispatch({ stockInfo: data.data, type: STOCK_INFO });
     } catch (error) {
       sendNotification("ERROR", "Erro ao Obter ao Obter o Estoque", "Erro");
-
-      dispatch({ stockInfo: error, type: STOCK_INFO });
     }
   };
 }
@@ -30,8 +28,6 @@ function CreateStockActions(stockInfo) {
       dispatch({ createStockInfo: data.data, type: CREATE_STOCK_INFO });
     } catch (error) {
       sendNotification("ERROR", "Erro ao Adicionar Produto no Estoque", "Erro");
-
-      dispatch({ createStockInfo: error, type: CREATE_STOCK_INFO });
     }
   };
 }

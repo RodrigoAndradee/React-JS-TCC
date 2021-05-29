@@ -15,8 +15,6 @@ function SignIn({ userName, password }) {
 
       sendNotification("SUCCESS", "Login efetuado com sucesso", "Sucesso");
     } catch (error) {
-      dispatch({ userInfo: error, type: USER_INFO });
-
       sendNotification("ERROR", error.data.error, "Erro");
     }
   };

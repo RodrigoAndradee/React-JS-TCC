@@ -1,16 +1,18 @@
 import React from "react";
 
-import Header from "../../components/header/Header";
-import Footer from "../../components/footer/Footer";
+import GenericPage from "../../components/genericPage/GenericPage";
 
 import "./Sales.scss";
 
 export default function Sales() {
   return (
     <>
-      <Header />
-      SALES
-      <Footer />
+      <GenericPage
+        // header={<>header</>}
+        // toolbar={<>toolbar</>}
+        body="Sales"
+        // footer={<>footer</>}
+      />
     </>
   );
 }
