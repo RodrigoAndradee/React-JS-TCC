@@ -13,19 +13,25 @@ import {
 import "../Products.scss";
 
 const { Option } = Select;
-const { category, description, enabled, name } = FIELD_TYPE;
+const { category, defaultImage, description, enabled, name } = FIELD_TYPE;
 const {
   categoryPlaceholder,
   descriptionPlaceholder,
+  imagePlaceholder,
   namePlaceholder,
 } = FIELD_PLACEHOLDER;
-const { requiredCategory, requiredDescription, requiredName } = FIELD_REQUIRED;
+const {
+  requiredCategory,
+  requiredDescription,
+  requiredImage,
+  requiredName,
+} = FIELD_REQUIRED;
 const {
   productCategory,
+  productDefaultImage,
   productDescription,
   productEnabled,
   productName,
-  // productUnity,
 } = PRODUCT_INFO;
 
 function ProductsForm({ categoriesInfoData, currentProduct }) {
@@ -75,8 +81,21 @@ function ProductsForm({ categoriesInfoData, currentProduct }) {
         </Select>
       </Form.Item>
 
+      <b>{productDefaultImage}</b>
+      <Form.Item
+        initialValue={currentProduct ? currentProduct.defaultImage : null}
+        name={defaultImage}
+        rules={[{ required: true, message: requiredImage }]}
+      >
+        <Input placeholder={imagePlaceholder} />
+      </Form.Item>
+
       <b>{productEnabled}</b>
-      <Form.Item checked={switchChecked} name={enabled}>
+      <Form.Item
+        checked={switchChecked}
+        initialValue={switchChecked}
+        name={enabled}
+      >
         <Switch
           checked={switchChecked}
           onChange={(e) => {
@@ -98,11 +117,12 @@ ProductsForm.propTypes = {
   ),
   currentProduct: PropTypes.shape({
     description: PropTypes.string,
+    defaultImage: PropTypes.string,
+    enabled: PropTypes.bool,
     id: PropTypes.string,
     name: PropTypes.string,
     photo: PropTypes.string,
     type: PropTypes.string,
-    enabled: PropTypes.bool,
   }),
 };
 

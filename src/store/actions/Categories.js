@@ -2,6 +2,8 @@ import httpClient from "../../configs/httpClient";
 
 import { CATEGORY_INFO } from "../reducers/ActionTypes";
 
+import sendNotification from "../../helpers/NotificationsHelper";
+
 function CategoryActions() {
   return async (dispatch) => {
     try {
@@ -11,7 +13,7 @@ function CategoryActions() {
 
       dispatch({ categoryInfo: data.data, type: CATEGORY_INFO });
     } catch (error) {
-      dispatch({ categoryInfo: error, type: CATEGORY_INFO });
+      sendNotification("ERROR", "Erro ao Obter as Categorias", "Error");
     }
   };
 }

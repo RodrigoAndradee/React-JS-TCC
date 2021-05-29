@@ -1,19 +1,43 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-import { Button } from "antd";
+import { Dropdown, Menu, Modal } from "antd";
+import { DownOutlined } from "@ant-design/icons";
 
 import { PAGE_NAME } from "../../constants/uiConstants";
 
 import "./Header.scss";
 
-export default function Header() {
+function Header() {
   const userCredential = JSON.parse(localStorage.getItem("userInfo"));
 
-  const logOut = () => {
+  const handleLogout = () => {
     localStorage.removeItem("userInfo");
     window.location.reload();
   };
+
+  const logOut = () => {
+    Modal.confirm({
+      title: "Certeza que deseja sair?",
+      icon: null,
+      content: null,
+      okText: "Sair",
+      cancelText: "Cancelar",
+      onOk: () => {
+        handleLogout();
+      },
+    });
+  };
+
+  const menuOptions = (
+    <Menu style={{ width: 150 }}>
+      {userCredential.role === "admin" && (
+        <Menu.Item>Adicionar Usuário</Menu.Item>
+      )}
+
+      <Menu.Item onClick={logOut}>Sair</Menu.Item>
+    </Menu>
+  );
 
   return (
     <div className="menu-bar">
@@ -35,10 +59,18 @@ export default function Header() {
           )}
         </div>
 
-        <div className="rigth-menu">
-          <Button onClick={logOut}>Sair</Button>
+        <div className="right-menu">
+          <Dropdown
+            overlay={menuOptions}
+            className="dropdown-menu"
+            placement="bottomRight"
+          >
+            <DownOutlined style={{ fontSize: 14 }} />
+          </Dropdown>
         </div>
       </div>
     </div>
   );
 }
+
+export default Header;

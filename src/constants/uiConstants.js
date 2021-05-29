@@ -1,7 +1,7 @@
 const PAGE_NAME = [
   {
     label: "Home",
-    url: "/",
+    url: "/home",
     exact: true,
     roles: ["admin", "stock", "separator"],
   },

@@ -1,7 +1,5 @@
 export const returnCapitalizeFirstLetter = (productAttribute) => {
-  return productAttribute.replace(/\b\w/g, (l) => {
-    return l.toUpperCase();
-  });
+  return productAttribute.charAt(0).toUpperCase() + productAttribute.slice(1);
 };
 
 export const capitalizeFirstLetter = (productInfo) => {
@@ -17,11 +15,9 @@ export const filterSelectedCategory = (productsInfoData, selectedCategory) => {
     return productsInfoData;
   }
 
-  const filteredProducts = productsInfoData.filter((product) => {
-    return product.type === selectedCategory;
-  });
-
-  return filteredProducts;
+  return productsInfoData.filter(
+    (product) => product.type === selectedCategory
+  );
 };
 
 export const filterProductByName = (productsInfoData, typedProductName) => {
@@ -33,9 +29,7 @@ export const filterProductByName = (productsInfoData, typedProductName) => {
     typedProductName
   );
 
-  const filteredProducts = productsInfoData.filter((product) => {
-    return product.name.includes(enhancementTypedProductName);
-  });
-
-  return filteredProducts;
+  return productsInfoData.filter((product) =>
+    product.name.includes(enhancementTypedProductName)
+  );
 };

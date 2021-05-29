@@ -20,7 +20,11 @@ function BasicCard({ optionsButton, productsInfo }) {
         />
       }
     >
-      <Meta description={productsInfo.description} title={productsInfo.name} />
+      <Meta
+        className="tree-dots-overflow"
+        description={productsInfo.description}
+        title={productsInfo.name}
+      />
     </Card>
   );
 }

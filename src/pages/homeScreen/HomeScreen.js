@@ -1,14 +1,11 @@
 import React from "react";
 
-import Header from "../../components/header/Header";
-import Footer from "../../components/footer/Footer";
+import GenericPage from "../../components/genericPage/GenericPage";
 
 export default function homeScreen() {
   return (
     <>
-      <Header />
-      HOME SCREEN
-      <Footer />
+      <GenericPage body="Home Screen" />
     </>
   );
 }

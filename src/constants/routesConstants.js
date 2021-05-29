@@ -1,9 +1,29 @@
 export const ROUTES = {
-  home: { path: "/home", roles: ["admin", "stock", "separator"], exact: false },
-  orders: { path: "/orders", roles: ["admin", "separator"], exact: false },
+  home: {
+    exact: false,
+    pageName: "home",
+    path: "/home",
+    roles: ["admin", "stock", "separator"],
+  },
+  orders: {
+    exact: false,
+    pageName: "orders",
+    path: "/orders",
+    roles: ["admin", "separator"],
+  },
   others: { path: "/*", exact: false },
-  products: { path: "/products", roles: ["admin", "stock"], exact: false },
-  sales: { path: "/sales", roles: ["admin"], exact: false },
-  sign_in: { path: "/signIn", exact: false },
-  stock: { path: "/stock", roles: ["admin", "stock"], exact: false },
+  products: {
+    exact: false,
+    pageName: "products",
+    path: "/products",
+    roles: ["admin", "stock"],
+  },
+  sales: { exact: false, pageName: "sales", path: "/sales", roles: ["admin"] },
+  sign_in: { exact: false, pageName: "signIn", path: "/signIn" },
+  stock: {
+    exact: false,
+    pageName: "stock",
+    path: "/stock",
+    roles: ["admin", "stock"],
+  },
 };

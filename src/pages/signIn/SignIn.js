@@ -4,6 +4,8 @@ import { Button, Form, Input } from "antd";
 
 import { LOGIN_CONSTANTS } from "../../constants/loginConstants";
 
+import { encodeSha256 } from "../../helpers/Sha256Helper";
+
 import loginImage from "../../assets/loginImage.jpeg";
 
 import { LoginReducer } from "../../store/reducers/SignIn";
@@ -18,7 +20,12 @@ export default function Login() {
   const [userInfoData, dispatchUserInfoData] = useReducer(LoginReducer);
 
   const attemptLogin = (userInfo) => {
-    SignIn(userInfo)(dispatchUserInfoData);
+    const enhancedUserInfo = {
+      ...userInfo,
+      password: encodeSha256(userInfo.password),
+    };
+
+    SignIn(enhancedUserInfo)(dispatchUserInfoData);
   };
 
   if (userInfoData && userInfoData.status === 200) {
@@ -27,6 +34,7 @@ export default function Login() {
       JSON.stringify({
         id: userInfoData.data.id,
         role: userInfoData.data.role,
+        userName: userInfoData.data.userName,
       })
     );
 

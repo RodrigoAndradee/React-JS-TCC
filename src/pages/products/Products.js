@@ -1,9 +1,9 @@
 import React, { useEffect, useReducer, useState } from "react";
+import { Empty } from "antd";
 
 import BasicDrawer from "../../components/basicDrawer/BasicDrawer";
-import Footer from "../../components/footer/Footer";
-import Header from "../../components/header/Header";
 
+import GenericPage from "../../components/genericPage/GenericPage";
 import ProductsForm from "./form/ProductsForm";
 import ProductsPagination from "./productsPagination/ProductsPagination";
 import Toolbar from "../../components/toolbar/Toolbar";
@@ -27,6 +27,7 @@ import {
   filterSelectedCategory,
 } from "../../helpers/ProductsHelper";
 
+import { EMPTY_DATA } from "../../constants/errorsConstants";
 import { BUTTONS_LABELS, TITLE_LABELS } from "../../constants/drawerConstants";
 
 import "./Products.scss";
@@ -141,8 +142,6 @@ function Products() {
 
   return (
     <div className="main-div-products">
-      <Header />
-
       <BasicDrawer
         cancelButton={cancelButton}
         className="products-drawer"
@@ -159,26 +158,35 @@ function Products() {
         title={drawerTitle}
       />
 
-      {categoriesInfoData && (
-        <Toolbar
-          categoriesInfoData={categoriesInfoData}
-          onClickAddButton={handleCreateProduct}
-          onSearchByName={onSearchByName}
-          onSelectCategory={onSelectCategory}
-          buttonLabel="Produto"
-        />
-      )}
-
-      {filteredProducts ? (
-        <ProductsPagination
-          editProduct={editProduct}
-          productsInfoData={filteredProducts}
-          turnProductEnabledOrDisabled={turnProductEnabledOrDisabled}
-        />
-      ) : (
-        <h1>Você não possui produtos cadastrados</h1>
-      )}
-      <Footer />
+      <GenericPage
+        toolbar={
+          categoriesInfoData && (
+            <Toolbar
+              buttonLabel="Produto"
+              categoriesInfoData={categoriesInfoData}
+              onClickAddButton={handleCreateProduct}
+              onSearchByName={onSearchByName}
+              onSelectCategory={onSelectCategory}
+              pageName="products"
+            />
+          )
+        }
+        body={
+          <>
+            {filteredProducts && filteredProducts.length ? (
+              <ProductsPagination
+                editProduct={editProduct}
+                productsInfoData={filteredProducts}
+                turnProductEnabledOrDisabled={turnProductEnabledOrDisabled}
+              />
+            ) : (
+              <Empty className="empty-data" description={false}>
+                {EMPTY_DATA.emptyProducts}
+              </Empty>
+            )}
+          </>
+        }
+      />
     </div>
   );
 }
