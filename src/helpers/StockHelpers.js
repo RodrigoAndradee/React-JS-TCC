@@ -1,5 +1,8 @@
 export const returnCapitalizeFirstLetter = (productAttribute) => {
-  return productAttribute.charAt(0).toUpperCase() + productAttribute.slice(1);
+  return (
+    productAttribute.charAt(0).toUpperCase() +
+    productAttribute.substr(1).toLowerCase()
+  );
 };
 
 export const capitalizeFirstLetter = (stockInfoData) => {
@@ -35,5 +38,9 @@ export const filterStockByName = (stockInfoData, typedProductName) => {
 };
 
 export const filterStockByDueDate = (stockInfoData, selectedDate) => {
+  if (!selectedDate) {
+    return stockInfoData;
+  }
+
   return stockInfoData.filter((stock) => stock.dueDate.includes(selectedDate));
 };

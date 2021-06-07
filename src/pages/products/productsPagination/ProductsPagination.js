@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 
 import { Col, Pagination, Row, Tooltip, Switch } from "antd";
-import { EditOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 
 import {
   EDIT_PRODUCT_LABEL,
@@ -19,6 +19,7 @@ const defaultPlacement = "bottom";
 const pageItemsCount = 8;
 
 function ProductsPagination({
+  deleteProduct,
   editProduct,
   productsInfoData,
   turnProductEnabledOrDisabled,
@@ -53,6 +54,10 @@ function ProductsPagination({
           className="change-enabled"
           size="small"
         />
+      </Tooltip>,
+
+      <Tooltip title="Deletar Produto" placement={defaultPlacement}>
+        <DeleteOutlined onClick={() => deleteProduct(cardInfo.id)} />
       </Tooltip>,
     ];
   };
@@ -90,11 +95,13 @@ ProductsPagination.propTypes = {
   productsInfoData: PropTypes.arrayOf(productObjectShape).isRequired,
   editProduct: PropTypes.func,
   turnProductEnabledOrDisabled: PropTypes.func,
+  deleteProduct: PropTypes.func,
 };
 
 ProductsPagination.defaultProps = {
-  editProduct: () => {},
-  turnProductEnabledOrDisabled: () => {},
+  editProduct: () => null,
+  turnProductEnabledOrDisabled: () => null,
+  deleteProduct: () => null,
 };
 
 export default ProductsPagination;

@@ -16,6 +16,7 @@ const PrivateRoute = (props) => {
       ROUTES[route].roles.includes(
         JSON.parse(localStorage.getItem("userInfo")).role
       );
+
     if (userPermission) {
       return <Route {...props} />;
     }

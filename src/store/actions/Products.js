@@ -1,6 +1,7 @@
 import httpClient from "../../configs/httpClient";
 import {
   CREATE_PRODUCT_INFO,
+  DELETE_PRODUCT_INFO,
   EDIT_PRODUCT_INFO,
   PRODUCTS_INFO,
 } from "../reducers/ActionTypes";
@@ -53,4 +54,25 @@ function UpdateProductActions(productInfo, productID) {
   };
 }
 
-export { CreateProductActions, ProductsActions, UpdateProductActions };
+function DeleteProductActions(productId) {
+  return async (dispatch) => {
+    try {
+      const url = `/product/deleteProduct/${productId}`;
+
+      const data = await httpClient.delete(url);
+
+      dispatch({ deleteProductInfo: data, type: DELETE_PRODUCT_INFO });
+
+      sendNotification("SUCCESS", "Produto Deletado com Sucesso", "Sucesso");
+    } catch (error) {
+      sendNotification("ERROR", "Erro ao Deletar Produto", "Erro");
+    }
+  };
+}
+
+export {
+  CreateProductActions,
+  DeleteProductActions,
+  ProductsActions,
+  UpdateProductActions,
+};

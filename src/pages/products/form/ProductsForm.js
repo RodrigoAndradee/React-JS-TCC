@@ -71,7 +71,6 @@ function ProductsForm({ categoriesInfoData, currentProduct }) {
                 <Option
                   key={item.id}
                   value={item.category}
-                  // enabled={item.enabled}
                   disabled={!item.enabled}
                 >
                   {item.category}

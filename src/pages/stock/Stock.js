@@ -8,11 +8,19 @@ import StockPagination from "./stockPagination/StockPagination";
 import Toolbar from "../../components/toolbar/Toolbar";
 
 import { CategoryActions } from "../../store/actions/Categories";
-import { CreateStockActions, StockActions } from "../../store/actions/Stock";
+import {
+  CreateStockActions,
+  StockActions,
+  UpdateStockActions,
+} from "../../store/actions/Stock";
 import { ProductsActions } from "../../store/actions/Products";
 
 import { categoriesReducer } from "../../store/reducers/Categories";
-import { CreateStockReducer, StockReducer } from "../../store/reducers/Stock";
+import {
+  CreateStockReducer,
+  StockReducer,
+  UpdateStockReducer,
+} from "../../store/reducers/Stock";
 import { ProductsReducer } from "../../store/reducers/Products";
 
 import {
@@ -39,6 +47,9 @@ export default function Storage() {
   const [categoriesInfoData, dispatchCategoriesInfoData] = useReducer(
     categoriesReducer
   );
+  const [updateStockData, dispatchUpdateStockData] = useReducer(
+    UpdateStockReducer
+  );
 
   const handleAddProduct = () => {
     if (!drawerState) {
@@ -49,10 +60,16 @@ export default function Storage() {
   const onSubmitForm = (stockInfo) => {
     const enhancedStockInfo = {
       ...stockInfo,
-      dueDate: stockInfo.dueDate.toString(),
+      dueDate: stockInfo.dueDate.format("YYYY-MM-DD"),
     };
 
     CreateStockActions(enhancedStockInfo)(dispatchCreateStockData);
+
+    setDrawerState(false);
+  };
+
+  const updateStockProduct = (stockInfo) => {
+    UpdateStockActions(stockInfo)(dispatchUpdateStockData);
   };
 
   const onClose = () => {
@@ -67,7 +84,7 @@ export default function Storage() {
     setStockProducts(filterStockByCategory(stockData, category));
   };
 
-  const onFilterByDueDate = (date, selectedDate) => {
+  const onFilterByDueDate = (selectedDate) => {
     setStockProducts(filterStockByDueDate(stockData, selectedDate));
   };
 
@@ -82,7 +99,7 @@ export default function Storage() {
 
   useEffect(() => {
     StockActions()(dispatchStockData);
-  }, [createStockData]);
+  }, [createStockData, updateStockData]);
 
   return (
     <div className="main-div-stock">
@@ -92,9 +109,10 @@ export default function Storage() {
         cancelButton={DRAWER_LABELS.cancelButton}
         confirmButton={DRAWER_LABELS.confirmButton}
         onClose={onClose}
-        drawerContent={() => <StockForm productsInfo={productsData} />}
         onFinish={onSubmitForm}
-      />
+      >
+        {() => <StockForm productsInfo={productsData} />}
+      </BasicDrawer>
 
       <GenericPage
         toolbar={
@@ -113,7 +131,12 @@ export default function Storage() {
         body={
           <>
             {stockProducts && stockProducts.length ? (
-              <StockPagination stockData={stockProducts} />
+              <StockPagination
+                stockData={stockProducts}
+                updateStockProduct={(stockInfo) =>
+                  updateStockProduct(stockInfo)
+                }
+              />
             ) : (
               <Empty className="empty-data" description={false}>
                 {EMPTY_DATA.emptyStock}
