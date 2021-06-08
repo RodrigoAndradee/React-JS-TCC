@@ -13,7 +13,7 @@ import {
 import "../Products.scss";
 
 const { Option } = Select;
-const { category, defaultImage, description, enabled, name } = FIELD_TYPE;
+const { category, defaultImage, description, enabled, name, type } = FIELD_TYPE;
 const {
   categoryPlaceholder,
   descriptionPlaceholder,
@@ -32,6 +32,7 @@ const {
   productDescription,
   productEnabled,
   productName,
+  productUnity,
 } = PRODUCT_INFO;
 
 function ProductsForm({ categoriesInfoData, currentProduct }) {
@@ -60,7 +61,7 @@ function ProductsForm({ categoriesInfoData, currentProduct }) {
 
       <b>{productCategory}</b>
       <Form.Item
-        initialValue={currentProduct ? currentProduct.type : null}
+        initialValue={currentProduct ? currentProduct.category : null}
         name={category}
         rules={[{ required: true, message: requiredCategory }]}
       >
@@ -71,7 +72,6 @@ function ProductsForm({ categoriesInfoData, currentProduct }) {
                 <Option
                   key={item.id}
                   value={item.category}
-                  // enabled={item.enabled}
                   disabled={!item.enabled}
                 >
                   {item.category}
@@ -79,6 +79,15 @@ function ProductsForm({ categoriesInfoData, currentProduct }) {
               );
             })}
         </Select>
+      </Form.Item>
+
+      <b>{productUnity}</b>
+      <Form.Item
+        name={type}
+        rules={[{ required: true, message: requiredImage }]}
+        initialValue={currentProduct ? currentProduct.type : null}
+      >
+        <Input placeholder="Digite o peso da embalagem" />
       </Form.Item>
 
       <b>{productDefaultImage}</b>
@@ -116,8 +125,9 @@ ProductsForm.propTypes = {
     })
   ),
   currentProduct: PropTypes.shape({
-    description: PropTypes.string,
+    category: PropTypes.string,
     defaultImage: PropTypes.string,
+    description: PropTypes.string,
     enabled: PropTypes.bool,
     id: PropTypes.string,
     name: PropTypes.string,

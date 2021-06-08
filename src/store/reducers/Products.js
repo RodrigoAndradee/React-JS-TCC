@@ -36,3 +36,14 @@ export function UpdateProductReducer(state = {}, action) {
       return state;
   }
 }
+
+export function DeleteProductReducer(state = {}, action) {
+  const { deleteProductInfo, type } = action;
+
+  switch (type) {
+    case EDIT_PRODUCT_INFO:
+      return deleteProductInfo;
+    default:
+      return state;
+  }
+}

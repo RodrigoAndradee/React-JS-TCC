@@ -21,10 +21,10 @@ function GenericPage({ body, footer, header, toolbar }) {
 }
 
 GenericPage.propTypes = {
-  body: PropTypes.element.isRequired,
-  footer: PropTypes.element,
-  header: PropTypes.element,
-  toolbar: PropTypes.element,
+  body: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
+  footer: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  header: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  toolbar: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
 };
 
 GenericPage.defaultProps = {

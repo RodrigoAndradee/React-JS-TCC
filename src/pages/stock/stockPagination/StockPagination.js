@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 
 import { Col, InputNumber, Pagination, Row, Tooltip } from "antd";
 import { MinusCircleOutlined, PlusCircleOutlined } from "@ant-design/icons";
@@ -18,7 +19,7 @@ import "../Stock.scss";
 const defaultPlacement = "bottom";
 const pageItemsCount = 8;
 
-function StockPagination({ stockData }) {
+function StockPagination({ stockData, updateStockProduct }) {
   const [paginationValue, setPaginationValues] = useState({
     min: 0,
     max: pageItemsCount,
@@ -33,10 +34,18 @@ function StockPagination({ stockData }) {
     });
   };
 
+  const handleMinusQty = (stockInfo) => {
+    updateStockProduct({ ...stockInfo, quantity: stockInfo.quantity - 1 });
+  };
+
+  const handlePlusQty = (stockInfo) => {
+    updateStockProduct({ ...stockInfo, quantity: stockInfo.quantity + 1 });
+  };
+
   const optionsCardButton = (cardInfo) => {
     return [
       <Tooltip title={DECREASE_QUANTITY_LABEL} placement={defaultPlacement}>
-        <MinusCircleOutlined />
+        <MinusCircleOutlined onClick={() => handleMinusQty(cardInfo)} />
       </Tooltip>,
       <Tooltip title={QUANTITY_LABEL} placement={defaultPlacement}>
         <InputNumber
@@ -46,7 +55,7 @@ function StockPagination({ stockData }) {
         />
       </Tooltip>,
       <Tooltip title={INCREASE_QUANTITY_LABEL} placement={defaultPlacement}>
-        <PlusCircleOutlined />
+        <PlusCircleOutlined onClick={() => handlePlusQty(cardInfo)} />
       </Tooltip>,
     ];
   };
@@ -84,6 +93,11 @@ function StockPagination({ stockData }) {
 
 StockPagination.propTypes = {
   stockData: stockObjectShape.isRequired,
+  updateStockProduct: PropTypes.func,
+};
+
+StockPagination.defaultProps = {
+  updateStockProduct: () => null,
 };
 
 export default StockPagination;

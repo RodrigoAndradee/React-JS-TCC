@@ -4,8 +4,6 @@ import { Button, Form, Input } from "antd";
 
 import { LOGIN_CONSTANTS } from "../../constants/loginConstants";
 
-import { encodeSha256 } from "../../helpers/Sha256Helper";
-
 import loginImage from "../../assets/loginImage.jpeg";
 
 import { LoginReducer } from "../../store/reducers/SignIn";
@@ -20,12 +18,7 @@ export default function Login() {
   const [userInfoData, dispatchUserInfoData] = useReducer(LoginReducer);
 
   const attemptLogin = (userInfo) => {
-    const enhancedUserInfo = {
-      ...userInfo,
-      password: encodeSha256(userInfo.password),
-    };
-
-    SignIn(enhancedUserInfo)(dispatchUserInfoData);
+    SignIn(userInfo)(dispatchUserInfoData);
   };
 
   if (userInfoData && userInfoData.status === 200) {

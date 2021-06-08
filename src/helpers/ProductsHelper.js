@@ -1,5 +1,8 @@
 export const returnCapitalizeFirstLetter = (productAttribute) => {
-  return productAttribute.charAt(0).toUpperCase() + productAttribute.slice(1);
+  return (
+    productAttribute.charAt(0).toUpperCase() +
+    productAttribute.substr(1).toLowerCase()
+  );
 };
 
 export const capitalizeFirstLetter = (productInfo) => {
@@ -16,7 +19,7 @@ export const filterSelectedCategory = (productsInfoData, selectedCategory) => {
   }
 
   return productsInfoData.filter(
-    (product) => product.type === selectedCategory
+    (product) => product.category === selectedCategory
   );
 };
 

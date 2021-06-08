@@ -6,9 +6,9 @@ import "./BasicDrawer.scss";
 
 function BasicDrawer({
   cancelButton,
+  children,
   className,
   confirmButton,
-  drawerContent,
   isOpen,
   onClose,
   onFinish,
@@ -24,7 +24,7 @@ function BasicDrawer({
       visible={isOpen}
     >
       <Form onFinish={onFinish}>
-        {drawerContent()}
+        {children()}
 
         <div className="buttons">
           <Button
@@ -46,9 +46,9 @@ function BasicDrawer({
 
 BasicDrawer.propTypes = {
   cancelButton: PropTypes.string,
+  children: PropTypes.func,
   className: PropTypes.string,
   confirmButton: PropTypes.string,
-  drawerContent: PropTypes.func,
   isOpen: PropTypes.bool,
   onClose: PropTypes.func,
   onFinish: PropTypes.func,
@@ -57,9 +57,9 @@ BasicDrawer.propTypes = {
 
 BasicDrawer.defaultProps = {
   cancelButton: "Cancelar",
+  children: () => {},
   className: "",
   confirmButton: "Confirmar",
-  drawerContent: () => {},
   isOpen: false,
   onClose: () => {},
   onFinish: () => {},

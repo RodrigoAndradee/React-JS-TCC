@@ -17,12 +17,16 @@ class HTTPClient {
     return this.axiosInstance.put(path, ...args);
   }
 
+  delete(path) {
+    return this.axiosInstance.delete(path);
+  }
+
   attachResponseInterceptors(...interceptors) {
     this.axiosInstance.interceptors.response.use(...interceptors);
   }
 }
 
-const httpClient = new HTTPClient("http://177.9.232.163:8081");
+const httpClient = new HTTPClient("http://177.45.47.214:8081");
 
 httpClient.attachResponseInterceptors(
   (response) => response,

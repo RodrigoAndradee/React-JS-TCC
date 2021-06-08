@@ -10,10 +10,9 @@ import Sales from "../pages/sales/Sales";
 import Products from "../pages/products/Products";
 import Storage from "../pages/stock/Stock";
 import PrivateRoute from "./PrivateRoute";
-import NotFound from "../pages/notFound/Notfound";
 
 function Routes() {
-  const { home, orders, products, sales, sign_in, stock, others } = ROUTES;
+  const { home, orders, products, sales, sign_in, stock } = ROUTES;
 
   return (
     <Switch>
@@ -41,11 +40,7 @@ function Routes() {
 
       <PrivateRoute component={Storage} exact={stock.exact} path={stock.path} />
 
-      <PrivateRoute
-        component={NotFound}
-        exact={others.exact}
-        path={others.path}
-      />
+      <PrivateRoute component={HomeScreen} path="*" />
     </Switch>
   );
 }

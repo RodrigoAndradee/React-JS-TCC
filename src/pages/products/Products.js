@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer, useState } from "react";
-import { Empty } from "antd";
+import { Empty, Modal } from "antd";
 
 import BasicDrawer from "../../components/basicDrawer/BasicDrawer";
 
@@ -10,11 +10,13 @@ import Toolbar from "../../components/toolbar/Toolbar";
 
 import {
   CreateProductActions,
+  DeleteProductActions,
   ProductsActions,
   UpdateProductActions,
 } from "../../store/actions/Products";
 import {
   CreateProductReducer,
+  DeleteProductReducer,
   ProductsReducer,
   UpdateProductReducer,
 } from "../../store/reducers/Products";
@@ -56,6 +58,9 @@ function Products() {
   const [updateProductData, dispatchUpdateProductData] = useReducer(
     UpdateProductReducer
   );
+  const [deleteProductData, dispatchDeleteProductData] = useReducer(
+    DeleteProductReducer
+  );
 
   const confirmationButtonLabel = drawerState.isEditing
     ? editButton
@@ -91,6 +96,19 @@ function Products() {
     setCurrentProduct(product);
   };
 
+  const deleteProduct = (productId) => {
+    Modal.confirm({
+      title: "Certeza que deseja deletar o produto?",
+      icon: null,
+      content: null,
+      okText: "Deletar",
+      cancelText: "Cancelar",
+      onOk: () => {
+        DeleteProductActions(productId)(dispatchDeleteProductData);
+      },
+    });
+  };
+
   const handleCreateProduct = () => {
     setDrawerState({
       isEditing: false,
@@ -99,6 +117,7 @@ function Products() {
   };
 
   const onSubmitForm = (productInfo) => {
+    console.log("productInfo: ", productInfo);
     setDrawerState({ isEditing: false, drawerState: false });
 
     const enhancementProductInfo = capitalizeFirstLetter(productInfo);
@@ -138,7 +157,7 @@ function Products() {
 
   useEffect(() => {
     ProductsActions()(dispatchProductsInfoData);
-  }, [createProductData, updateProductData]);
+  }, [createProductData, updateProductData, deleteProductData]);
 
   return (
     <div className="main-div-products">
@@ -146,17 +165,18 @@ function Products() {
         cancelButton={cancelButton}
         className="products-drawer"
         confirmationButton={confirmationButtonLabel}
-        drawerContent={() => (
-          <ProductsForm
-            currentProduct={currentProduct}
-            categoriesInfoData={categoriesInfoData}
-          />
-        )}
         isOpen={drawerState.drawerState}
         onClose={onClose}
         onFinish={onSubmitForm}
         title={drawerTitle}
-      />
+      >
+        {() => (
+          <ProductsForm
+            categoriesInfoData={categoriesInfoData}
+            currentProduct={currentProduct}
+          />
+        )}
+      </BasicDrawer>
 
       <GenericPage
         toolbar={
@@ -175,6 +195,7 @@ function Products() {
           <>
             {filteredProducts && filteredProducts.length ? (
               <ProductsPagination
+                deleteProduct={deleteProduct}
                 editProduct={editProduct}
                 productsInfoData={filteredProducts}
                 turnProductEnabledOrDisabled={turnProductEnabledOrDisabled}
