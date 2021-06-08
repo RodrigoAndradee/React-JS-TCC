@@ -13,11 +13,12 @@ export const FIELD_REQUIRED = {
 };
 
 export const FIELD_TYPE = {
-  category: "type",
+  category: "category",
   defaultImage: "defaultImage",
   description: "description",
   enabled: "enabled",
   name: "name",
+  type: "type",
 };
 
 export const PRODUCT_INFO = {

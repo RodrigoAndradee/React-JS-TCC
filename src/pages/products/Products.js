@@ -117,6 +117,7 @@ function Products() {
   };
 
   const onSubmitForm = (productInfo) => {
+    console.log("productInfo: ", productInfo);
     setDrawerState({ isEditing: false, drawerState: false });
 
     const enhancementProductInfo = capitalizeFirstLetter(productInfo);

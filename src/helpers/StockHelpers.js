@@ -19,7 +19,7 @@ export const filterStockByCategory = (stockInfoData, selectedCategory) => {
   }
 
   return stockInfoData.filter(
-    (stock) => stock.product.type === selectedCategory
+    (stock) => stock.product.category === selectedCategory
   );
 };
 

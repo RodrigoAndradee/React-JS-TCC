@@ -19,7 +19,7 @@ export const filterSelectedCategory = (productsInfoData, selectedCategory) => {
   }
 
   return productsInfoData.filter(
-    (product) => product.type === selectedCategory
+    (product) => product.category === selectedCategory
   );
 };
 
