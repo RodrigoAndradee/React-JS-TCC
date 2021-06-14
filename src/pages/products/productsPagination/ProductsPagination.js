@@ -9,7 +9,7 @@ import {
   ENABLE_PRODUCT,
 } from "../../../constants/productsCardConstants";
 
-import { productObjectShape } from "../../../types/Products.Proptypes";
+import { productObjectShape } from "../../../types/ProductsProptypes";
 
 import BasicCard from "../../../components/basicCard/BasicCard";
 
@@ -44,17 +44,17 @@ function ProductsPagination({
         <EditOutlined key="edit" onClick={() => editProduct(cardInfo)} />
       </Tooltip>,
 
-      <Tooltip
-        title={ENABLE_PRODUCT[cardInfo.enabled]}
-        placement={defaultPlacement}
-      >
-        <Switch
-          defaultChecked={cardInfo.enabled}
-          onChange={(e) => turnProductEnabledOrDisabled(cardInfo, e)}
-          className="change-enabled"
-          size="small"
-        />
-      </Tooltip>,
+      // <Tooltip
+      //   title={ENABLE_PRODUCT[cardInfo.enabled]}
+      //   placement={defaultPlacement}
+      // >
+      //   <Switch
+      //     defaultChecked={cardInfo.enabled}
+      //     onChange={(e) => turnProductEnabledOrDisabled(cardInfo, e)}
+      //     className="change-enabled"
+      //     size="small"
+      //   />
+      // </Tooltip>,
 
       <Tooltip title="Deletar Produto" placement={defaultPlacement}>
         <DeleteOutlined onClick={() => deleteProduct(cardInfo.id)} />

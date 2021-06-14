@@ -1,4 +1,5 @@
 import React, { useReducer } from "react";
+import { useStore } from "react-redux";
 
 import { Button, Form, Input } from "antd";
 
@@ -6,19 +7,26 @@ import { LOGIN_CONSTANTS } from "../../constants/loginConstants";
 
 import loginImage from "../../assets/loginImage.jpeg";
 
-import { LoginReducer } from "../../store/reducers/SignIn";
+import LoginReducer from "../../store/reducers/SignIn";
 import { SignIn } from "../../store/actions/SignIn";
 
 import "antd/dist/antd.css";
 import "./SignIn.scss";
 
-export default function Login() {
+function Login() {
+  const store = useStore();
   const { APP_INTRO, LOGIN_BUTTON, USER_NAME, USER_PASSWORD } = LOGIN_CONSTANTS;
 
   const [userInfoData, dispatchUserInfoData] = useReducer(LoginReducer);
 
   const attemptLogin = (userInfo) => {
-    SignIn(userInfo)(dispatchUserInfoData);
+    SignIn(userInfo)(dispatchUserInfoData)
+      .then(() => {
+        window.location = "/home";
+      })
+      .catch(() => {
+        // console.log("deu ruim");
+      });
   };
 
   if (userInfoData && userInfoData.status === 200) {
@@ -31,7 +39,7 @@ export default function Login() {
       })
     );
 
-    window.location = "/home";
+    // window.location = "/home";
   }
 
   return (
@@ -56,3 +64,5 @@ export default function Login() {
     </>
   );
 }
+
+export default Login;

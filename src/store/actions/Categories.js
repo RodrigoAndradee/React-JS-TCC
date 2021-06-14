@@ -1,6 +1,6 @@
 import httpClient from "../../configs/httpClient";
 
-import { CATEGORY_INFO } from "../reducers/ActionTypes";
+import { CATEGORY_INFO, CREATE_CATEGORY } from "../ActionTypes";
 
 import sendNotification from "../../helpers/NotificationsHelper";
 
@@ -18,4 +18,19 @@ function CategoryActions() {
   };
 }
 
-export { CategoryActions };
+function CreateCategory(categoryData) {
+  return async (dispatch) => {
+    try {
+      const url = "/category/createCategory";
+
+      const data = await httpClient.post(url, categoryData);
+
+      dispatch({ createCategoryInfo: data.data, type: CREATE_CATEGORY });
+      sendNotification("SUCCESS", "Categoria adicionar com sucesso", "Success");
+    } catch (error) {
+      sendNotification("ERROR", "Erro ao adicionar categoria", "Error");
+    }
+  };
+}
+
+export { CategoryActions, CreateCategory };

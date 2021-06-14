@@ -7,6 +7,7 @@ import GenericPage from "../../components/genericPage/GenericPage";
 import ProductsForm from "./form/ProductsForm";
 import ProductsPagination from "./productsPagination/ProductsPagination";
 import Toolbar from "../../components/toolbar/Toolbar";
+// import ConfirmationModal from "../../components/basicModal/ConfirmationModal";
 
 import {
   CreateProductActions,
@@ -14,14 +15,9 @@ import {
   ProductsActions,
   UpdateProductActions,
 } from "../../store/actions/Products";
-import {
-  CreateProductReducer,
-  DeleteProductReducer,
-  ProductsReducer,
-  UpdateProductReducer,
-} from "../../store/reducers/Products";
+import { ProductsReducer } from "../../store/reducers/Products";
 import { CategoryActions } from "../../store/actions/Categories";
-import { categoriesReducer } from "../../store/reducers/Categories";
+import { CategoriesReducer } from "../../store/reducers/Categories";
 
 import {
   capitalizeFirstLetter,
@@ -50,16 +46,16 @@ function Products() {
     ProductsReducer
   );
   const [createProductData, dispatchCreateProductData] = useReducer(
-    CreateProductReducer
-  );
-  const [categoriesInfoData, dispatchCategoriesInfoData] = useReducer(
-    categoriesReducer
+    ProductsReducer
   );
   const [updateProductData, dispatchUpdateProductData] = useReducer(
-    UpdateProductReducer
+    ProductsReducer
   );
   const [deleteProductData, dispatchDeleteProductData] = useReducer(
-    DeleteProductReducer
+    ProductsReducer
+  );
+  const [categoriesInfoData, dispatchCategoriesInfoData] = useReducer(
+    CategoriesReducer
   );
 
   const confirmationButtonLabel = drawerState.isEditing
@@ -78,14 +74,14 @@ function Products() {
     setCurrentProduct(null);
   };
 
-  const turnProductEnabledOrDisabled = (product, enabled) => {
-    const enhancementProduct = { ...product, enabled };
+  // const turnProductEnabledOrDisabled = (product, enabled) => {
+  //   const enhancementProduct = { ...product, enabled };
 
-    UpdateProductActions(
-      enhancementProduct,
-      enhancementProduct.id
-    )(dispatchUpdateProductData);
-  };
+  //   UpdateProductActions(
+  //     enhancementProduct,
+  //     enhancementProduct.id
+  //   )(dispatchUpdateProductData);
+  // };
 
   const editProduct = (product) => {
     setDrawerState({
@@ -104,7 +100,9 @@ function Products() {
       okText: "Deletar",
       cancelText: "Cancelar",
       onOk: () => {
-        DeleteProductActions(productId)(dispatchDeleteProductData);
+        DeleteProductActions(productId)(dispatchDeleteProductData).then(() => {
+          ProductsActions()(dispatchProductsInfoData);
+        });
       },
     });
   };
@@ -117,7 +115,6 @@ function Products() {
   };
 
   const onSubmitForm = (productInfo) => {
-    console.log("productInfo: ", productInfo);
     setDrawerState({ isEditing: false, drawerState: false });
 
     const enhancementProductInfo = capitalizeFirstLetter(productInfo);
@@ -126,9 +123,15 @@ function Products() {
       UpdateProductActions(
         enhancementProductInfo,
         currentProduct.id
-      )(dispatchUpdateProductData);
+      )(dispatchUpdateProductData).then(() => {
+        ProductsActions()(dispatchProductsInfoData);
+      });
     } else {
-      CreateProductActions(enhancementProductInfo)(dispatchCreateProductData);
+      CreateProductActions(enhancementProductInfo)(
+        dispatchCreateProductData
+      ).then(() => {
+        ProductsActions()(dispatchProductsInfoData);
+      });
     }
   };
 
@@ -148,16 +151,13 @@ function Products() {
   };
 
   useEffect(() => {
-    CategoryActions()(dispatchCategoriesInfoData);
-  }, []);
-
-  useEffect(() => {
     setFilteredProducts(productsInfoData);
   }, [productsInfoData]);
 
   useEffect(() => {
     ProductsActions()(dispatchProductsInfoData);
-  }, [createProductData, updateProductData, deleteProductData]);
+    CategoryActions()(dispatchCategoriesInfoData);
+  }, []);
 
   return (
     <div className="main-div-products">
@@ -198,7 +198,7 @@ function Products() {
                 deleteProduct={deleteProduct}
                 editProduct={editProduct}
                 productsInfoData={filteredProducts}
-                turnProductEnabledOrDisabled={turnProductEnabledOrDisabled}
+                // turnProductEnabledOrDisabled={turnProductEnabledOrDisabled}
               />
             ) : (
               <Empty className="empty-data" description={false}>

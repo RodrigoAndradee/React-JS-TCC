@@ -41,6 +41,7 @@ export const filterStockByDueDate = (stockInfoData, selectedDate) => {
   if (!selectedDate) {
     return stockInfoData;
   }
+  const enhancedDate = selectedDate.format("YYYY-MM-DD");
 
-  return stockInfoData.filter((stock) => stock.dueDate.includes(selectedDate));
+  return stockInfoData.filter((stock) => stock.dueDate.includes(enhancedDate));
 };

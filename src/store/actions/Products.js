@@ -4,7 +4,7 @@ import {
   DELETE_PRODUCT_INFO,
   EDIT_PRODUCT_INFO,
   PRODUCTS_INFO,
-} from "../reducers/ActionTypes";
+} from "../ActionTypes";
 
 import sendNotification from "../../helpers/NotificationsHelper";
 
@@ -31,7 +31,11 @@ function CreateProductActions(productInfo) {
 
       dispatch({ createProductInfo: data, type: CREATE_PRODUCT_INFO });
 
-      sendNotification("SUCCESS", "Produto Criado com Sucesso", "Sucesso");
+      sendNotification(
+        "SUCCESS",
+        `Produto "${productInfo.name}" Criado com Sucesso`,
+        "Sucesso"
+      );
     } catch (error) {
       sendNotification("ERROR", "Erro ao Criar Produto", "Erro");
     }
@@ -47,7 +51,11 @@ function UpdateProductActions(productInfo, productID) {
 
       dispatch({ editProductInfo: data, type: EDIT_PRODUCT_INFO });
 
-      sendNotification("SUCCESS", "Produto Editado com Sucesso", "Sucesso");
+      sendNotification(
+        "SUCCESS",
+        `Produto "${productInfo.name}" Editado com Sucesso`,
+        "Sucesso"
+      );
     } catch (error) {
       sendNotification("ERROR", "Erro ao Editar Produto", "Erro");
     }

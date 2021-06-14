@@ -9,6 +9,7 @@ export const PRODUCTS_INFO = Symbol("PRODUCTS_INFO");
 
 /* Category */
 export const CATEGORY_INFO = Symbol("CATEGORY_INFO");
+export const CREATE_CATEGORY = Symbol("CREATE_CATEGORY");
 
 /* Stock */
 export const CREATE_STOCK_INFO = Symbol("CREATE_STOCK_INFO");

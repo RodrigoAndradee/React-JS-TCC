@@ -1,6 +1,6 @@
 import * as PropTypes from "prop-types";
 
-import { productObjectShape } from "./Products.Proptypes";
+import { productObjectShape } from "./ProductsProptypes";
 
 export const stockObjectShape = PropTypes.arrayOf(
   PropTypes.shape({

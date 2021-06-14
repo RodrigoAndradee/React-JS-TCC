@@ -4,7 +4,7 @@ import {
   CREATE_STOCK_INFO,
   STOCK_INFO,
   UPDATE_STOCK_INFO,
-} from "../reducers/ActionTypes";
+} from "../ActionTypes";
 
 import sendNotification from "../../helpers/NotificationsHelper";
 
