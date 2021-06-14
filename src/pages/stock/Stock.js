@@ -15,12 +15,8 @@ import {
 } from "../../store/actions/Stock";
 import { ProductsActions } from "../../store/actions/Products";
 
-import { categoriesReducer } from "../../store/reducers/Categories";
-import {
-  CreateStockReducer,
-  StockReducer,
-  UpdateStockReducer,
-} from "../../store/reducers/Stock";
+import { CategoriesReducer } from "../../store/reducers/Categories";
+import { StockReducer } from "../../store/reducers/Stock";
 import { ProductsReducer } from "../../store/reducers/Products";
 
 import {
@@ -40,15 +36,12 @@ export default function Storage() {
   const [stockProducts, setStockProducts] = useState();
 
   const [stockData, dispatchStockData] = useReducer(StockReducer);
-  const [createStockData, dispatchCreateStockData] = useReducer(
-    CreateStockReducer
-  );
+  const [createStockData, dispatchCreateStockData] = useReducer(StockReducer);
+  const [updateStockData, dispatchUpdateStockData] = useReducer(StockReducer);
+
   const [productsData, dispatchProductsData] = useReducer(ProductsReducer);
   const [categoriesInfoData, dispatchCategoriesInfoData] = useReducer(
-    categoriesReducer
-  );
-  const [updateStockData, dispatchUpdateStockData] = useReducer(
-    UpdateStockReducer
+    CategoriesReducer
   );
 
   const handleAddProduct = () => {
@@ -63,13 +56,19 @@ export default function Storage() {
       dueDate: stockInfo.dueDate.format("YYYY-MM-DD"),
     };
 
-    CreateStockActions(enhancedStockInfo)(dispatchCreateStockData);
+    CreateStockActions(enhancedStockInfo)(dispatchCreateStockData).then(() => {
+      StockActions()(dispatchStockData);
+    });
 
     setDrawerState(false);
   };
 
   const updateStockProduct = (stockInfo) => {
-    UpdateStockActions(stockInfo)(dispatchUpdateStockData);
+    UpdateStockActions(stockInfo)(dispatchUpdateStockData).then(() => {
+      StockActions()(dispatchStockData);
+
+      setStockProducts(stockData);
+    });
   };
 
   const onClose = () => {
@@ -89,17 +88,14 @@ export default function Storage() {
   };
 
   useEffect(() => {
-    CategoryActions()(dispatchCategoriesInfoData);
-    ProductsActions()(dispatchProductsData);
-  }, []);
-
-  useEffect(() => {
     setStockProducts(stockData);
   }, [stockData]);
 
   useEffect(() => {
+    CategoryActions()(dispatchCategoriesInfoData);
+    ProductsActions()(dispatchProductsData);
     StockActions()(dispatchStockData);
-  }, [createStockData, updateStockData]);
+  }, []);
 
   return (
     <div className="main-div-stock">
@@ -118,7 +114,7 @@ export default function Storage() {
         toolbar={
           categoriesInfoData && (
             <Toolbar
-              buttonLabel="Produto"
+              buttonLabel="Estoque"
               categoriesInfoData={categoriesInfoData}
               onClickAddButton={handleAddProduct}
               onSearchByName={onFilterByName}

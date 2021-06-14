@@ -1,14 +1,31 @@
-import React from "react";
+import React, { useReducer, useState } from "react";
 import { NavLink } from "react-router-dom";
 
-import { Dropdown, Menu, Modal } from "antd";
+import { Dropdown, Menu } from "antd";
 import { DownOutlined } from "@ant-design/icons";
+
+import BasicModal from "../basicModal/BasicModal";
+import ConfirmationModal from "../basicModal/ConfirmationModal";
+import CategoryForm from "./form/CategoryForm";
+
+import { CreateCategory } from "../../store/actions/Categories";
+import { CategoriesReducer } from "../../store/reducers/Categories";
 
 import { PAGE_NAME } from "../../constants/uiConstants";
 
 import "./Header.scss";
 
 function Header() {
+  const [createCategoryModal, setCreateCategoryModal] = useState(false);
+  const [confirmationModalState, setConfirmationModalState] = useState(false);
+  const [selectedCategoryTab, setSelectedCategoryTab] = useState(
+    "createCategory"
+  );
+
+  const [createCategory, dispatchCreateCategory] = useReducer(
+    CategoriesReducer
+  );
+
   const userCredential = JSON.parse(localStorage.getItem("userInfo"));
 
   const handleLogout = () => {
@@ -16,31 +33,56 @@ function Header() {
     window.location.reload();
   };
 
-  const logOut = () => {
-    Modal.confirm({
-      title: "Certeza que deseja sair?",
-      icon: null,
-      content: null,
-      okText: "Sair",
-      cancelText: "Cancelar",
-      onOk: () => {
-        handleLogout();
-      },
-    });
+  const handleConfirmationCancel = () => {
+    setConfirmationModalState(false);
   };
 
   const menuOptions = (
     <Menu style={{ width: 150 }}>
       {userCredential.role === "admin" && (
-        <Menu.Item>Adicionar Usuário</Menu.Item>
+        <>
+          <Menu.Item onClick={() => console.log("Adicionar Usuário")}>
+            Adicionar Usuário
+          </Menu.Item>
+
+          <Menu.Item onClick={() => setCreateCategoryModal(true)}>
+            Adicionar Categoria
+          </Menu.Item>
+        </>
       )}
 
-      <Menu.Item onClick={logOut}>Sair</Menu.Item>
+      <Menu.Item onClick={() => setConfirmationModalState(true)}>
+        Sair
+      </Menu.Item>
     </Menu>
   );
 
   return (
     <div className="menu-bar">
+      <ConfirmationModal
+        cancelText="Cancelar"
+        handleCancel={handleConfirmationCancel}
+        handleOk={handleLogout}
+        isOpen={confirmationModalState}
+        okText="Sair"
+      >
+        Tem certeza que deseja sair?
+      </ConfirmationModal>
+
+      <BasicModal
+        handleCancel={() => setCreateCategoryModal(false)}
+        isOpen={createCategoryModal}
+        handleOk={(formValues) => {
+          CreateCategory(formValues)(dispatchCreateCategory);
+          setCreateCategoryModal(false);
+        }}
+        title="Categoria"
+      >
+        {(form) => (
+          <CategoryForm form={form} setSelectedTab={setSelectedCategoryTab} />
+        )}
+      </BasicModal>
+
       <div className="center-menu">
         <div className="left-menu">
           {PAGE_NAME.map(

@@ -5,7 +5,7 @@ import { Button, Col, DatePicker, Input, Row, Select } from "antd";
 import { PlusCircleOutlined } from "@ant-design/icons";
 
 import { TOOLBAR_CONSTANTS } from "../../constants/toolBarConstants";
-import { categoryObjectShape } from "../../types/Category.Proptypes";
+import { categoryObjectShape } from "../../types/CategoryProptypes";
 
 import "./Toolbar.scss";
 

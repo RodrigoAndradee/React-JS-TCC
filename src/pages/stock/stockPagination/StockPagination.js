@@ -12,7 +12,7 @@ import {
 
 import BasicCard from "../../../components/basicCard/BasicCard";
 
-import { stockObjectShape } from "../../../types/Stock.Proptypes";
+import { stockObjectShape } from "../../../types/StockProptypes";
 
 import "../Stock.scss";
 
@@ -47,10 +47,11 @@ function StockPagination({ stockData, updateStockProduct }) {
       <Tooltip title={DECREASE_QUANTITY_LABEL} placement={defaultPlacement}>
         <MinusCircleOutlined onClick={() => handleMinusQty(cardInfo)} />
       </Tooltip>,
+
       <Tooltip title={QUANTITY_LABEL} placement={defaultPlacement}>
         <InputNumber
           min={0}
-          defaultValue={cardInfo.quantity}
+          value={cardInfo.quantity}
           className="input-quantity"
         />
       </Tooltip>,
@@ -71,8 +72,9 @@ function StockPagination({ stockData, updateStockProduct }) {
             return (
               <Col span={6} key={cardInfo.id}>
                 <BasicCard
-                  productsInfo={productInfo}
                   optionsButton={() => optionsCardButton(cardInfo)}
+                  productsInfo={productInfo}
+                  dueDate={cardInfo.dueDate}
                 />
               </Col>
             );

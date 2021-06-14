@@ -1,6 +1,6 @@
-import { USER_INFO } from "./ActionTypes";
+import { USER_INFO } from "../ActionTypes";
 
-export function LoginReducer(state = {}, action) {
+function LoginReducer(state = {}, action) {
   const { userInfo, type } = action;
 
   switch (type) {
@@ -10,3 +10,5 @@ export function LoginReducer(state = {}, action) {
       return state;
   }
 }
+
+export default LoginReducer;

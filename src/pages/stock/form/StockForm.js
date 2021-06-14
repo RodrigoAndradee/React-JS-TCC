@@ -3,7 +3,7 @@ import { arrayOf } from "prop-types";
 
 import { DatePicker, Form, InputNumber, Select } from "antd";
 
-import { productObjectShape } from "../../../types/Products.Proptypes";
+import { productObjectShape } from "../../../types/ProductsProptypes";
 
 const { Option } = Select;
 const FormItem = Form.Item;
