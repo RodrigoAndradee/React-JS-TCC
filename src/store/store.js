@@ -1,11 +1,16 @@
+/* eslint-disable no-underscore-dangle */
 import { createStore, combineReducers } from "redux";
 
-import LoginReducer from "./reducers/SignIn";
+import userData from "./reducers/SignIn";
 
-const appReducer = combineReducers({ LoginReducer });
+const appReducer = combineReducers({ userData });
 
 function setupStore() {
-  return createStore(appReducer);
+  return createStore(
+    appReducer,
+    /* preloadedState, */
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  );
 }
 
 const store = setupStore();

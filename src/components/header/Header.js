@@ -1,5 +1,6 @@
 import React, { useReducer, useState } from "react";
 import { NavLink } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 import { Dropdown, Menu } from "antd";
 import { DownOutlined } from "@ant-design/icons";
@@ -14,6 +15,7 @@ import { CategoriesReducer } from "../../store/reducers/Categories";
 import { PAGE_NAME } from "../../constants/uiConstants";
 
 import "./Header.scss";
+import { LOG_OUT } from "../../store/ActionTypes";
 
 function Header() {
   const [createCategoryModal, setCreateCategoryModal] = useState(false);
@@ -22,6 +24,7 @@ function Header() {
     "createCategory"
   );
 
+  const dispatch = useDispatch();
   const [createCategory, dispatchCreateCategory] = useReducer(
     CategoriesReducer
   );
@@ -29,6 +32,7 @@ function Header() {
   const userCredential = JSON.parse(localStorage.getItem("userInfo"));
 
   const handleLogout = () => {
+    dispatch({ type: LOG_OUT });
     localStorage.removeItem("userInfo");
     window.location.reload();
   };

@@ -1,5 +1,6 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
+import { useStore } from "react-redux";
 
 import { ROUTES } from "../constants/routesConstants";
 
@@ -13,7 +14,9 @@ import PrivateRoute from "./PrivateRoute";
 
 function Routes() {
   const { home, orders, products, sales, sign_in, stock } = ROUTES;
+  const store = useStore();
 
+  console.log("routes", store.getState());
   return (
     <Switch>
       <Route component={Login} exact={sign_in.exact} path={sign_in.path} />

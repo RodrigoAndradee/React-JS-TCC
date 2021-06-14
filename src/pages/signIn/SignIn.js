@@ -1,5 +1,8 @@
-import React, { useReducer } from "react";
-import { useStore } from "react-redux";
+/* eslint-disable react/prop-types */
+import React from "react";
+import { connect } from "react-redux";
+import { useHistory } from "react-router";
+import { withRouter } from "react-router-dom";
 
 import { Button, Form, Input } from "antd";
 
@@ -7,39 +10,29 @@ import { LOGIN_CONSTANTS } from "../../constants/loginConstants";
 
 import loginImage from "../../assets/loginImage.jpeg";
 
-import LoginReducer from "../../store/reducers/SignIn";
 import { SignIn } from "../../store/actions/SignIn";
 
 import "antd/dist/antd.css";
 import "./SignIn.scss";
 
-function Login() {
-  const store = useStore();
+function Login({ getProfile, userData }) {
+  const history = useHistory();
   const { APP_INTRO, LOGIN_BUTTON, USER_NAME, USER_PASSWORD } = LOGIN_CONSTANTS;
 
-  const [userInfoData, dispatchUserInfoData] = useReducer(LoginReducer);
-
   const attemptLogin = (userInfo) => {
-    SignIn(userInfo)(dispatchUserInfoData)
-      .then(() => {
-        window.location = "/home";
-      })
-      .catch(() => {
-        // console.log("deu ruim");
-      });
+    getProfile(userInfo);
   };
 
-  if (userInfoData && userInfoData.status === 200) {
+  if (userData.id) {
     localStorage.setItem(
       "userInfo",
       JSON.stringify({
-        id: userInfoData.data.id,
-        role: userInfoData.data.role,
-        userName: userInfoData.data.userName,
+        id: userData.id,
+        role: userData.role,
       })
     );
 
-    // window.location = "/home";
+    history.push("/home");
   }
 
   return (
@@ -65,4 +58,14 @@ function Login() {
   );
 }
 
-export default Login;
+function mapDispatchToProps(dispatch) {
+  return {
+    getProfile: (userInfo) => dispatch(SignIn(userInfo)(dispatch)),
+  };
+}
+
+const mapStateToProps = (state) => {
+  return { userData: state.userData };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Login));
