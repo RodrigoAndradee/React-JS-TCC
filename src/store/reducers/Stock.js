@@ -1,11 +1,18 @@
 import {
   CREATE_STOCK_INFO,
+  DELETE_STOCK,
   STOCK_INFO,
   UPDATE_STOCK_INFO,
 } from "../ActionTypes";
 
 export function StockReducer(state = {}, action) {
-  const { createStockInfo, stockInfo, type, updateStockInfo } = action;
+  const {
+    createStockInfo,
+    stockInfo,
+    type,
+    updateStockInfo,
+    deleteStockInfo,
+  } = action;
 
   switch (type) {
     case STOCK_INFO:
@@ -14,28 +21,8 @@ export function StockReducer(state = {}, action) {
       return createStockInfo;
     case UPDATE_STOCK_INFO:
       return updateStockInfo;
-    default:
-      return state;
-  }
-}
-
-export function CreateStockReducer(state = {}, action) {
-  const { createStockInfo, type } = action;
-
-  switch (type) {
-    case CREATE_STOCK_INFO:
-      return createStockInfo;
-    default:
-      return state;
-  }
-}
-
-export function UpdateStockReducer(state = {}, action) {
-  const { updateStockInfo, type } = action;
-
-  switch (type) {
-    case UPDATE_STOCK_INFO:
-      return updateStockInfo;
+    case DELETE_STOCK:
+      return deleteStockInfo;
     default:
       return state;
   }

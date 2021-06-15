@@ -87,6 +87,7 @@ function StockForm({ productsInfo }) {
         ]}
         initialValue={dateString}
         value={dateString}
+        style={{ width: "500px" }}
       >
         <DatePicker format="DD/MM/YYYY" onChange={onChange} />
       </FormItem>

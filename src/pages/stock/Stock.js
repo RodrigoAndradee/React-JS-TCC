@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer, useState } from "react";
-import { Empty } from "antd";
+import { Empty, Modal } from "antd";
 
 import BasicDrawer from "../../components/basicDrawer/BasicDrawer";
 import GenericPage from "../../components/genericPage/GenericPage";
@@ -10,6 +10,7 @@ import Toolbar from "../../components/toolbar/Toolbar";
 import { CategoryActions } from "../../store/actions/Categories";
 import {
   CreateStockActions,
+  DeleteStockActions,
   StockActions,
   UpdateStockActions,
 } from "../../store/actions/Stock";
@@ -38,6 +39,7 @@ export default function Storage() {
   const [stockData, dispatchStockData] = useReducer(StockReducer);
   const [createStockData, dispatchCreateStockData] = useReducer(StockReducer);
   const [updateStockData, dispatchUpdateStockData] = useReducer(StockReducer);
+  const [deleteStockData, dispatchDeleteStockData] = useReducer(StockReducer);
 
   const [productsData, dispatchProductsData] = useReducer(ProductsReducer);
   const [categoriesInfoData, dispatchCategoriesInfoData] = useReducer(
@@ -68,6 +70,21 @@ export default function Storage() {
       StockActions()(dispatchStockData);
 
       setStockProducts(stockData);
+    });
+  };
+
+  const handleDeleteStock = (stockId) => {
+    Modal.confirm({
+      title: "Certeza que deseja deletar o produto do estoque?",
+      icon: null,
+      content: null,
+      okText: "Deletar",
+      cancelText: "Cancelar",
+      onOk: () => {
+        DeleteStockActions(stockId)(dispatchDeleteStockData).then(() => {
+          StockActions()(dispatchStockData);
+        });
+      },
     });
   };
 
@@ -132,6 +149,7 @@ export default function Storage() {
                 updateStockProduct={(stockInfo) =>
                   updateStockProduct(stockInfo)
                 }
+                deleteStock={handleDeleteStock}
               />
             ) : (
               <Empty className="empty-data" description={false}>

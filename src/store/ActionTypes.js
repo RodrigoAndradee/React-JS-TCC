@@ -15,3 +15,7 @@ export const CREATE_CATEGORY = Symbol("CREATE_CATEGORY");
 export const CREATE_STOCK_INFO = Symbol("CREATE_STOCK_INFO");
 export const STOCK_INFO = Symbol("STOCK_INFO");
 export const UPDATE_STOCK_INFO = Symbol("UPDATE_STOCK_INFO");
+export const DELETE_STOCK = Symbol("DELETE_STOCK");
+
+/* User */
+export const CREATE_USER = Symbol("CREATE_USER");

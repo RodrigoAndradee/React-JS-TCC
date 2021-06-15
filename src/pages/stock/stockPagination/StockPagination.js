@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 
 import { Col, InputNumber, Pagination, Row, Tooltip } from "antd";
-import { MinusCircleOutlined, PlusCircleOutlined } from "@ant-design/icons";
+// import { MinusCircleOutlined, PlusCircleOutlined } from "@ant-design/icons";
+import { DeleteOutlined } from "@ant-design/icons";
 
 import {
   DECREASE_QUANTITY_LABEL,
@@ -19,7 +20,7 @@ import "../Stock.scss";
 const defaultPlacement = "bottom";
 const pageItemsCount = 8;
 
-function StockPagination({ stockData, updateStockProduct }) {
+function StockPagination({ stockData, updateStockProduct, deleteStock }) {
   const [paginationValue, setPaginationValues] = useState({
     min: 0,
     max: pageItemsCount,
@@ -42,11 +43,15 @@ function StockPagination({ stockData, updateStockProduct }) {
     updateStockProduct({ ...stockInfo, quantity: stockInfo.quantity + 1 });
   };
 
+  const handleDelete = (stockInfo) => {
+    deleteStock(stockInfo.id);
+  };
+
   const optionsCardButton = (cardInfo) => {
     return [
-      <Tooltip title={DECREASE_QUANTITY_LABEL} placement={defaultPlacement}>
-        <MinusCircleOutlined onClick={() => handleMinusQty(cardInfo)} />
-      </Tooltip>,
+      // <Tooltip title={DECREASE_QUANTITY_LABEL} placement={defaultPlacement}>
+      //   <MinusCircleOutlined onClick={() => handleMinusQty(cardInfo)} />
+      // </Tooltip>,
 
       <Tooltip title={QUANTITY_LABEL} placement={defaultPlacement}>
         <InputNumber
@@ -55,8 +60,12 @@ function StockPagination({ stockData, updateStockProduct }) {
           className="input-quantity"
         />
       </Tooltip>,
-      <Tooltip title={INCREASE_QUANTITY_LABEL} placement={defaultPlacement}>
-        <PlusCircleOutlined onClick={() => handlePlusQty(cardInfo)} />
+      // <Tooltip title={INCREASE_QUANTITY_LABEL} placement={defaultPlacement}>
+      //   <PlusCircleOutlined onClick={() => handlePlusQty(cardInfo)} />
+      // </Tooltip>,
+
+      <Tooltip title="Deletar Produto do Estoque" placement={defaultPlacement}>
+        <DeleteOutlined onClick={() => handleDelete(cardInfo)} />
       </Tooltip>,
     ];
   };
@@ -94,12 +103,14 @@ function StockPagination({ stockData, updateStockProduct }) {
 }
 
 StockPagination.propTypes = {
+  deleteStock: PropTypes.func,
   stockData: stockObjectShape.isRequired,
   updateStockProduct: PropTypes.func,
 };
 
 StockPagination.defaultProps = {
-  updateStockProduct: () => null,
+  updateStockProduct: () => {},
+  deleteStock: () => {},
 };
 
 export default StockPagination;

@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import PropTypes from "prop-types";
 
 import { Checkbox, Form, Input, Tabs, Select } from "antd";
@@ -12,9 +12,20 @@ const { TabPane } = Tabs;
 const { Option } = Select;
 
 function CategoryForm({ setSelectedTab }) {
+  const [selectedCategory, setSelectedCategory] = useState({});
   const [categoriesInfoData, dispatchCategoriesInfoData] = useReducer(
     CategoriesReducer
   );
+
+  const handleSelectCategory = (categoryId) => {
+    const selectedItem = categoriesInfoData.filter((item) => {
+      return item.id === categoryId;
+    });
+
+    if (selectedItem) {
+      setSelectedCategory(selectedItem[0]);
+    }
+  };
 
   const changeTab = (key) => {
     setSelectedTab(key);
@@ -43,7 +54,7 @@ function CategoryForm({ setSelectedTab }) {
       </TabPane>
 
       <TabPane tab="Editar Categorias" key="editCategory">
-        <Form.Item name="category">
+        <Form.Item name="categoryId">
           <Select
             placeholder="Selecione um Produto"
             showSearch
@@ -58,6 +69,9 @@ function CategoryForm({ setSelectedTab }) {
               return null;
             }}
             allowClear
+            onChange={(category) => {
+              handleSelectCategory(category);
+            }}
           >
             {categoriesInfoData &&
               categoriesInfoData.map((item) => {

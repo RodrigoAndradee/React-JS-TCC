@@ -56,4 +56,25 @@ function UpdateStockActions(stockInfo) {
   };
 }
 
-export { CreateStockActions, StockActions, UpdateStockActions };
+function DeleteStockActions(stockId) {
+  return async (dispatch) => {
+    try {
+      const url = `/stock/deleteStock/${stockId}`;
+
+      const data = await httpClient.delete(url);
+
+      dispatch({ updateStockInfo: data, type: UPDATE_STOCK_INFO });
+
+      sendNotification("SUCCESS", "Produto Deletado com Sucesso", "Sucesso");
+    } catch (error) {
+      sendNotification("ERROR", "Erro ao Deletar Produto no Estoque", "Erro");
+    }
+  };
+}
+
+export {
+  CreateStockActions,
+  DeleteStockActions,
+  StockActions,
+  UpdateStockActions,
+};

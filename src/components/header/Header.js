@@ -7,9 +7,12 @@ import { DownOutlined } from "@ant-design/icons";
 import BasicModal from "../basicModal/BasicModal";
 import ConfirmationModal from "../basicModal/ConfirmationModal";
 import CategoryForm from "./form/CategoryForm";
+import UserForm from "./form/UserForm";
 
 import { CreateCategory } from "../../store/actions/Categories";
+import { CreateUser } from "../../store/actions/User";
 import { CategoriesReducer } from "../../store/reducers/Categories";
+import { UserReducer } from "../../store/reducers/User";
 
 import { PAGE_NAME } from "../../constants/uiConstants";
 
@@ -17,10 +20,12 @@ import "./Header.scss";
 
 function Header() {
   const [createCategoryModal, setCreateCategoryModal] = useState(false);
+  const [createUserModal, setCreateUserModal] = useState(false);
   const [confirmationModalState, setConfirmationModalState] = useState(false);
   const [selectedCategoryTab, setSelectedCategoryTab] = useState(
     "createCategory"
   );
+  const [createUser, dispatchCreateUser] = useReducer(UserReducer);
 
   const [createCategory, dispatchCreateCategory] = useReducer(
     CategoriesReducer
@@ -41,7 +46,7 @@ function Header() {
     <Menu style={{ width: 150 }}>
       {userCredential.role === "admin" && (
         <>
-          <Menu.Item onClick={() => console.log("Adicionar Usuário")}>
+          <Menu.Item onClick={() => setCreateUserModal(true)}>
             Adicionar Usuário
           </Menu.Item>
 
@@ -81,6 +86,18 @@ function Header() {
         {(form) => (
           <CategoryForm form={form} setSelectedTab={setSelectedCategoryTab} />
         )}
+      </BasicModal>
+
+      <BasicModal
+        handleCancel={() => setCreateUserModal(false)}
+        isOpen={createUserModal}
+        handleOk={(formValues) => {
+          CreateUser(formValues)(dispatchCreateUser);
+          setCreateUserModal(false);
+        }}
+        title="Adicionar Usuário"
+      >
+        {(form) => <UserForm form={form} />}
       </BasicModal>
 
       <div className="center-menu">
