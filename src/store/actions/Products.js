@@ -23,13 +23,20 @@ function ProductsActions() {
 }
 
 function CreateProductActions(productInfo) {
-  return async (dispatch) => {
+  return async (dispatches) => {
+    const { dispatchCreateProductData, dispatchProductsInfoData } = dispatches;
+
     try {
       const url = "/product/createProduct";
 
       const data = await httpClient.post(url, productInfo);
 
-      dispatch({ createProductInfo: data, type: CREATE_PRODUCT_INFO });
+      dispatchCreateProductData({
+        createProductInfo: data,
+        type: CREATE_PRODUCT_INFO,
+      });
+
+      ProductsActions()(dispatchProductsInfoData);
 
       sendNotification(
         "SUCCESS",
@@ -43,13 +50,20 @@ function CreateProductActions(productInfo) {
 }
 
 function UpdateProductActions(productInfo, productID) {
-  return async (dispatch) => {
+  return async (dispatches) => {
+    const { dispatchUpdateProductData, dispatchProductsInfoData } = dispatches;
+
     try {
       const url = `/product/updateProduct/${productID}`;
 
       const data = await httpClient.put(url, productInfo);
 
-      dispatch({ editProductInfo: data, type: EDIT_PRODUCT_INFO });
+      dispatchUpdateProductData({
+        editProductInfo: data,
+        type: EDIT_PRODUCT_INFO,
+      });
+
+      ProductsActions()(dispatchProductsInfoData);
 
       sendNotification(
         "SUCCESS",
@@ -63,13 +77,19 @@ function UpdateProductActions(productInfo, productID) {
 }
 
 function DeleteProductActions(productId) {
-  return async (dispatch) => {
+  return async (dispatches) => {
+    const { dispatchDeleteProductData, dispatchProductsInfoData } = dispatches;
     try {
       const url = `/product/deleteProduct/${productId}`;
 
       const data = await httpClient.delete(url);
 
-      dispatch({ deleteProductInfo: data, type: DELETE_PRODUCT_INFO });
+      dispatchDeleteProductData({
+        deleteProductInfo: data,
+        type: DELETE_PRODUCT_INFO,
+      });
+
+      ProductsActions()(dispatchProductsInfoData);
 
       sendNotification("SUCCESS", "Produto Deletado com Sucesso", "Sucesso");
     } catch (error) {

@@ -1,29 +1,18 @@
 import React, { useState } from "react";
+import { Col, Pagination, Row, Tooltip } from "antd";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import PropTypes from "prop-types";
 
-import { Col, Pagination, Row, Tooltip, Switch } from "antd";
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-
-import {
-  EDIT_PRODUCT_LABEL,
-  ENABLE_PRODUCT,
-} from "../../../constants/productsCardConstants";
-
-import { productObjectShape } from "../../../types/ProductsProptypes";
+import { ProductObjectShape } from "../../../types/ProductsPropTypes";
 
 import BasicCard from "../../../components/basicCard/BasicCard";
+import { EDIT_PRODUCT_LABEL } from "../../../constants/productsConstants";
 
-import "../Products.scss";
+import { StyledProductsPagination } from "../Products.styles";
 
 const defaultPlacement = "bottom";
 const pageItemsCount = 8;
-
-function ProductsPagination({
-  deleteProduct,
-  editProduct,
-  productsInfoData,
-  turnProductEnabledOrDisabled,
-}) {
+function ProductsPagination({ deleteProduct, editProduct, productsInfoData }) {
   const [paginationValue, setPaginationValues] = useState({
     min: 0,
     max: pageItemsCount,
@@ -44,18 +33,6 @@ function ProductsPagination({
         <EditOutlined key="edit" onClick={() => editProduct(cardInfo)} />
       </Tooltip>,
 
-      // <Tooltip
-      //   title={ENABLE_PRODUCT[cardInfo.enabled]}
-      //   placement={defaultPlacement}
-      // >
-      //   <Switch
-      //     defaultChecked={cardInfo.enabled}
-      //     onChange={(e) => turnProductEnabledOrDisabled(cardInfo, e)}
-      //     className="change-enabled"
-      //     size="small"
-      //   />
-      // </Tooltip>,
-
       <Tooltip title="Deletar Produto" placement={defaultPlacement}>
         <DeleteOutlined onClick={() => deleteProduct(cardInfo.id)} />
       </Tooltip>,
@@ -63,7 +40,7 @@ function ProductsPagination({
   };
 
   return (
-    <>
+    <StyledProductsPagination>
       <Row gutter={[16, 16]} className="products-body">
         {productsInfoData
           .slice(paginationValue.min, paginationValue.max)
@@ -87,21 +64,19 @@ function ProductsPagination({
         showSizeChanger={false}
         total={productsInfoData.length}
       />
-    </>
+    </StyledProductsPagination>
   );
 }
 
 ProductsPagination.propTypes = {
-  productsInfoData: PropTypes.arrayOf(productObjectShape).isRequired,
+  productsInfoData: PropTypes.arrayOf(ProductObjectShape).isRequired,
   editProduct: PropTypes.func,
-  turnProductEnabledOrDisabled: PropTypes.func,
   deleteProduct: PropTypes.func,
 };
 
 ProductsPagination.defaultProps = {
-  editProduct: () => null,
-  turnProductEnabledOrDisabled: () => null,
-  deleteProduct: () => null,
+  editProduct: () => {},
+  deleteProduct: () => {},
 };
 
 export default ProductsPagination;

@@ -40,7 +40,7 @@ function Routes() {
 
       <PrivateRoute component={Storage} exact={stock.exact} path={stock.path} />
 
-      <PrivateRoute component={HomeScreen} path="*" />
+      <Route component={HomeScreen} path="*" />
     </Switch>
   );
 }

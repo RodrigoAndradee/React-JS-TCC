@@ -1,13 +1,13 @@
 import React, { useEffect, useReducer, useState } from "react";
-import { Empty, Modal } from "antd";
+import { Empty } from "antd";
+import { useDispatch } from "react-redux";
 
 import BasicDrawer from "../../components/basicDrawer/BasicDrawer";
-
 import GenericPage from "../../components/genericPage/GenericPage";
 import ProductsForm from "./form/ProductsForm";
 import ProductsPagination from "./productsPagination/ProductsPagination";
 import Toolbar from "../../components/toolbar/Toolbar";
-// import ConfirmationModal from "../../components/basicModal/ConfirmationModal";
+import ConfirmationModal from "../../components/confirmationModal/ConfirmationModal";
 
 import {
   CreateProductActions,
@@ -28,109 +28,87 @@ import {
 import { EMPTY_DATA } from "../../constants/errorsConstants";
 import { BUTTONS_LABELS, TITLE_LABELS } from "../../constants/drawerConstants";
 
-import "./Products.scss";
+import { StyledProducts } from "./Products.styles";
 
 const { cancelButton, createButton, editButton } = BUTTONS_LABELS;
 const { addProductLabel, editProductLabel } = TITLE_LABELS;
 
 function Products() {
-  const [drawerState, setDrawerState] = useState({
+  const [drawerStates, setDrawerStates] = useState({
     isEditing: false,
-    drawerState: false,
+    isOpen: false,
   });
   const [currentProduct, setCurrentProduct] = useState(null);
-
   const [filteredProducts, setFilteredProducts] = useState(null);
 
   const [productsInfoData, dispatchProductsInfoData] = useReducer(
-    ProductsReducer
-  );
-  const [createProductData, dispatchCreateProductData] = useReducer(
-    ProductsReducer
-  );
-  const [updateProductData, dispatchUpdateProductData] = useReducer(
-    ProductsReducer
-  );
-  const [deleteProductData, dispatchDeleteProductData] = useReducer(
     ProductsReducer
   );
   const [categoriesInfoData, dispatchCategoriesInfoData] = useReducer(
     CategoriesReducer
   );
 
-  const confirmationButtonLabel = drawerState.isEditing
-    ? editButton
-    : createButton;
-
-  const drawerTitle = drawerState.isEditing
-    ? editProductLabel
-    : addProductLabel;
+  const dispatchCreateProductData = useDispatch();
+  const dispatchDeleteProductData = useDispatch();
+  const dispatchUpdateProductData = useDispatch();
 
   const onClose = () => {
-    setDrawerState({
-      isEditing: false,
-      drawerState: false,
-    });
     setCurrentProduct(null);
+
+    setDrawerStates({
+      isEditing: false,
+      isOpen: false,
+    });
   };
 
-  // const turnProductEnabledOrDisabled = (product, enabled) => {
-  //   const enhancementProduct = { ...product, enabled };
-
-  //   UpdateProductActions(
-  //     enhancementProduct,
-  //     enhancementProduct.id
-  //   )(dispatchUpdateProductData);
-  // };
-
   const editProduct = (product) => {
-    setDrawerState({
+    setDrawerStates({
       isEditing: true,
-      drawerState: true,
+      isOpen: true,
     });
 
     setCurrentProduct(product);
   };
 
-  const deleteProduct = (productId) => {
-    Modal.confirm({
+  const deleteProduct = (productId) =>
+    ConfirmationModal({
       title: "Certeza que deseja deletar o produto?",
       icon: null,
       content: null,
       okText: "Deletar",
       cancelText: "Cancelar",
       onOk: () => {
-        DeleteProductActions(productId)(dispatchDeleteProductData).then(() => {
-          ProductsActions()(dispatchProductsInfoData);
+        DeleteProductActions(productId)({
+          dispatchDeleteProductData,
+          dispatchProductsInfoData,
         });
       },
     });
-  };
 
   const handleCreateProduct = () => {
-    setDrawerState({
+    setDrawerStates({
       isEditing: false,
-      drawerState: true,
+      isOpen: true,
     });
   };
 
   const onSubmitForm = (productInfo) => {
-    setDrawerState({ isEditing: false, drawerState: false });
+    setDrawerStates({
+      isEditing: false,
+      isOpen: false,
+    });
 
     const enhancementProductInfo = capitalizeFirstLetter(productInfo);
 
-    if (drawerState.isEditing) {
+    if (drawerStates.isEditing) {
       UpdateProductActions(
         enhancementProductInfo,
         currentProduct.id
-      )(dispatchUpdateProductData).then(() => {
-        ProductsActions()(dispatchProductsInfoData);
-      });
+      )({ dispatchUpdateProductData, dispatchProductsInfoData });
     } else {
-      CreateProductActions(enhancementProductInfo)(
-        dispatchCreateProductData
-      ).then(() => {
-        ProductsActions()(dispatchProductsInfoData);
+      CreateProductActions(enhancementProductInfo)({
+        dispatchCreateProductData,
+        dispatchProductsInfoData,
       });
     }
   };
@@ -150,6 +128,14 @@ function Products() {
     setFilteredProducts(filteredValues);
   };
 
+  const confirmationButtonLabel = drawerStates.isEditing
+    ? editButton
+    : createButton;
+
+  const drawerTitle = drawerStates.isEditing
+    ? editProductLabel
+    : addProductLabel;
+
   useEffect(() => {
     setFilteredProducts(productsInfoData);
   }, [productsInfoData]);
@@ -160,45 +146,41 @@ function Products() {
   }, []);
 
   return (
-    <div className="main-div-products">
+    <StyledProducts>
       <BasicDrawer
         cancelButton={cancelButton}
         className="products-drawer"
+        closable
         confirmationButton={confirmationButtonLabel}
-        isOpen={drawerState.drawerState}
+        isOpen={drawerStates.isOpen}
         onClose={onClose}
         onFinish={onSubmitForm}
         title={drawerTitle}
       >
-        {() => (
-          <ProductsForm
-            categoriesInfoData={categoriesInfoData}
-            currentProduct={currentProduct}
-          />
-        )}
+        <ProductsForm
+          categoriesInfoData={categoriesInfoData}
+          currentProduct={currentProduct}
+        />
       </BasicDrawer>
 
       <GenericPage
         toolbar={
-          categoriesInfoData && (
-            <Toolbar
-              buttonLabel="Produto"
-              categoriesInfoData={categoriesInfoData}
-              onClickAddButton={handleCreateProduct}
-              onSearchByName={onSearchByName}
-              onSelectCategory={onSelectCategory}
-              pageName="products"
-            />
-          )
+          <Toolbar
+            buttonLabel="Produto"
+            categoriesInfoData={categoriesInfoData}
+            onClickAddButton={handleCreateProduct}
+            onSearchByName={onSearchByName}
+            onSelectCategory={onSelectCategory}
+            pageName="products"
+          />
         }
         body={
           <>
-            {filteredProducts && filteredProducts.length ? (
+            {filteredProducts?.length ? (
               <ProductsPagination
                 deleteProduct={deleteProduct}
                 editProduct={editProduct}
                 productsInfoData={filteredProducts}
-                // turnProductEnabledOrDisabled={turnProductEnabledOrDisabled}
               />
             ) : (
               <Empty className="empty-data" description={false}>
@@ -208,7 +190,7 @@ function Products() {
           </>
         }
       />
-    </div>
+    </StyledProducts>
   );
 }
 

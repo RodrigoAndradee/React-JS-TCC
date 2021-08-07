@@ -31,6 +31,8 @@ function CreateStockActions(stockInfo) {
 
       dispatch({ createStockInfo: data.data, type: CREATE_STOCK_INFO });
 
+      StockActions();
+
       sendNotification("SUCCESS", "Produto Adicionado com Sucesso", "Sucesso");
     } catch (error) {
       sendNotification("ERROR", "Erro ao Adicionar Produto no Estoque", "Erro");
@@ -48,6 +50,8 @@ function UpdateStockActions(stockInfo) {
       const data = await httpClient.put(url, enhancedStockInfo);
 
       dispatch({ updateStockInfo: data, type: UPDATE_STOCK_INFO });
+
+      StockActions();
 
       sendNotification("SUCCESS", "Produto Editado com Sucesso", "Sucesso");
     } catch (error) {

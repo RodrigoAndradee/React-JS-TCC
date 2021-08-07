@@ -1,6 +1,6 @@
-import * as PropTypes from "prop-types";
+import PropTypes from "prop-types";
 
-export const productObjectShape = PropTypes.shape({
+export const ProductObjectShape = PropTypes.shape({
   defaultImage: PropTypes.string,
   description: PropTypes.string,
   enabled: PropTypes.bool,

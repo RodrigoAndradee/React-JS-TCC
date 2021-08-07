@@ -1,13 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-
-import { Button, Col, DatePicker, Input, Row, Select } from "antd";
+import { Button, Col, DatePicker, Input, Select } from "antd";
 import { PlusCircleOutlined } from "@ant-design/icons";
 
 import { TOOLBAR_CONSTANTS } from "../../constants/toolBarConstants";
-import { categoryObjectShape } from "../../types/CategoryProptypes";
+import { CategoryObjectShape } from "../../types/CategoryPropTypes";
 
-import "./Toolbar.scss";
+import { StyledToolbar } from "./Toolbar.styles";
 
 const { Search } = Input;
 const { Option } = Select;
@@ -29,7 +28,7 @@ function Toolbar({
     span = 8;
   }
   return (
-    <Row gutter={[16, 16]} className="toolbar">
+    <StyledToolbar gutter={16}>
       <Col span={span}>
         <Search
           allowClear
@@ -79,13 +78,13 @@ function Toolbar({
           {buttonLabel}
         </Button>
       </Col>
-    </Row>
+    </StyledToolbar>
   );
 }
 
 Toolbar.propTypes = {
   buttonLabel: PropTypes.string.isRequired,
-  categoriesInfoData: PropTypes.arrayOf(categoryObjectShape).isRequired,
+  categoriesInfoData: PropTypes.arrayOf(CategoryObjectShape).isRequired,
   onClickAddButton: PropTypes.func.isRequired,
   onSearchByName: PropTypes.func.isRequired,
   onSelectCategory: PropTypes.func.isRequired,

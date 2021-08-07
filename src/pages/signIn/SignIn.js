@@ -25,7 +25,7 @@ function Login() {
         window.location = "/home";
       })
       .catch(() => {
-        // console.log("deu ruim");
+        //
       });
   };
 

@@ -1,5 +1,6 @@
 import React, { useEffect, useReducer, useState } from "react";
-import { Empty, Modal } from "antd";
+import { Empty } from "antd";
+import { useDispatch } from "react-redux";
 
 import BasicDrawer from "../../components/basicDrawer/BasicDrawer";
 import GenericPage from "../../components/genericPage/GenericPage";
@@ -12,7 +13,6 @@ import {
   CreateStockActions,
   DeleteStockActions,
   StockActions,
-  UpdateStockActions,
 } from "../../store/actions/Stock";
 import { ProductsActions } from "../../store/actions/Products";
 
@@ -22,8 +22,8 @@ import { ProductsReducer } from "../../store/reducers/Products";
 
 import {
   filterStockByCategory,
-  filterStockByName,
   filterStockByDueDate,
+  filterStockByName,
 } from "../../helpers/StockHelpers";
 
 import { DRAWER_LABELS } from "../../constants/stockConstants";
@@ -31,20 +31,20 @@ import { ROUTES } from "../../constants/routesConstants";
 import { EMPTY_DATA } from "../../constants/errorsConstants";
 
 import "./Stock.scss";
+import ConfirmationModal from "../../components/confirmationModal/ConfirmationModal";
 
 export default function Storage() {
   const [drawerState, setDrawerState] = useState(false);
   const [stockProducts, setStockProducts] = useState();
 
   const [stockData, dispatchStockData] = useReducer(StockReducer);
-  const [createStockData, dispatchCreateStockData] = useReducer(StockReducer);
-  const [updateStockData, dispatchUpdateStockData] = useReducer(StockReducer);
-  const [deleteStockData, dispatchDeleteStockData] = useReducer(StockReducer);
-
   const [productsData, dispatchProductsData] = useReducer(ProductsReducer);
   const [categoriesInfoData, dispatchCategoriesInfoData] = useReducer(
     CategoriesReducer
   );
+
+  const dispatchCreateStockData = useDispatch();
+  const dispatchDeleteStockData = useDispatch();
 
   const handleAddProduct = () => {
     if (!drawerState) {
@@ -65,22 +65,14 @@ export default function Storage() {
     setDrawerState(false);
   };
 
-  const updateStockProduct = (stockInfo) => {
-    UpdateStockActions(stockInfo)(dispatchUpdateStockData).then(() => {
-      StockActions()(dispatchStockData);
-
-      setStockProducts(stockData);
-    });
-  };
-
   const handleDeleteStock = (stockId) => {
-    Modal.confirm({
-      title: "Certeza que deseja deletar o produto do estoque?",
+    return ConfirmationModal({
+      title: "Tem certeza que deseja deletar o produto do estoque?",
       icon: null,
       content: null,
       okText: "Deletar",
       cancelText: "Cancelar",
-      onOk: () => {
+      handleOk: () => {
         DeleteStockActions(stockId)(dispatchDeleteStockData).then(() => {
           StockActions()(dispatchStockData);
         });
@@ -117,14 +109,15 @@ export default function Storage() {
   return (
     <div className="main-div-stock">
       <BasicDrawer
-        isOpen={drawerState}
-        title={DRAWER_LABELS.title}
         cancelButton={DRAWER_LABELS.cancelButton}
+        closable
         confirmButton={DRAWER_LABELS.confirmButton}
+        isOpen={drawerState}
         onClose={onClose}
         onFinish={onSubmitForm}
+        title={DRAWER_LABELS.title}
       >
-        {() => <StockForm productsInfo={productsData} />}
+        <StockForm productsInfo={productsData} />
       </BasicDrawer>
 
       <GenericPage
@@ -145,11 +138,8 @@ export default function Storage() {
           <>
             {stockProducts && stockProducts.length ? (
               <StockPagination
-                stockData={stockProducts}
-                updateStockProduct={(stockInfo) =>
-                  updateStockProduct(stockInfo)
-                }
                 deleteStock={handleDeleteStock}
+                stockData={stockProducts}
               />
             ) : (
               <Empty className="empty-data" description={false}>

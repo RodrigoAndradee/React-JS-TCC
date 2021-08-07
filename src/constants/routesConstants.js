@@ -3,7 +3,7 @@ export const ROUTES = {
     exact: false,
     pageName: "home",
     path: "/home",
-    roles: ["admin", "stock", "separator"],
+    roles: ["admin"],
   },
   orders: {
     exact: false,

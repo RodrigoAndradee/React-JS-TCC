@@ -2,38 +2,35 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import { Card } from "antd";
-import { productObjectShape } from "../../types/ProductsProptypes";
+import { ProductObjectShape } from "../../types/ProductsPropTypes";
 
-import "./BasicCard.scss";
+import { StyledBasicCard } from "./BasicCard.styles";
 
 const { Meta } = Card;
 
 function BasicCard({ dueDate, optionsButton, productsInfo }) {
   return (
-    <Card
-      className="basic-card"
+    <StyledBasicCard
       actions={optionsButton()}
+      className="basic-card"
       cover={<img alt="productImage" src={productsInfo.defaultImage} />}
-      style={{ border: "gray solid 1px" }}
     >
       <Meta
         description={
-          <div
-            className={`tree-dots-overflow ${dueDate && "stock-description"}`}
-          >
+          <div>
             {productsInfo.description}
             {dueDate && <p>{dueDate}</p>}
           </div>
         }
         title={productsInfo.name}
       />
-    </Card>
+    </StyledBasicCard>
   );
 }
 
 BasicCard.propTypes = {
   dueDate: PropTypes.string,
-  productsInfo: productObjectShape.isRequired,
+  productsInfo: ProductObjectShape.isRequired,
   optionsButton: PropTypes.func.isRequired,
 };
 

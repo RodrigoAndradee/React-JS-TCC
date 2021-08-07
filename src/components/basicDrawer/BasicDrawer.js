@@ -1,13 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Button, Drawer, Form } from "antd";
+import { Button, Form } from "antd";
 
-import "./BasicDrawer.scss";
+import { StyledBasicDrawer } from "./BasicDrawer.styles";
 
 function BasicDrawer({
   cancelButton,
   children,
   className,
+  closable,
   confirmButton,
   isOpen,
   onClose,
@@ -15,32 +16,30 @@ function BasicDrawer({
   title,
 }) {
   return (
-    <Drawer
-      className={`products-drawer ${className}`}
-      closable={false}
+    <StyledBasicDrawer
+      className={`basic-drawer ${className}`}
+      closable={closable}
       destroyOnClose
       onClose={onClose}
       title={title}
       visible={isOpen}
     >
       <Form onFinish={onFinish}>
-        {children()}
+        <div className="body">{children}</div>
 
-        <div className="buttons">
-          <Button
-            className="button button-submit"
-            htmlType="submit"
-            type="primary"
-          >
-            {confirmButton}
-          </Button>
+        <div className="footer">
+          <div className="buttons">
+            <Button className="button-submit" htmlType="submit" type="primary">
+              {confirmButton}
+            </Button>
 
-          <Button className="button button-cancel" onClick={onClose}>
-            {cancelButton}
-          </Button>
+            <Button className="button-cancel" onClick={onClose}>
+              {cancelButton}
+            </Button>
+          </div>
         </div>
       </Form>
-    </Drawer>
+    </StyledBasicDrawer>
   );
 }
 
@@ -48,6 +47,7 @@ BasicDrawer.propTypes = {
   cancelButton: PropTypes.string,
   children: PropTypes.func,
   className: PropTypes.string,
+  closable: PropTypes.bool,
   confirmButton: PropTypes.string,
   isOpen: PropTypes.bool,
   onClose: PropTypes.func,
@@ -59,6 +59,7 @@ BasicDrawer.defaultProps = {
   cancelButton: "Cancelar",
   children: () => {},
   className: "",
+  closable: false,
   confirmButton: "Confirmar",
   isOpen: false,
   onClose: () => {},

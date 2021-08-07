@@ -4,19 +4,21 @@ import PropTypes from "prop-types";
 import Header from "../header/Header";
 import Footer from "../footer/Footer";
 
-import "./GenericPage.scss";
+import { StyledGenericPage } from "./GenericPage.styles";
 
 function GenericPage({ body, footer, header, toolbar }) {
   return (
-    <div className="generic-page">
+    <StyledGenericPage>
       <div className="header">{header}</div>
 
-      <div className="toolbar">{toolbar}</div>
+      <div className="generic-page-body">
+        <div className="toolbar">{toolbar}</div>
 
-      <div className="body">{body}</div>
+        <div className="content">{body}</div>
+      </div>
 
       <div className="footer">{footer}</div>
-    </div>
+    </StyledGenericPage>
   );
 }
 

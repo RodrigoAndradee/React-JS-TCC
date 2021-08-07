@@ -1,18 +1,16 @@
-import React, { useReducer, useState } from "react";
-import { NavLink } from "react-router-dom";
-
-import { Dropdown, Menu } from "antd";
+import React, { useState } from "react";
 import { DownOutlined } from "@ant-design/icons";
+import { Dropdown, Menu } from "antd";
+import { NavLink } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
-import BasicModal from "../basicModal/BasicModal";
-import ConfirmationModal from "../basicModal/ConfirmationModal";
+import BasicModal from "../modal/BasicModalForm";
 import CategoryForm from "./form/CategoryForm";
+import ConfirmationModal from "../modal/ConfirmationModal";
 import UserForm from "./form/UserForm";
 
 import { CreateCategory } from "../../store/actions/Categories";
 import { CreateUser } from "../../store/actions/User";
-import { CategoriesReducer } from "../../store/reducers/Categories";
-import { UserReducer } from "../../store/reducers/User";
 
 import { PAGE_NAME } from "../../constants/uiConstants";
 
@@ -22,14 +20,9 @@ function Header() {
   const [createCategoryModal, setCreateCategoryModal] = useState(false);
   const [createUserModal, setCreateUserModal] = useState(false);
   const [confirmationModalState, setConfirmationModalState] = useState(false);
-  const [selectedCategoryTab, setSelectedCategoryTab] = useState(
-    "createCategory"
-  );
-  const [createUser, dispatchCreateUser] = useReducer(UserReducer);
 
-  const [createCategory, dispatchCreateCategory] = useReducer(
-    CategoriesReducer
-  );
+  const dispatchCreateUser = useDispatch();
+  const dispatchCreateCategory = useDispatch();
 
   const userCredential = JSON.parse(localStorage.getItem("userInfo"));
 
@@ -44,7 +37,7 @@ function Header() {
 
   const menuOptions = (
     <Menu style={{ width: 150 }}>
-      {userCredential.role === "admin" && (
+      {userCredential?.role === "admin" && (
         <>
           <Menu.Item onClick={() => setCreateUserModal(true)}>
             Adicionar Usuário
@@ -83,9 +76,7 @@ function Header() {
         }}
         title="Categoria"
       >
-        {(form) => (
-          <CategoryForm form={form} setSelectedTab={setSelectedCategoryTab} />
-        )}
+        {(form) => <CategoryForm form={form} />}
       </BasicModal>
 
       <BasicModal
@@ -104,7 +95,7 @@ function Header() {
         <div className="left-menu">
           {PAGE_NAME.map(
             ({ label, url, exact = false, roles }) =>
-              roles.includes(userCredential.role) && (
+              roles?.includes(userCredential?.role) && (
                 <NavLink
                   className="link"
                   activeClassName="-active"

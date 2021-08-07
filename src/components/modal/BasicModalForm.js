@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import { Form, Modal } from "antd";
 
-function BasicModal({
+function BasicModalForm({
   cancelText,
   children,
   handleCancel,
@@ -41,7 +41,7 @@ function BasicModal({
   );
 }
 
-BasicModal.propTypes = {
+BasicModalForm.propTypes = {
   cancelText: PropTypes.string,
   children: PropTypes.func,
   handleCancel: PropTypes.func,
@@ -51,7 +51,7 @@ BasicModal.propTypes = {
   title: PropTypes.string,
 };
 
-BasicModal.defaultProps = {
+BasicModalForm.defaultProps = {
   cancelText: "Cancelar",
   children: () => {},
   handleCancel: () => {},
@@ -61,4 +61,4 @@ BasicModal.defaultProps = {
   title: "",
 };
 
-export default BasicModal;
+export default BasicModalForm;

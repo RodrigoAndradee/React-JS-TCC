@@ -8,10 +8,10 @@ import {
 export function StockReducer(state = {}, action) {
   const {
     createStockInfo,
+    deleteStockInfo,
     stockInfo,
     type,
     updateStockInfo,
-    deleteStockInfo,
   } = action;
 
   switch (type) {
