@@ -61,6 +61,7 @@ function ProductsPagination({ deleteProduct, editProduct, productsInfoData }) {
         current={paginationValue.currentPage}
         onChange={handleChangePageNumber}
         pageSize={pageItemsCount}
+        showQuickJumper
         showSizeChanger={false}
         total={productsInfoData.length}
       />

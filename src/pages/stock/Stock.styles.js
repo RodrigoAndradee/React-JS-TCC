@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { PROJECT_VARIABLES } from "../../constants/uiConstants";
 
-export const StyledProducts = styled.div`
+export const StyledStock = styled.div`
   align-items: center;
   display: flex;
   flex-direction: column;
@@ -13,15 +13,15 @@ export const StyledProducts = styled.div`
   }
 `;
 
-export const StyledProductsPagination = styled.div`
+export const StyledStockPagination = styled.div`
   display: flex;
   justify-content: center;
 
-  .products-body {
+  .stock-body {
     width: ${PROJECT_VARIABLES.systemWidth};
   }
 
-  .pagination-products {
+  .pagination-stock {
     bottom: 40px;
     position: absolute;
   }

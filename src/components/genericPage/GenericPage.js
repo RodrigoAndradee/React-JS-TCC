@@ -12,7 +12,7 @@ function GenericPage({ body, footer, header, toolbar }) {
       <div className="header">{header}</div>
 
       <div className="generic-page-body">
-        <div className="toolbar">{toolbar}</div>
+        {toolbar && <div className="toolbar">{toolbar}</div>}
 
         <div className="content">{body}</div>
       </div>

@@ -28,11 +28,7 @@ export const filterProductByName = (productsInfoData, typedProductName) => {
     return productsInfoData;
   }
 
-  const enhancementTypedProductName = returnCapitalizeFirstLetter(
-    typedProductName
-  );
-
   return productsInfoData.filter((product) =>
-    product.name.includes(enhancementTypedProductName)
+    product.name.toLowerCase().includes(typedProductName.toLowerCase())
   );
 };

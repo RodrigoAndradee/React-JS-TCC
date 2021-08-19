@@ -8,7 +8,7 @@ import { StyledBasicCard } from "./BasicCard.styles";
 
 const { Meta } = Card;
 
-function BasicCard({ dueDate, optionsButton, productsInfo }) {
+function BasicCard({ optionsButton, productsInfo }) {
   return (
     <StyledBasicCard
       actions={optionsButton()}
@@ -16,12 +16,7 @@ function BasicCard({ dueDate, optionsButton, productsInfo }) {
       cover={<img alt="productImage" src={productsInfo.defaultImage} />}
     >
       <Meta
-        description={
-          <div>
-            {productsInfo.description}
-            {dueDate && <p>{dueDate}</p>}
-          </div>
-        }
+        description={<div>{productsInfo.description}</div>}
         title={productsInfo.name}
       />
     </StyledBasicCard>
@@ -29,13 +24,8 @@ function BasicCard({ dueDate, optionsButton, productsInfo }) {
 }
 
 BasicCard.propTypes = {
-  dueDate: PropTypes.string,
   productsInfo: ProductObjectShape.isRequired,
   optionsButton: PropTypes.func.isRequired,
-};
-
-BasicCard.defaultProps = {
-  dueDate: "",
 };
 
 export default BasicCard;

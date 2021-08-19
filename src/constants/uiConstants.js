@@ -1,4 +1,4 @@
-const PAGE_NAME = [
+export const PAGE_NAME = [
   {
     label: "Home",
     url: "/home",
@@ -26,4 +26,6 @@ const PAGE_NAME = [
   },
 ];
 
-export { PAGE_NAME };
+export const PROJECT_VARIABLES = {
+  systemWidth: "1280px",
+};

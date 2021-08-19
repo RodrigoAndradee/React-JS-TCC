@@ -1,6 +1,6 @@
 import httpClient from "../../configs/httpClient";
 
-import { USER_INFO } from "../ActionTypes";
+import { LOG_OUT, USER_INFO } from "../ActionTypes";
 
 import sendNotification from "../../helpers/NotificationsHelper";
 
@@ -11,7 +11,7 @@ function SignIn({ userName, password }) {
 
       const data = await httpClient.post(url, { userName, password });
 
-      dispatch({ userInfo: data, type: USER_INFO });
+      dispatch({ userInfo: data.data, type: USER_INFO });
 
       sendNotification("SUCCESS", "Login efetuado com sucesso", "Sucesso");
     } catch (error) {
@@ -20,4 +20,8 @@ function SignIn({ userName, password }) {
   };
 }
 
-export { SignIn };
+function LogOut() {
+  return { type: LOG_OUT };
+}
+
+export { LogOut, SignIn };

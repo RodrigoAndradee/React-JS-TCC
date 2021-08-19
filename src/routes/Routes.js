@@ -1,48 +1,96 @@
 import React from "react";
-import { Route, Switch } from "react-router-dom";
+import { connect } from "react-redux";
+import { Redirect, Route, Switch } from "react-router-dom";
+import isEmpty from "lodash.isempty";
+import PropTypes from "prop-types";
 
-import { ROUTES } from "../constants/routesConstants";
-
-import Login from "../pages/signIn/SignIn";
 import HomeScreen from "../pages/homeScreen/HomeScreen";
+import Login from "../pages/signIn/SignIn";
 import Orders from "../pages/orders/Orders";
-import Sales from "../pages/sales/Sales";
 import Products from "../pages/products/Products";
+import Sales from "../pages/sales/Sales";
 import Storage from "../pages/stock/Stock";
-import PrivateRoute from "./PrivateRoute";
 
-function Routes() {
-  const { home, orders, products, sales, sign_in, stock } = ROUTES;
+import { ROUTES_CONSTANTS } from "../constants/routesConstants";
+import { userDataShape } from "../types/UserDataPropTypes";
+
+function Routes({ canAccessModule, userData }) {
+  const getPageByNameAndRole = (pageName, roules) => {
+    const canAccess = roules.includes(userData?.role);
+
+    if (canAccess) {
+      switch (pageName) {
+        case "home":
+          return <HomeScreen />;
+        case "products":
+          return <Products />;
+        case "orders":
+          return <Orders />;
+        case "sales":
+          return <Sales />;
+        case "stock":
+          return <Storage />;
+
+        default:
+          return null;
+      }
+    }
+    return null;
+  };
+
+  const redirectToCorrectPage = () => {
+    if (canAccessModule) {
+      switch (userData?.role) {
+        case "admin":
+          return <Redirect to="/home" />;
+        case "stock":
+          return <Redirect to="/stock" />;
+        case "separator":
+          return <Redirect to="/orders" />;
+        default:
+          return null;
+      }
+    }
+
+    return <Redirect to="/login" />;
+  };
 
   return (
     <Switch>
-      <Route component={Login} exact={sign_in.exact} path={sign_in.path} />
+      {canAccessModule ? (
+        ROUTES_CONSTANTS.map((route) => {
+          return (
+            <Route path={route.path} exact={route.exact}>
+              {getPageByNameAndRole(route.pageName, route.roles)}
+            </Route>
+          );
+        })
+      ) : (
+        <Route path="/login" exact={false}>
+          <Login />
+        </Route>
+      )}
 
-      <PrivateRoute
-        component={HomeScreen}
-        exact={home.exact}
-        path={home.path}
-      />
-
-      <PrivateRoute
-        component={Orders}
-        exact={orders.exact}
-        path={orders.path}
-      />
-
-      <PrivateRoute component={Sales} exact={sales.exact} path={sales.path} />
-
-      <PrivateRoute
-        component={Products}
-        exact={products.exact}
-        path={products.path}
-      />
-
-      <PrivateRoute component={Storage} exact={stock.exact} path={stock.path} />
-
-      <Route component={HomeScreen} path="*" />
+      {/* <Route path="*">{redirectToCorrectPage()}</Route> */}
     </Switch>
   );
 }
 
-export default Routes;
+Routes.propTypes = {
+  canAccessModule: PropTypes.bool,
+  userData: userDataShape,
+};
+
+Routes.defaultProps = {
+  canAccessModule: false,
+  userData: {},
+};
+
+function mapStateToProps(state) {
+  if (!isEmpty(state.userData)) {
+    return { canAccessModule: true, userData: state.userData };
+  }
+  return { canAccessModule: false };
+}
+
+export default connect(mapStateToProps)(Routes);

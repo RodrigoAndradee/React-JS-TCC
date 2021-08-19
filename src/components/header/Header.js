@@ -1,8 +1,8 @@
 import React, { useState } from "react";
+import { connect, useDispatch } from "react-redux";
 import { DownOutlined } from "@ant-design/icons";
 import { Dropdown, Menu } from "antd";
-import { NavLink } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import PropTypes from "prop-types";
 
 import BasicModal from "../modal/BasicModalForm";
 import CategoryForm from "./form/CategoryForm";
@@ -10,13 +10,18 @@ import ConfirmationModal from "../modal/ConfirmationModal";
 import UserForm from "./form/UserForm";
 
 import { CreateCategory } from "../../store/actions/Categories";
+import { LogOut } from "../../store/actions/SignIn";
 import { CreateUser } from "../../store/actions/User";
 
-import { PAGE_NAME } from "../../constants/uiConstants";
+import { ROUTES_CONSTANTS } from "../../constants/routesConstants";
+
+import { userDataShape } from "../../types/UserDataPropTypes";
+
+import MenuComponent from "../menuComponent/MenuComponent";
 
 import "./Header.scss";
 
-function Header() {
+function Header({ userData, logOut }) {
   const [createCategoryModal, setCreateCategoryModal] = useState(false);
   const [createUserModal, setCreateUserModal] = useState(false);
   const [confirmationModalState, setConfirmationModalState] = useState(false);
@@ -24,11 +29,9 @@ function Header() {
   const dispatchCreateUser = useDispatch();
   const dispatchCreateCategory = useDispatch();
 
-  const userCredential = JSON.parse(localStorage.getItem("userInfo"));
-
   const handleLogout = () => {
-    localStorage.removeItem("userInfo");
-    window.location.reload();
+    setConfirmationModalState(false);
+    logOut();
   };
 
   const handleConfirmationCancel = () => {
@@ -37,7 +40,7 @@ function Header() {
 
   const menuOptions = (
     <Menu style={{ width: 150 }}>
-      {userCredential?.role === "admin" && (
+      {userData?.role === "admin" && (
         <>
           <Menu.Item onClick={() => setCreateUserModal(true)}>
             Adicionar Usuário
@@ -93,34 +96,43 @@ function Header() {
 
       <div className="center-menu">
         <div className="left-menu">
-          {PAGE_NAME.map(
-            ({ label, url, exact = false, roles }) =>
-              roles?.includes(userCredential?.role) && (
-                <NavLink
-                  className="link"
-                  activeClassName="-active"
-                  key={url}
-                  to={url}
-                  exact={exact}
-                >
-                  {label}
-                </NavLink>
-              )
-          )}
+          <MenuComponent menuOptions={ROUTES_CONSTANTS} />
         </div>
 
         <div className="right-menu">
-          <Dropdown
-            overlay={menuOptions}
-            className="dropdown-menu"
-            placement="bottomRight"
-          >
-            <DownOutlined style={{ fontSize: 14 }} />
-          </Dropdown>
+          {userData && (
+            <Dropdown
+              overlay={menuOptions}
+              className="dropdown-menu"
+              placement="bottomRight"
+            >
+              <DownOutlined style={{ fontSize: 14 }} />
+            </Dropdown>
+          )}
         </div>
       </div>
     </div>
   );
 }
 
-export default Header;
+Header.propTypes = {
+  logOut: PropTypes.func,
+  userData: userDataShape,
+};
+
+Header.defaultProps = {
+  logOut: () => {},
+  userData: null,
+};
+
+function mapDispatchToProps(dispatch) {
+  return {
+    logOut: () => dispatch(LogOut()),
+  };
+}
+
+function mapStateToProps(state) {
+  return { userData: state.userData };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

@@ -1,5 +1,6 @@
 /* SignIN */
 export const USER_INFO = Symbol("USER_INFO");
+export const LOG_OUT = Symbol("LOG_OUT");
 
 /* Products */
 export const CREATE_PRODUCT_INFO = Symbol("CREATE_PRODUCT_INFO");

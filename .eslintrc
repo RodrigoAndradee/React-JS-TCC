@@ -10,16 +10,17 @@
     "jest": true
   },
   "rules": {
-    "react/jsx-filename-extension": [1, { "extensions": [".js"] }],
-    "prettier/prettier": "error",
     "camelcase": "off",
     "import/prefer-default-export": "off",
-    "react/jsx-props-no-spreading": "off",
     "jsx-a11y/no-noninteractive-tabindex": "off",
     "no-redeclare": "off",
+    "no-underscore-dangle": "off",
     "no-unused-vars": "warn",
+    "prettier/prettier": "error",
+    "react-hooks/exhaustive-deps": "warn",
     "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn"
+    "react/jsx-filename-extension": [1, { "extensions": [".js"] }],
+    "react/jsx-props-no-spreading": "off"
   },
   "globals": {
     "document": true,

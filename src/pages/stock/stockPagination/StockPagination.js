@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 
-import { Col, InputNumber, Pagination, Row, Tooltip } from "antd";
+import { Col, Pagination, Row, Tooltip } from "antd";
 // import { MinusCircleOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import { DeleteOutlined } from "@ant-design/icons";
 
@@ -11,7 +11,7 @@ import BasicCard from "../../../components/basicCard/BasicCard";
 
 import { stockObjectShape } from "../../../types/StockProptypes";
 
-import "../Stock.scss";
+import { StyledStockPagination } from "../Stock.styles";
 
 const defaultPlacement = "bottom";
 const pageItemsCount = 8;
@@ -38,11 +38,7 @@ function StockPagination({ stockData, deleteStock }) {
   const optionsCardButton = (cardInfo) => {
     return [
       <Tooltip title={QUANTITY_LABEL} placement={defaultPlacement}>
-        <InputNumber
-          min={0}
-          value={cardInfo.quantity}
-          className="input-quantity"
-        />
+        {cardInfo.quantity}
       </Tooltip>,
 
       <Tooltip title="Deletar Produto do Estoque" placement={defaultPlacement}>
@@ -52,7 +48,7 @@ function StockPagination({ stockData, deleteStock }) {
   };
 
   return (
-    <>
+    <StyledStockPagination>
       <Row gutter={[16, 16]} className="stock-body">
         {stockData
           .slice(paginationValue.min, paginationValue.max)
@@ -64,7 +60,6 @@ function StockPagination({ stockData, deleteStock }) {
                 <BasicCard
                   optionsButton={() => optionsCardButton(cardInfo)}
                   productsInfo={productInfo}
-                  dueDate={cardInfo.dueDate}
                 />
               </Col>
             );
@@ -78,8 +73,9 @@ function StockPagination({ stockData, deleteStock }) {
         pageSize={pageItemsCount}
         showSizeChanger={false}
         total={stockData.length}
+        showQuickJumper
       />
-    </>
+    </StyledStockPagination>
   );
 }
 

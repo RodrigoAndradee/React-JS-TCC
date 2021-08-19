@@ -1,68 +1,70 @@
-import React, { useReducer } from "react";
-import { useStore } from "react-redux";
-
+import React from "react";
 import { Button, Form, Input } from "antd";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import { UserOutlined } from "@ant-design/icons";
 
-import { LOGIN_CONSTANTS } from "../../constants/loginConstants";
+import PropTypes from "prop-types";
 
 import loginImage from "../../assets/loginImage.jpeg";
 
-import LoginReducer from "../../store/reducers/SignIn";
 import { SignIn } from "../../store/actions/SignIn";
 
-import "antd/dist/antd.css";
-import "./SignIn.scss";
+import { LOGIN_CONSTANTS } from "../../constants/loginConstants";
 
-function Login() {
-  const store = useStore();
+import "antd/dist/antd.css";
+import { StyledSignIn } from "./SignIn.styles";
+
+function Login({ getProfile }) {
   const { APP_INTRO, LOGIN_BUTTON, USER_NAME, USER_PASSWORD } = LOGIN_CONSTANTS;
 
-  const [userInfoData, dispatchUserInfoData] = useReducer(LoginReducer);
-
   const attemptLogin = (userInfo) => {
-    SignIn(userInfo)(dispatchUserInfoData)
-      .then(() => {
-        window.location = "/home";
-      })
-      .catch(() => {
-        //
-      });
+    getProfile(userInfo);
   };
 
-  if (userInfoData && userInfoData.status === 200) {
-    localStorage.setItem(
-      "userInfo",
-      JSON.stringify({
-        id: userInfoData.data.id,
-        role: userInfoData.data.role,
-        userName: userInfoData.data.userName,
-      })
-    );
-
-    // window.location = "/home";
-  }
-
   return (
-    <>
+    <StyledSignIn>
       <img className="left-side-login" src={loginImage} alt="" />
 
       <Form className="right-side-login" onFinish={attemptLogin}>
         <h1>{APP_INTRO}</h1>
 
-        <Form.Item name="userName">
-          <Input placeholder={USER_NAME} className="input-text" />
+        <Form.Item name="userName" className="input-text">
+          <Input
+            className="input-text"
+            placeholder={USER_NAME}
+            prefix={<UserOutlined />}
+          />
         </Form.Item>
 
-        <Form.Item name="password">
+        <Form.Item name="password" className="input-text">
           <Input.Password placeholder={USER_PASSWORD} className="input-text" />
         </Form.Item>
 
-        <Button type="primary" htmlType="submit" className="login-button">
+        <Button className="login-button" htmlType="submit" type="primary">
           {LOGIN_BUTTON}
         </Button>
       </Form>
-    </>
+    </StyledSignIn>
   );
 }
 
-export default Login;
+Login.propTypes = {
+  getProfile: PropTypes.func,
+};
+
+Login.defaultProps = {
+  getProfile: () => {},
+};
+
+function mapDispatchToProps(dispatch) {
+  return {
+    getProfile: (userInfo) => dispatch(SignIn(userInfo)(dispatch)),
+  };
+}
+
+const mapStateToProps = (state) => {
+  return { userData: state.userData };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Login));

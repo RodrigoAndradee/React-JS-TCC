@@ -26,12 +26,12 @@ import {
   filterStockByName,
 } from "../../helpers/StockHelpers";
 
+import { PAGE_INFOS } from "../../constants/routesConstants";
 import { DRAWER_LABELS } from "../../constants/stockConstants";
-import { ROUTES } from "../../constants/routesConstants";
 import { EMPTY_DATA } from "../../constants/errorsConstants";
 
-import "./Stock.scss";
 import ConfirmationModal from "../../components/confirmationModal/ConfirmationModal";
+import { StyledStock } from "./Stock.styles";
 
 export default function Storage() {
   const [drawerState, setDrawerState] = useState(false);
@@ -107,7 +107,7 @@ export default function Storage() {
   }, []);
 
   return (
-    <div className="main-div-stock">
+    <StyledStock>
       <BasicDrawer
         cancelButton={DRAWER_LABELS.cancelButton}
         closable
@@ -122,17 +122,15 @@ export default function Storage() {
 
       <GenericPage
         toolbar={
-          categoriesInfoData && (
-            <Toolbar
-              buttonLabel="Estoque"
-              categoriesInfoData={categoriesInfoData}
-              onClickAddButton={handleAddProduct}
-              onSearchByName={onFilterByName}
-              onSelectCategory={onFilterByCategory}
-              onSelectDate={onFilterByDueDate}
-              pageName={ROUTES.stock.pageName}
-            />
-          )
+          <Toolbar
+            buttonLabel="Estoque"
+            categoriesInfoData={categoriesInfoData}
+            onClickAddButton={handleAddProduct}
+            onSearchByName={onFilterByName}
+            onSelectCategory={onFilterByCategory}
+            onSelectDate={onFilterByDueDate}
+            pageName={PAGE_INFOS.stock.pageName}
+          />
         }
         body={
           <>
@@ -149,6 +147,6 @@ export default function Storage() {
           </>
         }
       />
-    </div>
+    </StyledStock>
   );
 }

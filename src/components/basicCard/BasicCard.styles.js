@@ -15,8 +15,7 @@ export const StyledBasicCard = styled(Card)`
 
     > img {
       height: 150px;
-      margin-top: 2px;
-      width: 99%;
+      padding: 2px;
     }
   }
 

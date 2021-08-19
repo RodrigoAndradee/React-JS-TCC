@@ -21,9 +21,10 @@ function BasicDrawer({
       closable={closable}
       destroyOnClose
       onClose={onClose}
-      title={title}
       visible={isOpen}
     >
+      <div className="header">{title}</div>
+
       <Form onFinish={onFinish}>
         <div className="body">{children}</div>
 
