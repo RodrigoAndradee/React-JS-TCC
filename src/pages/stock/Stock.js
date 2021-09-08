@@ -30,12 +30,16 @@ import { PAGE_INFOS } from "../../constants/routesConstants";
 import { DRAWER_LABELS } from "../../constants/stockConstants";
 import { EMPTY_DATA } from "../../constants/errorsConstants";
 
-import ConfirmationModal from "../../components/confirmationModal/ConfirmationModal";
+import ConfirmationModal from "../../components/modal/ConfirmationModal";
 import { StyledStock } from "./Stock.styles";
 
 export default function Storage() {
   const [drawerState, setDrawerState] = useState(false);
   const [stockProducts, setStockProducts] = useState();
+  const [deleteStockModal, setDeleteStockModal] = useState({
+    state: false,
+    stockId: null,
+  });
 
   const [stockData, dispatchStockData] = useReducer(StockReducer);
   const [productsData, dispatchProductsData] = useReducer(ProductsReducer);
@@ -66,18 +70,19 @@ export default function Storage() {
   };
 
   const handleDeleteStock = (stockId) => {
-    return ConfirmationModal({
-      title: "Tem certeza que deseja deletar o produto do estoque?",
-      icon: null,
-      content: null,
-      okText: "Deletar",
-      cancelText: "Cancelar",
-      handleOk: () => {
-        DeleteStockActions(stockId)(dispatchDeleteStockData).then(() => {
-          StockActions()(dispatchStockData);
-        });
-      },
-    });
+    setDeleteStockModal({ state: true, stockId });
+  };
+
+  const handleOkDeleteStock = () => {
+    DeleteStockActions(deleteStockModal.stockId)(dispatchDeleteStockData).then(
+      () => {
+        StockActions()(dispatchStockData);
+      }
+    );
+  };
+
+  const handleCloseDeleteModal = () => {
+    setDeleteStockModal({ state: false, stockId: null });
   };
 
   const onClose = () => {
@@ -119,6 +124,15 @@ export default function Storage() {
       >
         <StockForm productsInfo={productsData} />
       </BasicDrawer>
+
+      <ConfirmationModal
+        isOpen={deleteStockModal.state}
+        handleOk={handleOkDeleteStock}
+        okText="Deletar"
+        handleCancel={handleCloseDeleteModal}
+      >
+        Tem certeza que deseja deletar o produto do estoque?
+      </ConfirmationModal>
 
       <GenericPage
         toolbar={

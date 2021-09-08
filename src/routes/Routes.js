@@ -15,8 +15,8 @@ import { ROUTES_CONSTANTS } from "../constants/routesConstants";
 import { userDataShape } from "../types/UserDataPropTypes";
 
 function Routes({ canAccessModule, userData }) {
-  const getPageByNameAndRole = (pageName, roules) => {
-    const canAccess = roules.includes(userData?.role);
+  const getPageByNameAndRole = (pageName, roles) => {
+    const canAccess = roles.includes(userData?.role);
 
     if (canAccess) {
       switch (pageName) {
@@ -57,21 +57,22 @@ function Routes({ canAccessModule, userData }) {
 
   return (
     <Switch>
-      {canAccessModule ? (
+      {!canAccessModule && (
+        <Route>
+          <Login />
+        </Route>
+      )}
+
+      {canAccessModule &&
         ROUTES_CONSTANTS.map((route) => {
           return (
             <Route path={route.path} exact={route.exact}>
               {getPageByNameAndRole(route.pageName, route.roles)}
             </Route>
           );
-        })
-      ) : (
-        <Route path="/login" exact={false}>
-          <Login />
-        </Route>
-      )}
+        })}
 
-      {/* <Route path="*">{redirectToCorrectPage()}</Route> */}
+      <Route path="*">{redirectToCorrectPage()}</Route>
     </Switch>
   );
 }

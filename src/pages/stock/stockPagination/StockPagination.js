@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-
 import { Col, Pagination, Row, Tooltip } from "antd";
-// import { MinusCircleOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import { DeleteOutlined } from "@ant-design/icons";
 
-import { QUANTITY_LABEL } from "../../../constants/stockConstants";
+import BasicCard from "../../../components/cards/productsCard/BasicCard";
 
-import BasicCard from "../../../components/basicCard/BasicCard";
+import { QUANTITY_LABEL } from "../../../constants/stockConstants";
 
 import { stockObjectShape } from "../../../types/StockProptypes";
 

@@ -3,9 +3,10 @@ import { Col, Pagination, Row, Tooltip } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import PropTypes from "prop-types";
 
+import BasicCard from "../../../components/cards/productsCard/BasicCard";
+
 import { ProductObjectShape } from "../../../types/ProductsPropTypes";
 
-import BasicCard from "../../../components/basicCard/BasicCard";
 import { EDIT_PRODUCT_LABEL } from "../../../constants/productsConstants";
 
 import { StyledProductsPagination } from "../Products.styles";

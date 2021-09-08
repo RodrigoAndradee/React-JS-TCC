@@ -21,6 +21,12 @@ import MenuComponent from "../menuComponent/MenuComponent";
 
 import "./Header.scss";
 
+const userRoles = {
+  admin: "Administrador",
+  separator: "Separador",
+  stock: "Estoquista",
+};
+
 function Header({ userData, logOut }) {
   const [createCategoryModal, setCreateCategoryModal] = useState(false);
   const [createUserModal, setCreateUserModal] = useState(false);
@@ -106,7 +112,11 @@ function Header({ userData, logOut }) {
               className="dropdown-menu"
               placement="bottomRight"
             >
-              <DownOutlined style={{ fontSize: 14 }} />
+              <span>
+                <span className="user-role">{userRoles[userData.role]}</span>
+
+                <DownOutlined style={{ fontSize: 14 }} />
+              </span>
             </Dropdown>
           )}
         </div>

@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 import { Card } from "antd";
 
-import colors from "../../styles/colors";
+import colors from "../../../styles/colors";
 
 export const StyledBasicCard = styled(Card)`
   border-radius: 3px;

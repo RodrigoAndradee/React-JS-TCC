@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import { Card } from "antd";
-import { ProductObjectShape } from "../../types/ProductsPropTypes";
+import { ProductObjectShape } from "../../../types/ProductsPropTypes";
 
 import { StyledBasicCard } from "./BasicCard.styles";
 

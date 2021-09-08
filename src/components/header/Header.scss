@@ -7,15 +7,21 @@
   justify-content: center;
 
   .center-menu {
-    width: 1280px;
-    display: flex;
     align-items: center;
+    display: flex;
     justify-content: space-between;
+    width: 1280px;
 
     .right-menu {
+      align-items: center;
       display: flex;
       flex-direction: row;
-      align-items: center;
+
+      .user-role {
+        color: $color-white;
+        font-size: 18px;
+        margin-right: 10px;
+      }
 
       .dropdown-menu {
         color: $color-white;
