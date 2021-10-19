@@ -1,6 +1,6 @@
 import axios from "axios";
 
-class HTTPClient {
+class OrdersClient {
   constructor(host) {
     this.axiosInstance = axios.create({ baseURL: host });
   }
@@ -26,9 +26,9 @@ class HTTPClient {
   }
 }
 
-const httpClient = new HTTPClient("http://192.168.15.200:8081");
+const ordersClient = new OrdersClient("http://192.168.15.200:8082");
 
-httpClient.attachResponseInterceptors(
+ordersClient.attachResponseInterceptors(
   (response) => response,
   (error) => {
     if (axios.isCancel(error)) {
@@ -41,4 +41,4 @@ httpClient.attachResponseInterceptors(
   }
 );
 
-export default httpClient;
+export default ordersClient;

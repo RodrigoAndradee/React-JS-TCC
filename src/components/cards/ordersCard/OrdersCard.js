@@ -22,7 +22,11 @@ function OrdersCard({ children, footer, title, width, className }) {
 }
 
 OrdersCard.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  children: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.node,
+    PropTypes.string,
+  ]),
   className: PropTypes.string,
   footer: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),

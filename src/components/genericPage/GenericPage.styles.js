@@ -36,7 +36,7 @@ export const StyledGenericPage = styled.div`
       align-items: center;
       display: flex;
       flex-direction: column;
-      height: calc(100vh - 30px);
+      height: calc(100vh - 90px);
       width: 100%;
     }
   }

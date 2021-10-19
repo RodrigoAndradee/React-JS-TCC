@@ -12,12 +12,13 @@ function BasicSteps({ stepsContent, direction }) {
 }
 
 BasicSteps.propTypes = {
-  stepsContent: PropTypes.arrayOf().isRequired,
   direction: PropTypes.string,
+  stepsContent: PropTypes.arrayOf(PropTypes.shape({})),
 };
 
 BasicSteps.defaultProps = {
   direction: "vertical",
+  stepsContent: [],
 };
 
 export default BasicSteps;

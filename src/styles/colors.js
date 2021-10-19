@@ -10,4 +10,5 @@ export default {
   colorSelected: "#99bfe8",
   colorSteel: "#777b7e",
   colorWhite: "#ffffff",
+  colorLoadingBackground: "rgba(255, 255, 255, 0.8)",
 };

@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { Card, Col, Row, Tag, Tooltip, Table } from "antd";
+import React, { useEffect } from "react";
+import { Card, Col, Row, Table, Tag, Tooltip } from "antd";
 import {
   ClockCircleOutlined,
   DislikeOutlined,
   LikeOutlined,
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
+import isEmpty from "lodash.isempty";
 
 import OrdersCard from "../cards/ordersCard/OrdersCard";
 
@@ -14,47 +15,54 @@ import {
   StyledBasicOrders,
   StyledPromoteButton,
 } from "./BasicOrders.styles";
+import { OrderObjectShape } from "../../types/OrderPropTypes";
 
 const tableColumns = [
-  { title: "Itens", dataIndex: "item", width: "240px" },
-  { title: "Qtd.", dataIndex: "quantity" },
-  { title: "Preço", dataIndex: "price" },
-];
-
-const actions = [
-  <Tooltip title={'Aceitar e promover para "Em separação"'} placement="top">
-    <StyledPromoteButton className="approve">
-      <LikeOutlined />
-    </StyledPromoteButton>
-  </Tooltip>,
-  <Tooltip title="Recusar pedido" placement="top">
-    <StyledPromoteButton className="reject">
-      <DislikeOutlined />
-    </StyledPromoteButton>
-  </Tooltip>,
+  { dataIndex: "item", title: "Itens" },
+  { dataIndex: "quantity", title: "Quantidade" },
+  { dataIndex: "price", title: "Preço" },
 ];
 
 const columnsCount = 3;
 
 function BasicOrders({
+  approveButtonLabel,
+  blockApprove,
+  blockCancel,
+  currentSelectedOrder,
   detailsTitle,
   onClickApprove,
-  onClickReprove,
+  onClickReject,
   orders,
   ordersTitle,
+  rejectButtonLabel,
+  setCurrentSelectedOrder,
 }) {
-  const [currentSelectedOrder, setCurrentSelectedOrder] = useState();
+  const { address, products } = currentSelectedOrder;
+
+  const actions = [
+    <Tooltip title={approveButtonLabel} placement="top">
+      <StyledPromoteButton className="approve" disabled={blockApprove}>
+        <LikeOutlined onClick={onClickApprove} />
+      </StyledPromoteButton>
+    </Tooltip>,
+    <Tooltip title={rejectButtonLabel} placement="top">
+      <StyledPromoteButton className="reject" disabled={blockCancel}>
+        <DislikeOutlined onClick={onClickReject} />
+      </StyledPromoteButton>
+    </Tooltip>,
+  ];
 
   useEffect(() => {
-    setCurrentSelectedOrder();
-  }, [orders, ordersTitle, detailsTitle]);
+    setCurrentSelectedOrder({});
+  }, [detailsTitle, orders, ordersTitle, setCurrentSelectedOrder]);
 
   return (
     <StyledBasicOrders>
       <OrdersCard className="orders-list-card" title={ordersTitle} width="45%">
         <div className="orders-list">
           {orders.map((order) => {
-            const isSelected = order?.number === currentSelectedOrder?.number;
+            const isSelected = order?.id === currentSelectedOrder?.id;
 
             return (
               <div
@@ -62,9 +70,9 @@ function BasicOrders({
                 className={`order-list-item ${isSelected ? "selected" : ""}`}
                 onClick={() => setCurrentSelectedOrder(order)}
               >
-                <Tag color="blue"># {order.number}</Tag>
+                <Tag color="blue"># {order.orderNumber}</Tag>
 
-                {order.client}
+                {order.userId}
 
                 <div className="order-list-item-hour">
                   {order.hour}
@@ -93,31 +101,33 @@ function BasicOrders({
           </StyledActionsComponent>
         }
         title={detailsTitle}
-        width="55%"
+        width="53%"
       >
-        {currentSelectedOrder && (
+        {!isEmpty(currentSelectedOrder) && (
           <>
             <Card className="orders-details">
               <Row gutter={[16, 16]} className="orders-detail-address">
                 <Col span={8}>
-                  <Tag color="blue"># {currentSelectedOrder.number}</Tag>
+                  <span className="detail-title">
+                    # {currentSelectedOrder.orderNumber}
+                  </span>
                 </Col>
 
-                <Col span={16}>{currentSelectedOrder.client}</Col>
+                <Col span={16}>{currentSelectedOrder.userId}</Col>
 
                 <Col span={24 / columnsCount}>
                   <span className="detail-title">CEP</span>
-                  {currentSelectedOrder.zipCode}
+                  {address?.zipCode}
                 </Col>
 
                 <Col span={24 / columnsCount}>
                   <span className="detail-title">Endereço</span>
-                  {currentSelectedOrder.address}
+                  {address?.address}
                 </Col>
 
                 <Col span={24 / columnsCount}>
                   <span className="detail-title">Complemento</span>
-                  {currentSelectedOrder.complement}
+                  {address?.complement}
                 </Col>
               </Row>
             </Card>
@@ -125,7 +135,7 @@ function BasicOrders({
             <Table
               bordered
               columns={tableColumns}
-              dataSource={currentSelectedOrder?.order}
+              dataSource={products}
               pagination={false}
               scroll={{ y: 270 }}
               size="small"
@@ -159,19 +169,31 @@ function BasicOrders({
 }
 
 BasicOrders.propTypes = {
+  approveButtonLabel: PropTypes.string,
+  blockApprove: PropTypes.bool,
+  blockCancel: PropTypes.bool,
+  currentSelectedOrder: OrderObjectShape,
   detailsTitle: PropTypes.string,
   onClickApprove: PropTypes.func,
-  onClickReprove: PropTypes.func,
-  orders: PropTypes.arrayOf(PropTypes.shape({})),
+  onClickReject: PropTypes.func,
+  orders: PropTypes.arrayOf(OrderObjectShape),
   ordersTitle: PropTypes.string,
+  rejectButtonLabel: PropTypes.string,
+  setCurrentSelectedOrder: PropTypes.func,
 };
 
 BasicOrders.defaultProps = {
+  approveButtonLabel: "",
+  blockApprove: false,
+  blockCancel: false,
+  currentSelectedOrder: {},
   detailsTitle: "Detalhes do Pedido",
   onClickApprove: () => {},
-  onClickReprove: () => {},
+  onClickReject: () => {},
   orders: [],
   ordersTitle: "",
+  rejectButtonLabel: "Cancelar o pedido",
+  setCurrentSelectedOrder: () => {},
 };
 
 export default BasicOrders;

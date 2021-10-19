@@ -143,7 +143,7 @@ export default function Storage() {
             onSearchByName={onFilterByName}
             onSelectCategory={onFilterByCategory}
             onSelectDate={onFilterByDueDate}
-            pageName={PAGE_INFOS.stock.pageName}
+            pageName={PAGE_INFOS.STOCK.pageName}
           />
         }
         body={

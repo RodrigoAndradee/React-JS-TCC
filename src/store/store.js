@@ -3,9 +3,10 @@ import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
 import userData from "./reducers/SignIn";
+import { loading } from "./reducers/Loading";
 
 const KEY_STORE = "root";
-const appReducer = combineReducers({ userData });
+const appReducer = combineReducers({ userData, loading });
 
 const persistConfig = {
   key: KEY_STORE,
