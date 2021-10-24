@@ -1,9 +1,10 @@
-@import "../../styles/colors.scss";
+import styled from "styled-components";
+import colors from "../../styles/colors";
 
-.menu-bar {
-  background-color: $color-primary;
+export const StyledHeader = styled.div`
+  background-color: ${colors.colorPrimary};
   display: flex;
-  height: 100%;
+  height: 60px;
   justify-content: center;
 
   .center-menu {
@@ -13,20 +14,16 @@
     width: 1280px;
 
     .right-menu {
-      align-items: center;
-      display: flex;
-      flex-direction: row;
-
       .user-role {
-        color: $color-white;
+        color: ${colors.colorWhite};
         font-size: 18px;
         margin-right: 10px;
       }
 
       .dropdown-menu {
-        color: $color-white;
+        color: ${colors.colorWhite};
         font-size: 20px;
       }
     }
   }
-}
+`;

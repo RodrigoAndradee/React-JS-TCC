@@ -1,8 +1,10 @@
 import React from "react";
 import { Provider } from "react-redux";
 
-import Routes from "./routes/Routes";
+import Footer from "./components/footer/Footer";
+import Header from "./components/header/Header";
 import Loading from "./components/loading/Loading";
+import Routes from "./routes/Routes";
 
 import { store } from "./store/store";
 
@@ -13,8 +15,9 @@ function App() {
     <div className="App">
       <Provider store={store}>
         <Loading />
-
+        <Header />
         <Routes />
+        <Footer />
       </Provider>
     </div>
   );
