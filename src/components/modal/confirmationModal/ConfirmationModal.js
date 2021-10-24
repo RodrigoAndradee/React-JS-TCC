@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { Modal } from "antd";
+import { StyledModal } from "./ConfirmationModal.styles";
 
 function ConfirmationModal({
   cancelText,
@@ -12,7 +12,7 @@ function ConfirmationModal({
   okText,
 }) {
   return (
-    <Modal
+    <StyledModal
       cancelText={cancelText}
       okText={okText}
       onCancel={handleCancel}
@@ -20,7 +20,7 @@ function ConfirmationModal({
       visible={isOpen}
     >
       {children}
-    </Modal>
+    </StyledModal>
   );
 }
 
