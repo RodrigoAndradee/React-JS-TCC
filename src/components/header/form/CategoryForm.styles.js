@@ -6,7 +6,6 @@ export const StyledTabs = styled(Tabs)`
   .ant-tabs-tab {
     width: 220px;
     display: flex;
-
     justify-content: center;
   }
 `;

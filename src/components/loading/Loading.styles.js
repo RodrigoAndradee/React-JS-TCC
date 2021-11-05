@@ -28,7 +28,6 @@ export const StyledLoading = styled.div`
 
       .loading-title {
         font-size: 16px;
-        font-weight: 600;
       }
     }
   }

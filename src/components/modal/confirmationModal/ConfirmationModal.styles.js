@@ -3,6 +3,10 @@ import styled from "styled-components";
 import colors from "../../../styles/colors";
 
 export const StyledModal = styled(Modal)`
+  .ant-modal-content {
+    border-radius: 5px;
+  }
+
   .ant-modal-footer {
     .ant-btn {
       border: none;
@@ -13,7 +17,7 @@ export const StyledModal = styled(Modal)`
     .ant-btn-primary {
       border: none;
       box-shadow: none;
-      color: ${colors.colorBlueAntd};
+      color: ${colors.colorWhite};
     }
   }
 `;

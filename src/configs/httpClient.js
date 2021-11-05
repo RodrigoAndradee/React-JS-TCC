@@ -26,7 +26,7 @@ class HTTPClient {
   }
 }
 
-const httpClient = new HTTPClient("http://192.168.15.200:8081");
+const httpClient = new HTTPClient("http://201.92.148.235:8081");
 
 httpClient.attachResponseInterceptors(
   (response) => response,

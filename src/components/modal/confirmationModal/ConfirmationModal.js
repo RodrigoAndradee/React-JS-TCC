@@ -6,6 +6,7 @@ import { StyledModal } from "./ConfirmationModal.styles";
 function ConfirmationModal({
   cancelText,
   children,
+  closable,
   handleCancel,
   handleOk,
   isOpen,
@@ -18,6 +19,7 @@ function ConfirmationModal({
       onCancel={handleCancel}
       onOk={handleOk}
       visible={isOpen}
+      closable={closable}
     >
       {children}
     </StyledModal>
@@ -27,6 +29,7 @@ function ConfirmationModal({
 ConfirmationModal.propTypes = {
   cancelText: PropTypes.string,
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  closable: PropTypes.bool,
   handleCancel: PropTypes.func,
   handleOk: PropTypes.func,
   isOpen: PropTypes.bool,
@@ -36,6 +39,7 @@ ConfirmationModal.propTypes = {
 ConfirmationModal.defaultProps = {
   cancelText: "Cancelar",
   children: null,
+  closable: true,
   handleCancel: () => {},
   handleOk: () => {},
   isOpen: false,

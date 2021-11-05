@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { connect, useDispatch } from "react-redux";
 import { DownOutlined } from "@ant-design/icons";
 import { Dropdown, Menu } from "antd";
+import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import BasicModal from "../modal/BasicModalForm";
@@ -32,12 +33,14 @@ function Header({ userData, logOut }) {
   const [createUserModal, setCreateUserModal] = useState(false);
   const [confirmationModalState, setConfirmationModalState] = useState(false);
 
+  const routeHistory = useHistory();
   const dispatchCreateUser = useDispatch();
   const dispatchCreateCategory = useDispatch();
 
   const handleLogout = () => {
     setConfirmationModalState(false);
     logOut();
+    routeHistory.push("/");
   };
 
   const handleConfirmationCancel = () => {
@@ -109,7 +112,6 @@ function Header({ userData, logOut }) {
             renderMenuOptions={!!userData}
           />
         </div>
-
         <div className="right-menu">
           {userData && (
             <Dropdown

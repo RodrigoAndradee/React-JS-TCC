@@ -26,7 +26,7 @@ class OrdersClient {
   }
 }
 
-const ordersClient = new OrdersClient("http://192.168.15.200:8082");
+const ordersClient = new OrdersClient("http://201.92.148.235:8082");
 
 ordersClient.attachResponseInterceptors(
   (response) => response,

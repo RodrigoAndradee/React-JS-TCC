@@ -5,11 +5,14 @@ export const StyledStock = styled.div`
   align-items: center;
   display: flex;
   flex-direction: column;
-  height: 100vh;
   overflow: hidden;
 
   .empty-data {
     margin-top: 50px;
+  }
+
+  .stock-body {
+    width: ${PROJECT_VARIABLES.systemWidth};
   }
 `;
 
@@ -17,12 +20,8 @@ export const StyledStockPagination = styled.div`
   display: flex;
   justify-content: center;
 
-  .stock-body {
-    width: ${PROJECT_VARIABLES.systemWidth};
-  }
-
   .pagination-stock {
-    bottom: 40px;
+    bottom: 50px;
     position: absolute;
   }
 `;

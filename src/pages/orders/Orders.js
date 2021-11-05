@@ -1,5 +1,5 @@
-import React, { useEffect, useReducer, useState } from "react";
-import { Menu } from "antd";
+import React, { useCallback, useEffect, useReducer, useState } from "react";
+import { DatePicker, Input, Menu, Tooltip, Tabs } from "antd";
 import { Route, Switch, useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import {
@@ -8,48 +8,43 @@ import {
   FlagOutlined,
   ShoppingCartOutlined,
 } from "@ant-design/icons";
-// import moment from "moment";
 
+// components
 import GenericPage from "../../components/genericPage/GenericPage";
-import BasicOrders from "../../components/basicOrders/BasicOrders";
+import BasicOrders from "./basicOrders/BasicOrders";
 
+// constants
+import { OrdersPage } from "../../constants/ordersConstants";
+
+// helpers
+import {
+  blockActionsButtons,
+  controlOrdersRoutes,
+  handleFilter,
+} from "../../helpers/OrderHelpers";
+
+// reducer
 import { OrdersReducer } from "../../store/reducers/Orders";
 
-import { controlOrdersRoutes } from "../../helpers/OrderHelpers";
+// actions
 
-import { PAGE_INFOS } from "../../constants/routesConstants";
+// styles
+import { StyledOrders } from "./Orders.styles";
+import { StyledTabs } from "../../styles/styledGenericComponents/TabComponent.styles";
 
-import { StyledOrders, StyledOrdersBody } from "./Orders.styles";
-
-// const defaultReloadDelay = 5000;
-
-const OrdersPage = [
-  {
-    approveButtonLabel: 'Promover para "Em Separação"',
-    ordersTitle: "Pedidos Pendentes",
-    path: PAGE_INFOS.ORDERS.children.pending.path,
-  },
-  {
-    approveButtonLabel: 'Promover para "Rota de Entrega"',
-    ordersTitle: "Pedidos em Preparação",
-    path: PAGE_INFOS.ORDERS.children.preparing.path,
-  },
-  {
-    approveButtonLabel: 'Promover para "Finalizado"',
-    ordersTitle: "Pedidos em Rota de Entrega",
-    path: PAGE_INFOS.ORDERS.children.delivery.path,
-  },
-  {
-    approveButtonLabel: "",
-    ordersTitle: "Pedidos finalizados",
-    path: PAGE_INFOS.ORDERS.children.finished.path,
-  },
-];
+const REFRESH_COUNTER = 60;
+const { Item, ItemGroup } = Menu;
+const { Search } = Input;
+const { TabPane } = Tabs;
 
 export default function Orders() {
   // state
-  const [selectedMenuOption, setSelectedMenuOption] = useState("1");
+  const [counter, setCounter] = useState(REFRESH_COUNTER);
   const [currentSelectedOrder, setCurrentSelectedOrder] = useState({});
+  const [dateFilter, setDateFilter] = useState();
+  const [filteredData, setFilteredData] = useState([]);
+  const [searchFilter, setSearchFilter] = useState();
+  const [selectedMenuOption, setSelectedMenuOption] = useState("1");
 
   // reducers
   const dispatchLoading = useDispatch();
@@ -58,23 +53,47 @@ export default function Orders() {
   const routeHistory = useHistory();
 
   const handleClickSecondaryMenu = (e) => {
-    setSelectedMenuOption(e.key);
+    setSelectedMenuOption(e);
+    setCurrentSelectedOrder({});
   };
 
-  // const reloadPageData = useCallback(() => {
-  //   window.setInterval(() => {
-  //     controlOrdersRoutes(
-  //       dispatchLoading,
-  //       dispatchOrders,
-  //       routeHistory,
-  //       selectedMenuOption
-  //     );
-  //   }, defaultReloadDelay);
-  // }, [dispatchLoading, routeHistory, selectedMenuOption]);
+  const blockActionButtons = blockActionsButtons(currentSelectedOrder);
 
-  // useEffect(() => {
-  //   reloadPageData();
-  // }, [reloadPageData]);
+  const handleSearch = (target) => {
+    setSearchFilter(target);
+  };
+
+  const handleSelectDate = (targetDate) => {
+    setDateFilter(targetDate);
+  };
+
+  const getOrders = useCallback(() => {
+    controlOrdersRoutes(
+      dispatchLoading,
+      dispatchOrders,
+      routeHistory,
+      selectedMenuOption
+    );
+  }, [dispatchLoading, routeHistory, selectedMenuOption]);
+
+  // effects
+
+  useEffect(() => {
+    if (counter > 0) {
+      setTimeout(() => setCounter(counter - 1), 1000);
+    }
+
+    if (counter === 0) {
+      getOrders();
+      setCounter(REFRESH_COUNTER);
+    }
+  }, [counter, getOrders]);
+
+  useEffect(() => {
+    if (ordersItems) {
+      setFilteredData(handleFilter(ordersItems, searchFilter, dateFilter));
+    }
+  }, [ordersItems, searchFilter, dateFilter]);
 
   useEffect(() => {
     controlOrdersRoutes(
@@ -89,48 +108,77 @@ export default function Orders() {
     <StyledOrders>
       <GenericPage
         body={
-          <StyledOrdersBody>
-            <div className="secondary-menu">
-              <Menu
-                className="menu"
-                defaultSelectedKeys="1"
-                mode="vertical"
-                onClick={handleClickSecondaryMenu}
-              >
-                <Menu.ItemGroup>
-                  <Menu.Item key="1" icon={<ClockCircleOutlined />}>
-                    Pendentes
-                  </Menu.Item>
-                  <Menu.Item key="2" icon={<ShoppingCartOutlined />}>
-                    Separação
-                  </Menu.Item>
-                  <Menu.Item key="3" icon={<CarOutlined />}>
-                    Entrega
-                  </Menu.Item>
-                  <Menu.Item key="4" icon={<FlagOutlined />}>
-                    Finalizado
-                  </Menu.Item>
-                </Menu.ItemGroup>
-              </Menu>
-            </div>
+          <div className="orders-body">
+            {/* <Menu
+              className="menu"
+              defaultSelectedKeys="1"
+              mode="vertical"
+              onClick={handleClickSecondaryMenu}
+            >
+              <ItemGroup>
+                <Item key="1" icon={<ClockCircleOutlined />}>
+                  Pendentes
+                </Item>
+                <Item key="2" icon={<ShoppingCartOutlined />}>
+                  Separação
+                </Item>
+                <Item key="3" icon={<CarOutlined />}>
+                  Entrega
+                </Item>
+                <Item key="4" icon={<FlagOutlined />}>
+                  Finalizado
+                </Item>
+              </ItemGroup>
+            </Menu> */}
 
             <div className="page-content">
-              {/* <div className="context-bar">
-                <TimePicker
-                  defaultValue={moment("12:08:23", "HH:mm:ss")}
-                  size="large"
-                />
-              </div> */}
+              <StyledTabs
+                onChange={handleClickSecondaryMenu}
+                defaultActiveKey="1"
+                centered
+                type="card"
+                size="large"
+              >
+                <TabPane tab="Pendentes" key="1" />
 
+                <TabPane tab="Separação" key="2" />
+
+                <TabPane tab="Entrega" key="3" />
+
+                <TabPane tab="Finalizado" key="4" />
+              </StyledTabs>
+              <div className="context-bar">
+                <Search
+                  allowClear
+                  className="search"
+                  onChange={(e) => handleSearch(e.target.value)}
+                  placeholder="Pesquisa"
+                />
+                <DatePicker
+                  className="date-picker"
+                  onChange={handleSelectDate}
+                  placeholder="Selecione uma data"
+                />
+
+                <Tooltip
+                  placement="topLeft"
+                  title="Tempo para recarregamento automático"
+                >
+                  <span className="count-down">
+                    {counter}
+                    <ClockCircleOutlined className="icon" />
+                  </span>
+                </Tooltip>
+              </div>
               <Switch>
                 {OrdersPage.map((item) => (
                   <Route path={item.path} key={item.path}>
                     <BasicOrders
                       approveButtonLabel={item.approveButtonLabel}
-                      // blockApprove={!ordersItems.length}
-                      // blockCancel={!ordersItems.length}
+                      blockApprove={blockActionButtons}
+                      blockCancel={blockActionButtons}
                       currentSelectedOrder={currentSelectedOrder}
-                      orders={ordersItems}
+                      orders={filteredData}
                       ordersTitle={item.ordersTitle}
                       setCurrentSelectedOrder={setCurrentSelectedOrder}
                     />
@@ -138,7 +186,7 @@ export default function Orders() {
                 ))}
               </Switch>
             </div>
-          </StyledOrdersBody>
+          </div>
         }
       />
     </StyledOrders>

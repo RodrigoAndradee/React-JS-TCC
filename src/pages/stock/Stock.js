@@ -7,6 +7,7 @@ import GenericPage from "../../components/genericPage/GenericPage";
 import StockForm from "./form/StockForm";
 import StockPagination from "./stockPagination/StockPagination";
 import Toolbar from "../../components/toolbar/Toolbar";
+import ConfirmationModal from "../../components/modal/confirmationModal/ConfirmationModal";
 
 import { CategoryActions } from "../../store/actions/Categories";
 import {
@@ -30,7 +31,6 @@ import { PAGE_INFOS } from "../../constants/routesConstants";
 import { DRAWER_LABELS } from "../../constants/stockConstants";
 import { EMPTY_DATA } from "../../constants/errorsConstants";
 
-import ConfirmationModal from "../../components/modal/ConfirmationModal";
 import { StyledStock } from "./Stock.styles";
 
 export default function Storage() {
@@ -135,6 +135,7 @@ export default function Storage() {
       </ConfirmationModal>
 
       <GenericPage
+        className="stock-body"
         toolbar={
           <Toolbar
             buttonLabel="Estoque"
@@ -154,9 +155,11 @@ export default function Storage() {
                 stockData={stockProducts}
               />
             ) : (
-              <Empty className="empty-data" description={false}>
-                {EMPTY_DATA.emptyStock}
-              </Empty>
+              <Empty
+                className="empty-data"
+                description={EMPTY_DATA.emptyStock}
+                image={Empty.PRESENTED_IMAGE_SIMPLE}
+              />
             )}
           </>
         }

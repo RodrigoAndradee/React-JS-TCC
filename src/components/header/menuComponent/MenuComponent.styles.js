@@ -11,30 +11,12 @@ export const StyledMenuComponent = styled.div`
     display: flex;
     font-size: 20px;
     justify-content: center;
-    margin-right: 3rem;
+    margin-right: 2rem;
     opacity: 0.6;
-    position: relative;
-    text-decoration: none;
 
     &.active {
-      border-bottom: solid 2px ${colors.colorBlueAntd};
-      color: ${colors.colorWhite};
-      opacity: 1;
-    }
-  }
-
-  .secondary-menu {
-    color: ${colors.colorBlack};
-    display: flex;
-    font-size: 20px;
-    justify-content: center;
-    margin-right: 3rem;
-    opacity: 0.6;
-    position: relative;
-    text-decoration: none;
-
-    &.active {
-      color: ${colors.colorBlack};
+      border-bottom: solid 1px ${colors.colorRedOrange};
+      color: ${colors.colorRedOrange};
       opacity: 1;
     }
   }

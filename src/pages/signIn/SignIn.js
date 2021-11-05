@@ -12,8 +12,9 @@ import { SignIn } from "../../store/actions/SignIn";
 
 import { LOGIN_CONSTANTS } from "../../constants/loginConstants";
 
-import "antd/dist/antd.css";
 import { StyledSignIn } from "./SignIn.styles";
+import StyledPrimaryButton from "../../styles/styledGenericComponents/buttons/primaryButton/PrimaryButton";
+import "antd/dist/antd.css";
 
 function Login({ getProfile }) {
   const { APP_INTRO, LOGIN_BUTTON, USER_NAME, USER_PASSWORD } = LOGIN_CONSTANTS;
@@ -41,9 +42,9 @@ function Login({ getProfile }) {
           <Input.Password placeholder={USER_PASSWORD} className="input-text" />
         </Form.Item>
 
-        <Button className="login-button" htmlType="submit" type="primary">
+        <StyledPrimaryButton className="login-button" htmlType>
           {LOGIN_BUTTON}
-        </Button>
+        </StyledPrimaryButton>
       </Form>
     </StyledSignIn>
   );

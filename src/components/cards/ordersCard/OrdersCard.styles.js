@@ -19,7 +19,6 @@ export const StyledBasicOrdersCard = styled(Card)`
     .card-title {
       border-bottom: solid 1px ${colors.colorDefaultGreyAntd};
       font-size: 20px;
-      font-weight: 400;
       height: 50px;
       padding: 10px;
     }
@@ -35,7 +34,7 @@ export const StyledBasicOrdersCard = styled(Card)`
 
     .footer {
       align-items: center;
-      border-top: solid 1px ${colors.colorDefaultGreyAntd};
+      border-top: solid 2px ${colors.colorDefaultGreyAntd};
       display: flex;
       height: 60px;
       justify-content: center;

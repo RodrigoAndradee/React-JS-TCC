@@ -13,6 +13,18 @@ export const StyledHeader = styled.div`
     justify-content: space-between;
     width: 1280px;
 
+    .left-menu {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      .main-icon {
+        margin-right: 10px;
+        width: 25px;
+        height: 25px;
+      }
+    }
+
     .right-menu {
       .user-role {
         color: ${colors.colorWhite};
