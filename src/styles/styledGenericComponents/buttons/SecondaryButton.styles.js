@@ -1,7 +1,7 @@
 import { Button } from "antd";
 import styled from "styled-components";
 
-import colors from "../../../colors";
+import colors from "../../colors";
 
 export const StyledSecondaryButton = styled(Button)`
   background-color: transparent;

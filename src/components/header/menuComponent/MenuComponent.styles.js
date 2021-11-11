@@ -12,12 +12,10 @@ export const StyledMenuComponent = styled.div`
     font-size: 20px;
     justify-content: center;
     margin-right: 2rem;
-    opacity: 0.6;
 
     &.active {
       border-bottom: solid 1px ${colors.colorRedOrange};
       color: ${colors.colorRedOrange};
-      opacity: 1;
     }
   }
 `;

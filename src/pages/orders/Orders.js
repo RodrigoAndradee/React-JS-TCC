@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useReducer, useState } from "react";
-import { DatePicker, Input, Menu, Tooltip, Tabs } from "antd";
+import { Tooltip, Tabs } from "antd";
 import { Route, Switch, useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import {
@@ -27,14 +27,15 @@ import {
 import { OrdersReducer } from "../../store/reducers/Orders";
 
 // actions
+import { approveOrder } from "../../store/actions/Orders";
 
 // styles
 import { StyledOrders } from "./Orders.styles";
 import { StyledTabs } from "../../styles/styledGenericComponents/TabComponent.styles";
+import { StyledInputSearch } from "../../styles/styledGenericComponents/input/Search.styles";
+import { StyledDatePicker } from "../../styles/styledGenericComponents/input/DatePicker.styles";
 
 const REFRESH_COUNTER = 60;
-const { Item, ItemGroup } = Menu;
-const { Search } = Input;
 const { TabPane } = Tabs;
 
 export default function Orders() {
@@ -76,6 +77,17 @@ export default function Orders() {
     );
   }, [dispatchLoading, routeHistory, selectedMenuOption]);
 
+  const handleClickAction = (actionType) => {
+    if (actionType === "approve") {
+      approveOrder(currentSelectedOrder.id)([
+        dispatchOrders,
+        dispatchLoading,
+      ]).then(() => {
+        getOrders();
+      });
+    }
+  };
+
   // effects
 
   useEffect(() => {
@@ -96,12 +108,7 @@ export default function Orders() {
   }, [ordersItems, searchFilter, dateFilter]);
 
   useEffect(() => {
-    controlOrdersRoutes(
-      dispatchLoading,
-      dispatchOrders,
-      routeHistory,
-      selectedMenuOption
-    );
+    getOrders();
   }, [dispatchLoading, dispatchOrders, routeHistory, selectedMenuOption]);
 
   return (
@@ -109,28 +116,6 @@ export default function Orders() {
       <GenericPage
         body={
           <div className="orders-body">
-            {/* <Menu
-              className="menu"
-              defaultSelectedKeys="1"
-              mode="vertical"
-              onClick={handleClickSecondaryMenu}
-            >
-              <ItemGroup>
-                <Item key="1" icon={<ClockCircleOutlined />}>
-                  Pendentes
-                </Item>
-                <Item key="2" icon={<ShoppingCartOutlined />}>
-                  Separação
-                </Item>
-                <Item key="3" icon={<CarOutlined />}>
-                  Entrega
-                </Item>
-                <Item key="4" icon={<FlagOutlined />}>
-                  Finalizado
-                </Item>
-              </ItemGroup>
-            </Menu> */}
-
             <div className="page-content">
               <StyledTabs
                 onChange={handleClickSecondaryMenu}
@@ -139,22 +124,55 @@ export default function Orders() {
                 type="card"
                 size="large"
               >
-                <TabPane tab="Pendentes" key="1" />
+                <TabPane
+                  tab={
+                    <>
+                      <ClockCircleOutlined />
+                      Pendentes
+                    </>
+                  }
+                  key="1"
+                />
 
-                <TabPane tab="Separação" key="2" />
+                <TabPane
+                  tab={
+                    <>
+                      <ShoppingCartOutlined />
+                      Separação
+                    </>
+                  }
+                  key="2"
+                />
 
-                <TabPane tab="Entrega" key="3" />
+                <TabPane
+                  tab={
+                    <>
+                      <CarOutlined />
+                      Entrega
+                    </>
+                  }
+                  key="3"
+                />
 
-                <TabPane tab="Finalizado" key="4" />
+                <TabPane
+                  tab={
+                    <>
+                      <FlagOutlined />
+                      Finalizado
+                    </>
+                  }
+                  key="4"
+                />
               </StyledTabs>
+
               <div className="context-bar">
-                <Search
+                <StyledInputSearch
                   allowClear
                   className="search"
                   onChange={(e) => handleSearch(e.target.value)}
                   placeholder="Pesquisa"
                 />
-                <DatePicker
+                <StyledDatePicker
                   className="date-picker"
                   onChange={handleSelectDate}
                   placeholder="Selecione uma data"
@@ -178,6 +196,8 @@ export default function Orders() {
                       blockApprove={blockActionButtons}
                       blockCancel={blockActionButtons}
                       currentSelectedOrder={currentSelectedOrder}
+                      onClickApprove={() => handleClickAction("approve")}
+                      onClickReject={() => handleClickAction("reject")}
                       orders={filteredData}
                       ordersTitle={item.ordersTitle}
                       setCurrentSelectedOrder={setCurrentSelectedOrder}

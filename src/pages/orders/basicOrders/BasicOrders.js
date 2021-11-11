@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Card, Col, Empty, Row, Table, Tag, Tooltip } from "antd";
+import React from "react";
+import { Card, Col, Empty, Row, Table, Tooltip } from "antd";
 import {
   ClockCircleOutlined,
   DislikeOutlined,
@@ -22,7 +22,7 @@ import {
 import colors from "../../../styles/colors";
 
 const tableColumns = [
-  { dataIndex: "item", title: "Itens" },
+  { dataIndex: "name", title: "Itens" },
   { dataIndex: "quantity", title: "Quantidade" },
   { dataIndex: "price", title: "Preço" },
 ];
@@ -66,7 +66,7 @@ function BasicOrders({
               const isSelected = order?.id === currentSelectedOrder?.id;
               const currentDate = moment(order.createdDate);
               const currentHour = currentDate.format("HH:mm");
-              const currentDay = currentDate.format("DD/MM/YYYY");
+              // const currentDay = currentDate.format("DD/MM/YYYY");
 
               return (
                 <>
@@ -79,7 +79,7 @@ function BasicOrders({
                   >
                     <TagComponent># {order.orderNumber}</TagComponent>
 
-                    {order.userId}
+                    {order.userName}
 
                     <div className="order-list-item-hour">
                       {currentHour}
@@ -128,12 +128,12 @@ function BasicOrders({
               <Row gutter={[16, 16]} className="orders-detail-address">
                 <Col span={16}>
                   <span>Nome do Cliente</span>
-                  {currentSelectedOrder.userId}
+                  {currentSelectedOrder.userName}
                 </Col>
 
                 <Col span={8}>
                   <span>CEP</span>
-                  {address.zipCode}
+                  {address?.zipCode}
                 </Col>
 
                 <Col span={24 / columnsCount}>

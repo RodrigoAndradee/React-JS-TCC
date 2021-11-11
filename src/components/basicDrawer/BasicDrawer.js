@@ -1,11 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Button, Form } from "antd";
-
-import PrimaryButton from "../../styles/styledGenericComponents/buttons/primaryButton/PrimaryButton";
-import SecondaryButton from "../../styles/styledGenericComponents/buttons/secondaryButton/SecondaryButton";
+import { Form } from "antd";
 
 import { StyledBasicDrawer } from "./BasicDrawer.styles";
+import { StyledPrimaryButton } from "../../styles/styledGenericComponents/buttons/PrimaryButton.styles";
+import { StyledSecondaryButton } from "../../styles/styledGenericComponents/buttons/SecondaryButton.styles";
 
 function BasicDrawer({
   cancelButton,
@@ -33,13 +32,13 @@ function BasicDrawer({
 
         <div className="footer">
           <div className="buttons">
-            <PrimaryButton className="button-submit" htmlType>
+            <StyledPrimaryButton className="button-submit" htmlType>
               {confirmButton}
-            </PrimaryButton>
+            </StyledPrimaryButton>
 
-            <SecondaryButton className="button-cancel" onClick={onClose}>
+            <StyledSecondaryButton className="button-cancel" onClick={onClose}>
               {cancelButton}
-            </SecondaryButton>
+            </StyledSecondaryButton>
           </div>
         </div>
       </Form>

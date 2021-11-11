@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Form, Input } from "antd";
+import { Form, Input } from "antd";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { UserOutlined } from "@ant-design/icons";
@@ -13,7 +13,7 @@ import { SignIn } from "../../store/actions/SignIn";
 import { LOGIN_CONSTANTS } from "../../constants/loginConstants";
 
 import { StyledSignIn } from "./SignIn.styles";
-import StyledPrimaryButton from "../../styles/styledGenericComponents/buttons/primaryButton/PrimaryButton";
+import { StyledPrimaryButton } from "../../styles/styledGenericComponents/buttons/PrimaryButton.styles";
 import "antd/dist/antd.css";
 
 function Login({ getProfile }) {

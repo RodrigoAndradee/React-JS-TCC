@@ -14,8 +14,9 @@ export const StyledBasicCard = styled(Card)`
     justify-content: center;
 
     > img {
-      height: 150px;
+      height: 180px;
       padding: 2px;
+      width: 180px;
     }
   }
 

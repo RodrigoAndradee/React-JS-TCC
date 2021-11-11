@@ -8,10 +8,9 @@ export const StyledTabs = styled(Tabs)`
 
   .ant-tabs-tab {
     border: solid 1px ${colors.colorRedOrange} !important;
-
     display: flex;
     justify-content: center;
-    width: 312px;
+    width: 318px;
 
     &.ant-tabs-tab-active {
       background-color: ${colors.colorLighterOrange};

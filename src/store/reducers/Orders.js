@@ -7,7 +7,7 @@ export function OrdersReducer(state = {}, action) {
     case FETCH_ORDERS:
       return ordersData;
     case CHANGE_STATUS:
-      return { ...ordersData };
+      return ordersData;
     default:
       return state;
   }

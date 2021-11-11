@@ -34,7 +34,7 @@ export const StyledOrders = styled.div`
     } */
 
     .page-content {
-      padding: 10px;
+      padding: 10px 0;
       width: 100%;
 
       .context-bar {

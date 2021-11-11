@@ -28,6 +28,7 @@ function fetchOrders(orderStatus) {
 }
 
 function approveOrder(orderId) {
+  console.log("orderId: ", orderId);
   return async (dispatches) => {
     const [dispatch, dispatchLoading] = dispatches;
 
@@ -49,4 +50,4 @@ function approveOrder(orderId) {
   };
 }
 
-export { fetchOrders };
+export { approveOrder, fetchOrders };
