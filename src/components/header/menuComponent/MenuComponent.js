@@ -4,26 +4,28 @@ import PropTypes, { arrayOf } from "prop-types";
 
 import { StyledMenuComponent } from "./MenuComponent.styles";
 
-function MenuComponent({ className, menuOptions }) {
+function MenuComponent({ className, menuOptions, renderMenuOptions }) {
   return (
     <StyledMenuComponent>
-      {menuOptions?.map(({ exact = false, icon, label, path }) => (
-        <NavLink
-          activeClassName="active"
-          className={`link ${className}`}
-          exact={exact}
-          key={path}
-          to={path}
-        >
-          {icon && <span className="menu-icon">{icon}</span>}
-          {label}
-        </NavLink>
-      ))}
+      {renderMenuOptions &&
+        menuOptions?.map(({ exact = false, icon, label, path }) => (
+          <NavLink
+            activeClassName="active"
+            className={`link ${className}`}
+            exact={exact}
+            key={path}
+            to={path}
+          >
+            {icon && <span className="menu-icon">{icon}</span>}
+            {label}
+          </NavLink>
+        ))}
     </StyledMenuComponent>
   );
 }
 
 MenuComponent.propTypes = {
+  className: PropTypes.string,
   menuOptions: arrayOf(
     PropTypes.shape({
       exact: PropTypes.bool,
@@ -32,11 +34,12 @@ MenuComponent.propTypes = {
       path: PropTypes.string,
     })
   ),
-  className: PropTypes.string,
+  renderMenuOptions: PropTypes.bool,
 };
 
 MenuComponent.defaultProps = {
   className: "",
   menuOptions: {},
+  renderMenuOptions: false,
 };
 export default MenuComponent;

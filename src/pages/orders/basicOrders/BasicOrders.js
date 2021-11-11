@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { Card, Col, Row, Table, Tag, Tooltip } from "antd";
+import React from "react";
+import { Card, Col, Empty, Row, Table, Tooltip } from "antd";
 import {
   ClockCircleOutlined,
   DislikeOutlined,
@@ -7,18 +7,22 @@ import {
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
 import isEmpty from "lodash.isempty";
+import moment from "moment";
 
-import OrdersCard from "../cards/ordersCard/OrdersCard";
+import TagComponent from "../../../styles/styledGenericComponents/tagComponent/TagComponent";
+import OrdersCard from "../../../components/cards/ordersCard/OrdersCard";
+
+import { OrderObjectShape } from "../../../types/OrderPropTypes";
 
 import {
   StyledActionsComponent,
   StyledBasicOrders,
   StyledPromoteButton,
 } from "./BasicOrders.styles";
-import { OrderObjectShape } from "../../types/OrderPropTypes";
+import colors from "../../../styles/colors";
 
 const tableColumns = [
-  { dataIndex: "item", title: "Itens" },
+  { dataIndex: "name", title: "Itens" },
   { dataIndex: "quantity", title: "Quantidade" },
   { dataIndex: "price", title: "Preço" },
 ];
@@ -53,35 +57,50 @@ function BasicOrders({
     </Tooltip>,
   ];
 
-  useEffect(() => {
-    setCurrentSelectedOrder({});
-  }, [detailsTitle, orders, ordersTitle, setCurrentSelectedOrder]);
-
   return (
     <StyledBasicOrders>
-      <OrdersCard className="orders-list-card" title={ordersTitle} width="45%">
+      <OrdersCard title={ordersTitle} width="45%">
         <div className="orders-list">
-          {orders.map((order) => {
-            const isSelected = order?.id === currentSelectedOrder?.id;
+          {orders.length ? (
+            orders.map((order) => {
+              const isSelected = order?.id === currentSelectedOrder?.id;
+              const currentDate = moment(order.createdDate);
+              const currentHour = currentDate.format("HH:mm");
+              // const currentDay = currentDate.format("DD/MM/YYYY");
 
-            return (
-              <div
-                aria-hidden="true"
-                className={`order-list-item ${isSelected ? "selected" : ""}`}
-                onClick={() => setCurrentSelectedOrder(order)}
-              >
-                <Tag color="blue"># {order.orderNumber}</Tag>
+              return (
+                <>
+                  <div
+                    aria-hidden="true"
+                    className={`order-list-item ${
+                      isSelected ? "selected" : ""
+                    }`}
+                    onClick={() => setCurrentSelectedOrder(order)}
+                  >
+                    <TagComponent># {order.orderNumber}</TagComponent>
 
-                {order.userId}
+                    {order.userName}
 
-                <div className="order-list-item-hour">
-                  {order.hour}
-
-                  <ClockCircleOutlined />
-                </div>
-              </div>
-            );
-          })}
+                    <div className="order-list-item-hour">
+                      {currentHour}
+                      <ClockCircleOutlined
+                        style={{
+                          color: `${colors.colorRedOrange}`,
+                          fontWeight: "600",
+                          fontSize: "16px",
+                        }}
+                      />
+                    </div>
+                  </div>
+                </>
+              );
+            })
+          ) : (
+            <Empty
+              description="Nenhum pedido com esse status"
+              image={Empty.PRESENTED_IMAGE_SIMPLE}
+            />
+          )}
         </div>
       </OrdersCard>
 
@@ -101,32 +120,34 @@ function BasicOrders({
           </StyledActionsComponent>
         }
         title={detailsTitle}
-        width="53%"
+        width="55%"
       >
-        {!isEmpty(currentSelectedOrder) && (
+        {!isEmpty(currentSelectedOrder) ? (
           <>
             <Card className="orders-details">
               <Row gutter={[16, 16]} className="orders-detail-address">
-                <Col span={8}>
-                  <span className="detail-title">
-                    # {currentSelectedOrder.orderNumber}
-                  </span>
+                <Col span={16}>
+                  <span>Nome do Cliente</span>
+                  {currentSelectedOrder.userName}
                 </Col>
 
-                <Col span={16}>{currentSelectedOrder.userId}</Col>
-
-                <Col span={24 / columnsCount}>
-                  <span className="detail-title">CEP</span>
+                <Col span={8}>
+                  <span>CEP</span>
                   {address?.zipCode}
                 </Col>
 
                 <Col span={24 / columnsCount}>
-                  <span className="detail-title">Endereço</span>
+                  <span>Endereço</span>
                   {address?.address}
                 </Col>
 
                 <Col span={24 / columnsCount}>
-                  <span className="detail-title">Complemento</span>
+                  <span>Número</span>
+                  {address?.number}
+                </Col>
+
+                <Col span={24 / columnsCount}>
+                  <span>Complemento</span>
                   {address?.complement}
                 </Col>
               </Row>
@@ -162,6 +183,11 @@ function BasicOrders({
               }}
             />
           </>
+        ) : (
+          <Empty
+            description="Nenhum pedido selecionado"
+            image={Empty.PRESENTED_IMAGE_SIMPLE}
+          />
         )}
       </OrdersCard>
     </StyledBasicOrders>

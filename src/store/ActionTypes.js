@@ -19,7 +19,9 @@ export const STOCK_INFO = Symbol("STOCK_INFO");
 export const UPDATE_STOCK_INFO = Symbol("UPDATE_STOCK_INFO");
 
 /* Orders */
+export const CHANGE_STATUS = Symbol("CHANGE_STATUS");
 export const FETCH_ORDERS = Symbol("FETCH_ORDERS");
+export const REJECT_ORDER = Symbol("REJECT_ORDER");
 
 /* User */
 export const CREATE_USER = Symbol("CREATE_USER");

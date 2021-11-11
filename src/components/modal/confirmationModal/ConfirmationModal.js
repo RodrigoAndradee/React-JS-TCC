@@ -1,32 +1,35 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { Modal } from "antd";
+import { StyledModal } from "./ConfirmationModal.styles";
 
 function ConfirmationModal({
   cancelText,
   children,
+  closable,
   handleCancel,
   handleOk,
   isOpen,
   okText,
 }) {
   return (
-    <Modal
+    <StyledModal
       cancelText={cancelText}
       okText={okText}
       onCancel={handleCancel}
       onOk={handleOk}
       visible={isOpen}
+      closable={closable}
     >
       {children}
-    </Modal>
+    </StyledModal>
   );
 }
 
 ConfirmationModal.propTypes = {
   cancelText: PropTypes.string,
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  closable: PropTypes.bool,
   handleCancel: PropTypes.func,
   handleOk: PropTypes.func,
   isOpen: PropTypes.bool,
@@ -36,6 +39,7 @@ ConfirmationModal.propTypes = {
 ConfirmationModal.defaultProps = {
   cancelText: "Cancelar",
   children: null,
+  closable: true,
   handleCancel: () => {},
   handleOk: () => {},
   isOpen: false,

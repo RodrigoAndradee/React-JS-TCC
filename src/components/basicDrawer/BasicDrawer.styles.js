@@ -22,7 +22,6 @@ export const StyledBasicDrawer = styled(Drawer)`
 
       .header {
         font-size: 20px;
-        font-weight: 300;
         line-height: 20px;
         margin: 30px 0;
       }
@@ -51,7 +50,6 @@ export const StyledBasicDrawer = styled(Drawer)`
 
           .button-cancel {
             border-radius: 5px;
-            color: ${colors.colorPrimary};
           }
         }
       }

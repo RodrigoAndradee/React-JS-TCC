@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import { connect, useDispatch } from "react-redux";
 import { DownOutlined } from "@ant-design/icons";
 import { Dropdown, Menu } from "antd";
+import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import BasicModal from "../modal/BasicModalForm";
 import CategoryForm from "./form/CategoryForm";
-import ConfirmationModal from "../modal/ConfirmationModal";
+import ConfirmationModal from "../modal/confirmationModal/ConfirmationModal";
 import UserForm from "./form/UserForm";
+import MenuComponent from "./menuComponent/MenuComponent";
 
 import { CreateCategory } from "../../store/actions/Categories";
 import { LogOut } from "../../store/actions/SignIn";
@@ -17,10 +19,9 @@ import { ROUTES_CONSTANTS } from "../../constants/routesConstants";
 
 import { userDataShape } from "../../types/UserDataPropTypes";
 
-import MenuComponent from "../menuComponent/MenuComponent";
+import { StyledHeader } from "./Header.styles";
 
-import "./Header.scss";
-
+const { Item, Divider } = Menu;
 const userRoles = {
   admin: "Administrador",
   separator: "Separador",
@@ -32,12 +33,14 @@ function Header({ userData, logOut }) {
   const [createUserModal, setCreateUserModal] = useState(false);
   const [confirmationModalState, setConfirmationModalState] = useState(false);
 
+  const routeHistory = useHistory();
   const dispatchCreateUser = useDispatch();
   const dispatchCreateCategory = useDispatch();
 
   const handleLogout = () => {
     setConfirmationModalState(false);
     logOut();
+    routeHistory.push("/");
   };
 
   const handleConfirmationCancel = () => {
@@ -48,16 +51,16 @@ function Header({ userData, logOut }) {
     <Menu style={{ width: 150 }}>
       {userData?.role === "admin" && (
         <>
-          <Menu.Item onClick={() => setCreateUserModal(true)}>
+          <Item onClick={() => setCreateUserModal(true)}>
             Adicionar Usuário
-          </Menu.Item>
+          </Item>
 
-          <Menu.Item onClick={() => setCreateCategoryModal(true)}>
+          <Item onClick={() => setCreateCategoryModal(true)}>
             Adicionar Categoria
-          </Menu.Item>
+          </Item>
         </>
       )}
-
+      <Divider />
       <Menu.Item onClick={() => setConfirmationModalState(true)}>
         Sair
       </Menu.Item>
@@ -65,7 +68,7 @@ function Header({ userData, logOut }) {
   );
 
   return (
-    <div className="menu-bar">
+    <StyledHeader>
       <ConfirmationModal
         cancelText="Cancelar"
         handleCancel={handleConfirmationCancel}
@@ -78,33 +81,37 @@ function Header({ userData, logOut }) {
 
       <BasicModal
         handleCancel={() => setCreateCategoryModal(false)}
-        isOpen={createCategoryModal}
         handleOk={(formValues) => {
           CreateCategory(formValues)(dispatchCreateCategory);
           setCreateCategoryModal(false);
         }}
+        isOpen={createCategoryModal}
+        okText="Salvar"
         title="Categoria"
       >
-        {(form) => <CategoryForm form={form} />}
+        <CategoryForm />
       </BasicModal>
 
       <BasicModal
         handleCancel={() => setCreateUserModal(false)}
-        isOpen={createUserModal}
         handleOk={(formValues) => {
           CreateUser(formValues)(dispatchCreateUser);
           setCreateUserModal(false);
         }}
+        isOpen={createUserModal}
+        okText="Salvar"
         title="Adicionar Usuário"
       >
-        {(form) => <UserForm form={form} />}
+        <UserForm />
       </BasicModal>
 
       <div className="center-menu">
         <div className="left-menu">
-          <MenuComponent menuOptions={ROUTES_CONSTANTS} />
+          <MenuComponent
+            menuOptions={ROUTES_CONSTANTS}
+            renderMenuOptions={!!userData}
+          />
         </div>
-
         <div className="right-menu">
           {userData && (
             <Dropdown
@@ -121,7 +128,7 @@ function Header({ userData, logOut }) {
           )}
         </div>
       </div>
-    </div>
+    </StyledHeader>
   );
 }
 

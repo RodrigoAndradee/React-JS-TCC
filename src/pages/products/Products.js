@@ -7,7 +7,7 @@ import GenericPage from "../../components/genericPage/GenericPage";
 import ProductsForm from "./form/ProductsForm";
 import ProductsPagination from "./productsPagination/ProductsPagination";
 import Toolbar from "../../components/toolbar/Toolbar";
-import ConfirmationModal from "../../components/confirmationModal/ConfirmationModal";
+import ConfirmationModal from "../../components/modal/confirmationModal/ConfirmationModal";
 
 import {
   CreateProductActions,
@@ -40,6 +40,10 @@ function Products() {
   });
   const [currentProduct, setCurrentProduct] = useState(null);
   const [filteredProducts, setFilteredProducts] = useState(null);
+  const [discardProduct, setDiscardProduct] = useState({
+    isOpen: false,
+    productId: null,
+  });
 
   const [productsInfoData, dispatchProductsInfoData] = useReducer(
     ProductsReducer
@@ -70,20 +74,9 @@ function Products() {
     setCurrentProduct(product);
   };
 
-  const deleteProduct = (productId) =>
-    ConfirmationModal({
-      title: "Certeza que deseja deletar o produto?",
-      icon: null,
-      content: null,
-      okText: "Deletar",
-      cancelText: "Cancelar",
-      onOk: () => {
-        DeleteProductActions(productId)({
-          dispatchDeleteProductData,
-          dispatchProductsInfoData,
-        });
-      },
-    });
+  const deleteProduct = (productId) => {
+    setDiscardProduct({ isOpen: true, productId });
+  };
 
   const handleCreateProduct = () => {
     setDrawerStates({
@@ -147,6 +140,27 @@ function Products() {
 
   return (
     <StyledProducts>
+      <ConfirmationModal
+        isOpen={discardProduct.isOpen}
+        handleOk={() => {
+          const { productId } = discardProduct;
+
+          DeleteProductActions(productId)({
+            dispatchDeleteProductData,
+            dispatchProductsInfoData,
+          });
+
+          setDiscardProduct({ isOpen: false, productId: null });
+        }}
+        okText="Deletar"
+        handleCancel={() =>
+          setDiscardProduct({ isOpen: false, productId: null })
+        }
+        closable={false}
+      >
+        Tem certeza que deseja deletar o produto?
+      </ConfirmationModal>
+
       <BasicDrawer
         cancelButton={cancelButton}
         className="products-drawer"
@@ -164,6 +178,7 @@ function Products() {
       </BasicDrawer>
 
       <GenericPage
+        className="products-body"
         toolbar={
           <Toolbar
             buttonLabel="Produto"
@@ -183,9 +198,11 @@ function Products() {
                 productsInfoData={filteredProducts}
               />
             ) : (
-              <Empty className="empty-data" description={false}>
-                {EMPTY_DATA.emptyProducts}
-              </Empty>
+              <Empty
+                className="empty-data"
+                description={EMPTY_DATA.emptyProducts}
+                image={Empty.PRESENTED_IMAGE_SIMPLE}
+              />
             )}
           </>
         }

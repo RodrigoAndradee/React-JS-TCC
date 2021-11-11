@@ -1,9 +1,11 @@
 import styled from "styled-components";
 
 export const StyledSignIn = styled.div`
+  height: calc(100vh - 90px);
+
   .left-side-login {
     float: left;
-    height: 100vh;
+    height: 100%;
     width: 70%;
   }
 
@@ -11,8 +13,7 @@ export const StyledSignIn = styled.div`
     align-items: center;
     display: flex;
     flex-direction: column;
-    float: right;
-    height: 100vh;
+    height: 100%;
     justify-content: center;
     padding: 0 50px 0 50px;
     width: 30%;
@@ -22,9 +23,9 @@ export const StyledSignIn = styled.div`
     }
 
     .login-button {
-      font-size: 20px;
+      font-size: 18px;
       height: auto;
-      width: 70%;
+      width: 50%;
     }
   }
 `;

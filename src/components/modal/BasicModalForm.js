@@ -35,7 +35,7 @@ function BasicModalForm({
       visible={isOpen}
     >
       <Form form={form} onFinish={handleOk}>
-        {children(form)}
+        {children}
       </Form>
     </Modal>
   );
