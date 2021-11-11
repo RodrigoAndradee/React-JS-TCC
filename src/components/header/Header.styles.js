@@ -2,7 +2,7 @@ import styled from "styled-components";
 import colors from "../../styles/colors";
 
 export const StyledHeader = styled.div`
-  background-color: ${colors.colorPrimary};
+  background-color: ${colors.colorRedOrange};
   display: flex;
   height: 60px;
   justify-content: center;

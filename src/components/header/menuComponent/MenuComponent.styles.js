@@ -14,8 +14,8 @@ export const StyledMenuComponent = styled.div`
     margin-right: 2rem;
 
     &.active {
-      border-bottom: solid 1px ${colors.colorRedOrange};
-      color: ${colors.colorRedOrange};
+      border-bottom: solid 3px ${colors.colorWhite};
+      font-weight: 700;
     }
   }
 `;
