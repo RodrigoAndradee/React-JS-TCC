@@ -10,11 +10,10 @@ export const StyledBasicOrders = styled.div`
   width: 100%;
 
   .ant-card-bordered {
-    border: solid 2px ${colors.colorDefaultGreyAntd};
-
     .ant-card-body {
       .card-title {
-        border-bottom: solid 2px ${colors.colorDefaultGreyAntd};
+        border-bottom: solid 1px ${colors.colorDarkGray};
+        margin: 0 10px;
       }
     }
   }
@@ -27,7 +26,7 @@ export const StyledBasicOrders = styled.div`
 
     .order-list-item {
       align-items: center;
-      border-bottom: solid 1px ${colors.colorDefaultGreyAntd};
+      border-bottom: solid 1px ${colors.colorDarkGray};
       display: flex;
       height: auto;
       justify-content: space-between;
@@ -38,7 +37,7 @@ export const StyledBasicOrders = styled.div`
       }
 
       &.selected {
-        background-color: #ff5e5e;
+        background-color: ${colors.colorSelect};
         border-radius: 5px;
         color: ${colors.colorWhite};
       }
@@ -47,7 +46,7 @@ export const StyledBasicOrders = styled.div`
         border-radius: 5px;
 
         &:not(.selected) {
-          background-color: #ffd1d1;
+          background-color: ${colors.colorLighterOrange};
         }
       }
 
@@ -80,7 +79,7 @@ export const StyledBasicOrders = styled.div`
           text-align: left;
 
           > span {
-            color: ${colors.colorSteel};
+            color: ${colors.colorDarkGray};
           }
         }
       }

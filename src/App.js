@@ -8,7 +8,7 @@ import Routes from "./routes/Routes";
 
 import { store } from "./store/store";
 
-import "./styles/App.scss";
+import "./styles/App.less";
 
 function App() {
   return (

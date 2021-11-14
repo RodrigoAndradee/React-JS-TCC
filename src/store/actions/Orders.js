@@ -4,7 +4,7 @@ import { LOADING_MESSAGES } from "../../constants/loadingConstants";
 
 import sendNotification from "../../helpers/NotificationsHelper";
 
-import { CHANGE_STATUS, FETCH_ORDERS } from "../ActionTypes";
+import { CHANGE_STATUS, FETCH_ORDERS, REJECT_ORDER } from "../ActionTypes";
 import { hideLoading, showLoading } from "../reducers/Loading";
 
 function fetchOrders(orderStatus) {
@@ -28,7 +28,6 @@ function fetchOrders(orderStatus) {
 }
 
 function approveOrder(orderId) {
-  console.log("orderId: ", orderId);
   return async (dispatches) => {
     const [dispatch, dispatchLoading] = dispatches;
 
@@ -50,4 +49,26 @@ function approveOrder(orderId) {
   };
 }
 
-export { approveOrder, fetchOrders };
+function rejectOrder(orderId, justification) {
+  return async (dispatches) => {
+    const [dispatch, dispatchLoading] = dispatches;
+
+    try {
+      dispatchLoading(showLoading(LOADING_MESSAGES.LOADING_ORDERS));
+
+      const url = `orders/rejectOrder/${orderId}`;
+
+      const { data } = await ordersClient.put(url, justification);
+
+      dispatch({ type: REJECT_ORDER, ordersData: data });
+
+      dispatchLoading(hideLoading());
+    } catch {
+      sendNotification("ERROR", "Erro ao rejeitar o pedido", "Error");
+
+      dispatchLoading(hideLoading());
+    }
+  };
+}
+
+export { approveOrder, fetchOrders, rejectOrder };

@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer, useState } from "react";
-import { Empty } from "antd";
+import { Empty, Spin } from "antd";
 import { useDispatch } from "react-redux";
 
 import BasicDrawer from "../../components/basicDrawer/BasicDrawer";
@@ -45,7 +45,7 @@ function Products() {
     productId: null,
   });
 
-  const [productsInfoData, dispatchProductsInfoData] = useReducer(
+  const [fetchedProductsInfos, dispatchProductsInfoData] = useReducer(
     ProductsReducer
   );
   const [categoriesInfoData, dispatchCategoriesInfoData] = useReducer(
@@ -108,7 +108,7 @@ function Products() {
 
   const onSelectCategory = (selectedCategory) => {
     const filteredValues = filterSelectedCategory(
-      productsInfoData,
+      fetchedProductsInfos?.productsInfo,
       selectedCategory
     );
 
@@ -116,7 +116,10 @@ function Products() {
   };
 
   const onSearchByName = (typedName) => {
-    const filteredValues = filterProductByName(productsInfoData, typedName);
+    const filteredValues = filterProductByName(
+      fetchedProductsInfos?.productsInfo,
+      typedName
+    );
 
     setFilteredProducts(filteredValues);
   };
@@ -129,9 +132,33 @@ function Products() {
     ? editProductLabel
     : addProductLabel;
 
+  const getPageContent = () => {
+    if (fetchedProductsInfos?.loading) {
+      return <Spin tip="Carregando as informações" />;
+    }
+
+    if (!filteredProducts?.length) {
+      return (
+        <Empty
+          className="empty-data"
+          description={EMPTY_DATA.emptyProducts}
+          image={Empty.PRESENTED_IMAGE_SIMPLE}
+        />
+      );
+    }
+
+    return (
+      <ProductsPagination
+        deleteProduct={deleteProduct}
+        editProduct={editProduct}
+        productsInfoData={filteredProducts}
+      />
+    );
+  };
+
   useEffect(() => {
-    setFilteredProducts(productsInfoData);
-  }, [productsInfoData]);
+    setFilteredProducts(fetchedProductsInfos?.productsInfo);
+  }, [fetchedProductsInfos?.productsInfo]);
 
   useEffect(() => {
     ProductsActions()(dispatchProductsInfoData);
@@ -178,7 +205,6 @@ function Products() {
       </BasicDrawer>
 
       <GenericPage
-        className="products-body"
         toolbar={
           <Toolbar
             buttonLabel="Produto"
@@ -189,23 +215,7 @@ function Products() {
             pageName="products"
           />
         }
-        body={
-          <>
-            {filteredProducts?.length ? (
-              <ProductsPagination
-                deleteProduct={deleteProduct}
-                editProduct={editProduct}
-                productsInfoData={filteredProducts}
-              />
-            ) : (
-              <Empty
-                className="empty-data"
-                description={EMPTY_DATA.emptyProducts}
-                image={Empty.PRESENTED_IMAGE_SIMPLE}
-              />
-            )}
-          </>
-        }
+        body={<div className="products-body">{getPageContent()}</div>}
       />
     </StyledProducts>
   );

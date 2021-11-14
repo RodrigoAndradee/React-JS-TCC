@@ -13,22 +13,35 @@ export const StyledLoading = styled.div`
   z-index: 1000;
 
   .loading-content {
+    position: relative;
     align-items: center;
     background-color: ${colors.colorWhite};
     border-radius: 10px;
-    border: solid 1px ${colors.colorDefaultGreyAntd};
     display: flex;
-    height: 10rem;
+    height: 8rem;
     justify-content: center;
-    width: 20rem;
+    width: 8rem;
+    border-radius: 50%;
 
-    .loading-description {
-      color: ${colors.colorSteel};
-      margin-top: 10px;
+    .anticon {
+      height: 8rem;
+      position: absolute;
+      width: 8rem;
+      color: ${colors.colorRedOrange};
 
-      .loading-title {
-        font-size: 16px;
+      left: auto;
+      bottom: auto;
+
+      > svg {
+        width: 8rem;
+        height: 8rem;
       }
     }
+  }
+
+  .loading-description {
+    /* background-color: greenyellow; */
+    color: ${colors.colorPrimary};
+    font-size: 14px;
   }
 `;

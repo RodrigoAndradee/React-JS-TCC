@@ -6,7 +6,7 @@ import colors from "../../../styles/colors";
 
 export const StyledBasicCard = styled(Card)`
   border-radius: 3px;
-  border: 1px solid ${colors.colorPrimary};
+  width: 200px;
 
   .ant-card-cover {
     align-items: center;
@@ -14,9 +14,9 @@ export const StyledBasicCard = styled(Card)`
     justify-content: center;
 
     > img {
-      height: 180px;
+      height: 190px;
       padding: 2px;
-      width: 180px;
+      width: 200px;
     }
   }
 
@@ -36,11 +36,16 @@ export const StyledBasicCard = styled(Card)`
   }
 
   .ant-card-actions {
-    border-top: 1px solid ${colors.colorPrimary};
+    border-color: ${colors.colorDarkGray};
+    margin: 0 10px;
+
+    .anticon {
+      color: ${colors.colorPrimary};
+    }
 
     > li {
       :not(:last-child) {
-        border-right: 1px solid ${colors.colorPrimary};
+        border-color: ${colors.colorDarkGray};
       }
     }
   }

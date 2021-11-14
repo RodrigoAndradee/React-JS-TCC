@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Row } from "antd";
 
 export const StyledToolbar = styled(Row)`
-  padding: 10px;
+  padding: 10px 0;
   width: 100%;
 
   .select-category {
@@ -11,7 +11,11 @@ export const StyledToolbar = styled(Row)`
     width: 100%;
   }
 
-  .add-product-button {
-    float: right;
+  .add-button {
+    padding: 0 !important;
+
+    .button {
+      float: right;
+    }
   }
 `;

@@ -28,13 +28,15 @@ export const filterStockByName = (stockInfoData, typedProductName) => {
     return stockInfoData;
   }
 
-  const enhancementTypedProductName = returnCapitalizeFirstLetter(
-    typedProductName
-  );
+  return stockInfoData.filter((stock) => {
+    const typedInfo = stock?.toLowerCase();
 
-  return stockInfoData.filter((stock) =>
-    stock.product.name.includes(enhancementTypedProductName)
-  );
+    return (
+      stock?.name?.toLowerCase().includes(typedInfo) ||
+      stock?.description?.toLowerCase().includes(typedInfo) ||
+      stock?.type.toLowerCase().includes(typedInfo)
+    );
+  });
 };
 
 export const filterStockByDueDate = (stockInfoData, selectedDate) => {

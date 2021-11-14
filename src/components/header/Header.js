@@ -5,6 +5,7 @@ import { Dropdown, Menu } from "antd";
 import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 
+import BarbecueIcon from "../../assets/barbecueIcon.ico";
 import BasicModal from "../modal/BasicModalForm";
 import CategoryForm from "./form/CategoryForm";
 import ConfirmationModal from "../modal/confirmationModal/ConfirmationModal";
@@ -107,6 +108,8 @@ function Header({ userData, logOut }) {
 
       <div className="center-menu">
         <div className="left-menu">
+          <img src={BarbecueIcon} alt="" className="barbecue-icon" />
+
           <MenuComponent
             menuOptions={ROUTES_CONSTANTS}
             renderMenuOptions={!!userData}

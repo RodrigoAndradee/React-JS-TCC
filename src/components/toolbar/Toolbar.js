@@ -33,9 +33,9 @@ function Toolbar({
         <Search
           allowClear
           className="search-bar"
-          onSearch={onSearchByName}
           placeholder={searchProduct}
           defaultValue={null}
+          onChange={(e) => onSearchByName(e.target.value)}
         />
       </Col>
 
@@ -69,12 +69,12 @@ function Toolbar({
         </Col>
       )}
 
-      <Col span={span}>
+      <Col span={span} className="add-button">
         <Button
-          type="primary"
+          className="button"
           icon={<PlusCircleOutlined />}
-          className="add-product-button"
           onClick={onClickAddButton}
+          type="primary"
         >
           {buttonLabel}
         </Button>

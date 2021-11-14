@@ -50,9 +50,10 @@ export const handleFilter = (dataToFilter, targetFilter, targetDate) => {
   if (targetFilter) {
     data = data.filter(
       (order) =>
-        order.userId.toLowerCase().includes(targetFilter.toLowerCase()) ||
-        order.address.zipCode.includes(targetFilter) ||
-        order.orderNumber === Number(targetFilter)
+        order?.userName?.toLowerCase().includes(targetFilter.toLowerCase()) ||
+        order?.address?.zipCode.includes(targetFilter) ||
+        order?.orderNumber === Number(targetFilter) ||
+        order?.orderId?.toLowerCase().includes(targetFilter.toLowerCase())
     );
   }
 

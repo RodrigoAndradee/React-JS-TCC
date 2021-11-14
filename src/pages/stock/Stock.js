@@ -135,7 +135,6 @@ export default function Storage() {
       </ConfirmationModal>
 
       <GenericPage
-        className="stock-body"
         toolbar={
           <Toolbar
             buttonLabel="Estoque"
@@ -148,7 +147,7 @@ export default function Storage() {
           />
         }
         body={
-          <>
+          <div className="stock-body">
             {stockProducts && stockProducts.length ? (
               <StockPagination
                 deleteStock={handleDeleteStock}
@@ -161,7 +160,7 @@ export default function Storage() {
                 image={Empty.PRESENTED_IMAGE_SIMPLE}
               />
             )}
-          </>
+          </div>
         }
       />
     </StyledStock>

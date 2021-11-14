@@ -3,17 +3,15 @@ import PropTypes from "prop-types";
 
 import { StyledTag } from "./TagComponent.styles";
 
-function StyledTagComponent({ color, children }) {
+function StyledTagComponent({ children }) {
   return <StyledTag>{children}</StyledTag>;
 }
 
 StyledTagComponent.propTypes = {
-  color: PropTypes.string,
   children: PropTypes.string,
 };
 
 StyledTagComponent.defaultProps = {
-  color: "blue",
   children: "",
 };
 

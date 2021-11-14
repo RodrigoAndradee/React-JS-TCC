@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useReducer, useState } from "react";
-import { Tooltip, Tabs } from "antd";
+import { Tooltip, Tabs, DatePicker, Input, Form } from "antd";
 import { Route, Switch, useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import {
@@ -10,6 +10,7 @@ import {
 } from "@ant-design/icons";
 
 // components
+import BasicModalForm from "../../components/modal/BasicModalForm";
 import GenericPage from "../../components/genericPage/GenericPage";
 import BasicOrders from "./basicOrders/BasicOrders";
 
@@ -27,16 +28,15 @@ import {
 import { OrdersReducer } from "../../store/reducers/Orders";
 
 // actions
-import { approveOrder } from "../../store/actions/Orders";
+import { approveOrder, rejectOrder } from "../../store/actions/Orders";
 
 // styles
-import { StyledOrders } from "./Orders.styles";
 import { StyledTabs } from "../../styles/styledGenericComponents/TabComponent.styles";
-import { StyledInputSearch } from "../../styles/styledGenericComponents/input/Search.styles";
-import { StyledDatePicker } from "../../styles/styledGenericComponents/input/DatePicker.styles";
+import { StyledOrders } from "./Orders.styles";
 
 const REFRESH_COUNTER = 60;
 const { TabPane } = Tabs;
+const { Search } = Input;
 
 export default function Orders() {
   // state
@@ -46,6 +46,8 @@ export default function Orders() {
   const [filteredData, setFilteredData] = useState([]);
   const [searchFilter, setSearchFilter] = useState();
   const [selectedMenuOption, setSelectedMenuOption] = useState("1");
+  const [rejectOrderModal, setRejectOrderModal] = useState(false);
+  const [justification, setJustification] = useState({ size: 0 });
 
   // reducers
   const dispatchLoading = useDispatch();
@@ -86,9 +88,22 @@ export default function Orders() {
         getOrders();
       });
     }
+
+    if (actionType === "reject") {
+      setRejectOrderModal(true);
+    }
   };
 
   // effects
+
+  useEffect(() => {
+    if (justification.size === 60) {
+      setJustification({
+        error: true,
+        errorMessage: "Limitado a 60 caracteres",
+      });
+    }
+  }, [justification]);
 
   useEffect(() => {
     if (counter > 0) {
@@ -109,103 +124,135 @@ export default function Orders() {
 
   useEffect(() => {
     getOrders();
-  }, [dispatchLoading, dispatchOrders, routeHistory, selectedMenuOption]);
+  }, [getOrders]);
 
   return (
     <StyledOrders>
+      <BasicModalForm
+        handleCancel={() => setRejectOrderModal(false)}
+        handleOk={(formValues) => {
+          rejectOrder(
+            currentSelectedOrder.id,
+            formValues
+          )([dispatchOrders, dispatchLoading]).then(() => {
+            getOrders();
+          });
+
+          setRejectOrderModal(false);
+        }}
+        isOpen={rejectOrderModal}
+        okText="Rejeitar"
+        title="Tem certeza que deseja rejeitar o pedido?"
+      >
+        <Form.Item
+          name="rejectJustification"
+          rules={[
+            {
+              required: true,
+              message: "Por favor de uma justificativa ao cliente",
+            },
+          ]}
+          validateStatus={justification.error}
+          help={justification.errorMessage}
+        >
+          <Input
+            placeholder="Justificativa"
+            maxLength="60"
+            onChange={(e) => setJustification({ size: e.target.value.length })}
+          />
+        </Form.Item>
+      </BasicModalForm>
+
       <GenericPage
+        toolbar={
+          <StyledTabs
+            onChange={handleClickSecondaryMenu}
+            defaultActiveKey="1"
+            centered
+            type="card"
+            size="large"
+          >
+            <TabPane
+              tab={
+                <>
+                  <ClockCircleOutlined />
+                  Pendentes
+                </>
+              }
+              key="1"
+            />
+
+            <TabPane
+              tab={
+                <>
+                  <ShoppingCartOutlined />
+                  Separação
+                </>
+              }
+              key="2"
+            />
+
+            <TabPane
+              tab={
+                <>
+                  <CarOutlined />
+                  Entrega
+                </>
+              }
+              key="3"
+            />
+
+            <TabPane
+              tab={
+                <>
+                  <FlagOutlined />
+                  Finalizado
+                </>
+              }
+              key="4"
+            />
+          </StyledTabs>
+        }
         body={
           <div className="orders-body">
-            <div className="page-content">
-              <StyledTabs
-                onChange={handleClickSecondaryMenu}
-                defaultActiveKey="1"
-                centered
-                type="card"
-                size="large"
-              >
-                <TabPane
-                  tab={
-                    <>
-                      <ClockCircleOutlined />
-                      Pendentes
-                    </>
-                  }
-                  key="1"
-                />
+            <div className="context-bar">
+              <Search
+                allowClear
+                className="search"
+                onChange={(e) => handleSearch(e.target.value)}
+                placeholder="Pesquisa"
+              />
+              <DatePicker
+                className="date-picker"
+                onChange={handleSelectDate}
+                placeholder="Selecione uma data"
+              />
 
-                <TabPane
-                  tab={
-                    <>
-                      <ShoppingCartOutlined />
-                      Separação
-                    </>
-                  }
-                  key="2"
-                />
-
-                <TabPane
-                  tab={
-                    <>
-                      <CarOutlined />
-                      Entrega
-                    </>
-                  }
-                  key="3"
-                />
-
-                <TabPane
-                  tab={
-                    <>
-                      <FlagOutlined />
-                      Finalizado
-                    </>
-                  }
-                  key="4"
-                />
-              </StyledTabs>
-
-              <div className="context-bar">
-                <StyledInputSearch
-                  allowClear
-                  className="search"
-                  onChange={(e) => handleSearch(e.target.value)}
-                  placeholder="Pesquisa"
-                />
-                <StyledDatePicker
-                  className="date-picker"
-                  onChange={handleSelectDate}
-                  placeholder="Selecione uma data"
-                />
-
-                <Tooltip
-                  placement="topLeft"
-                  title="Tempo para recarregamento automático"
-                >
-                  <span className="count-down">
-                    {counter}
-                    <ClockCircleOutlined className="icon" />
-                  </span>
-                </Tooltip>
-              </div>
-              <Switch>
-                {OrdersPage.map((item) => (
-                  <Route path={item.path} key={item.path}>
-                    <BasicOrders
-                      approveButtonLabel={item.approveButtonLabel}
-                      blockApprove={blockActionButtons}
-                      blockCancel={blockActionButtons}
-                      currentSelectedOrder={currentSelectedOrder}
-                      onClickApprove={() => handleClickAction("approve")}
-                      onClickReject={() => handleClickAction("reject")}
-                      orders={filteredData}
-                      ordersTitle={item.ordersTitle}
-                      setCurrentSelectedOrder={setCurrentSelectedOrder}
-                    />
-                  </Route>
-                ))}
-              </Switch>
+              <Tooltip placement="bottom" title="Tempo para recarregamento">
+                <span className="count-down">
+                  {counter}
+                  <ClockCircleOutlined className="icon" />
+                </span>
+              </Tooltip>
             </div>
+
+            <Switch>
+              {OrdersPage.map((item) => (
+                <Route path={item.path} key={item.path}>
+                  <BasicOrders
+                    approveButtonLabel={item.approveButtonLabel}
+                    blockApprove={blockActionButtons}
+                    blockCancel={blockActionButtons}
+                    currentSelectedOrder={currentSelectedOrder}
+                    onClickApprove={() => handleClickAction("approve")}
+                    onClickReject={() => handleClickAction("reject")}
+                    orders={filteredData}
+                    ordersTitle={item.ordersTitle}
+                    setCurrentSelectedOrder={setCurrentSelectedOrder}
+                  />
+                </Route>
+              ))}
+            </Switch>
           </div>
         }
       />

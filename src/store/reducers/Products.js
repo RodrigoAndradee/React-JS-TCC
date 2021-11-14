@@ -5,18 +5,19 @@ import {
   PRODUCTS_INFO,
 } from "../ActionTypes";
 
-export function ProductsReducer(state = {}, action) {
+export function ProductsReducer(state = { loading: false }, action) {
   const {
-    productsInfo,
     createProductInfo,
-    editProductInfo,
     deleteProductInfo,
+    editProductInfo,
+    loading = false,
+    productsInfo,
     type,
   } = action;
 
   switch (type) {
     case PRODUCTS_INFO:
-      return productsInfo;
+      return { productsInfo, loading };
     case CREATE_PRODUCT_INFO:
       return createProductInfo;
     case EDIT_PRODUCT_INFO:

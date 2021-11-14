@@ -3,7 +3,7 @@ import { Col, Pagination, Row, Tooltip } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import PropTypes from "prop-types";
 
-import BasicCard from "../../../components/cards/productsCard/BasicCard";
+import BasicCard from "../../../components/cards/basicCard/BasicCard";
 
 import { ProductObjectShape } from "../../../types/ProductsPropTypes";
 
@@ -12,7 +12,7 @@ import { EDIT_PRODUCT_LABEL } from "../../../constants/productsConstants";
 import { StyledProductsPagination } from "../Products.styles";
 
 const defaultPlacement = "bottom";
-const pageItemsCount = 8;
+const pageItemsCount = 12;
 function ProductsPagination({ deleteProduct, editProduct, productsInfoData }) {
   const [paginationValue, setPaginationValues] = useState({
     min: 0,
@@ -47,7 +47,7 @@ function ProductsPagination({ deleteProduct, editProduct, productsInfoData }) {
           .slice(paginationValue.min, paginationValue.max)
           .map((cardInfo) => {
             return (
-              <Col span={6} key={cardInfo.id}>
+              <Col span={24 / (pageItemsCount / 2)} key={cardInfo.id}>
                 <BasicCard
                   productsInfo={cardInfo}
                   optionsButton={() => optionsCardButton(cardInfo)}

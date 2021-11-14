@@ -11,7 +11,7 @@ export const StyledModal = styled(Modal)`
     .ant-btn {
       border: none;
       box-shadow: none;
-      color: ${colors.colorBlueAntd};
+      color: ${colors.colorRedOrange};
     }
 
     .ant-btn-primary {

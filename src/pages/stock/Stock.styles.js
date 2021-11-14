@@ -1,18 +1,13 @@
 import styled from "styled-components";
-import { PROJECT_VARIABLES } from "../../constants/uiConstants";
 
 export const StyledStock = styled.div`
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-
   .empty-data {
     margin-top: 50px;
   }
 
   .stock-body {
-    width: ${PROJECT_VARIABLES.systemWidth};
+    height: 100%;
+    width: 100%;
   }
 `;
 

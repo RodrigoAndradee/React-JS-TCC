@@ -1,4 +1,7 @@
 import httpClient from "../../configs/httpClient";
+
+import sendNotification from "../../helpers/NotificationsHelper";
+
 import {
   CREATE_PRODUCT_INFO,
   DELETE_PRODUCT_INFO,
@@ -6,16 +9,19 @@ import {
   PRODUCTS_INFO,
 } from "../ActionTypes";
 
-import sendNotification from "../../helpers/NotificationsHelper";
-
 function ProductsActions() {
   return async (dispatch) => {
     try {
+      dispatch({ loading: true, type: PRODUCTS_INFO });
+
       const url = "/product/products";
 
       const data = await httpClient.get(url);
 
-      dispatch({ productsInfo: data.data, type: PRODUCTS_INFO });
+      dispatch({
+        productsInfo: data.data,
+        type: PRODUCTS_INFO,
+      });
     } catch (error) {
       sendNotification("ERROR", "Erro ao Obter os Produtos", "Error");
     }

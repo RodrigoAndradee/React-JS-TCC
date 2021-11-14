@@ -5,12 +5,13 @@ import colors from "../colors";
 
 export const StyledTabs = styled(Tabs)`
   height: 40px;
+  width: 100%;
 
   .ant-tabs-tab {
     border: solid 1px ${colors.colorRedOrange} !important;
     display: flex;
     justify-content: center;
-    width: 318px;
+    width: 317px;
 
     &.ant-tabs-tab-active {
       background-color: ${colors.colorLighterOrange};

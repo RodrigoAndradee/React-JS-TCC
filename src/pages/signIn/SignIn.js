@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Input } from "antd";
+import { Button, Form, Input } from "antd";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { UserOutlined } from "@ant-design/icons";
@@ -13,8 +13,6 @@ import { SignIn } from "../../store/actions/SignIn";
 import { LOGIN_CONSTANTS } from "../../constants/loginConstants";
 
 import { StyledSignIn } from "./SignIn.styles";
-import { StyledPrimaryButton } from "../../styles/styledGenericComponents/buttons/PrimaryButton.styles";
-import "antd/dist/antd.css";
 
 function Login({ getProfile }) {
   const { APP_INTRO, LOGIN_BUTTON, USER_NAME, USER_PASSWORD } = LOGIN_CONSTANTS;
@@ -42,9 +40,9 @@ function Login({ getProfile }) {
           <Input.Password placeholder={USER_PASSWORD} className="input-text" />
         </Form.Item>
 
-        <StyledPrimaryButton className="login-button" htmlType>
+        <Button className="login-button" htmlType type="primary">
           {LOGIN_BUTTON}
-        </StyledPrimaryButton>
+        </Button>
       </Form>
     </StyledSignIn>
   );

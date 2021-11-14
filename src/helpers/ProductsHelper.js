@@ -28,7 +28,13 @@ export const filterProductByName = (productsInfoData, typedProductName) => {
     return productsInfoData;
   }
 
-  return productsInfoData.filter((product) =>
-    product.name.toLowerCase().includes(typedProductName.toLowerCase())
-  );
+  return productsInfoData.filter((product) => {
+    const typedProduct = typedProductName.toLowerCase();
+
+    return (
+      product?.name?.toLowerCase().includes(typedProduct) ||
+      product?.description?.toLowerCase().includes(typedProduct) ||
+      product?.type.toLowerCase().includes(typedProduct)
+    );
+  });
 };

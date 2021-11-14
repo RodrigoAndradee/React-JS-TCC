@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Col, Pagination, Row, Tooltip } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 
-import BasicCard from "../../../components/cards/productsCard/BasicCard";
+import BasicCard from "../../../components/cards/basicCard/BasicCard";
 
 import { QUANTITY_LABEL } from "../../../constants/stockConstants";
 

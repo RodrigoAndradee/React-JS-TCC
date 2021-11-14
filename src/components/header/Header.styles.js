@@ -1,4 +1,7 @@
 import styled from "styled-components";
+
+import { PROJECT_VARIABLES } from "../../constants/uiConstants";
+
 import colors from "../../styles/colors";
 
 export const StyledHeader = styled.div`
@@ -11,17 +14,17 @@ export const StyledHeader = styled.div`
     align-items: center;
     display: flex;
     justify-content: space-between;
-    width: 1280px;
+    width: ${PROJECT_VARIABLES.systemWidth};
 
     .left-menu {
       display: flex;
       flex-direction: row;
       align-items: center;
 
-      .main-icon {
-        margin-right: 10px;
-        width: 25px;
-        height: 25px;
+      .barbecue-icon {
+        height: 30px;
+        margin-right: 5px;
+        width: 30px;
       }
     }
 
