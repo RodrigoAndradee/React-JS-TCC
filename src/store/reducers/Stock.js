@@ -12,11 +12,12 @@ export function StockReducer(state = {}, action) {
     stockInfo,
     type,
     updateStockInfo,
+    loading = false,
   } = action;
 
   switch (type) {
     case STOCK_INFO:
-      return stockInfo;
+      return { stockInfo, loading };
     case CREATE_STOCK_INFO:
       return createStockInfo;
     case UPDATE_STOCK_INFO:

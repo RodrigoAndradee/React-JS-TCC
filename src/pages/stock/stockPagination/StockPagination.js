@@ -1,14 +1,19 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
 import { Col, Pagination, Row, Tooltip } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
+import PropTypes from "prop-types";
 
+// Components
 import BasicCard from "../../../components/cards/basicCard/BasicCard";
 
+// Constants
+import { PAGE_INFOS } from "../../../constants/routesConstants";
 import { QUANTITY_LABEL } from "../../../constants/stockConstants";
 
+// Types
 import { stockObjectShape } from "../../../types/StockProptypes";
 
+// Styles
 import { StyledStockPagination } from "../Stock.styles";
 
 const defaultPlacement = "bottom";
@@ -56,7 +61,9 @@ function StockPagination({ stockData, deleteStock }) {
             return (
               <Col span={24 / (pageItemsCount / 2)} key={cardInfo.id}>
                 <BasicCard
+                  dueDate={cardInfo.dueDate}
                   optionsButton={() => optionsCardButton(cardInfo)}
+                  pageName={PAGE_INFOS.STOCK.pageName}
                   productsInfo={productInfo}
                 />
               </Col>
@@ -79,11 +86,12 @@ function StockPagination({ stockData, deleteStock }) {
 
 StockPagination.propTypes = {
   deleteStock: PropTypes.func,
-  stockData: stockObjectShape.isRequired,
+  stockData: stockObjectShape,
 };
 
 StockPagination.defaultProps = {
   deleteStock: () => {},
+  stockData: [],
 };
 
 export default StockPagination;

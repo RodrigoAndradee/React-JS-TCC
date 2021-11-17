@@ -4,15 +4,13 @@ import { Table } from "antd";
 import colors from "../colors";
 
 export const StyledTable = styled(Table)`
-  height: 100%;
-
   .ant-spin-nested-loading {
     height: 100%;
     .ant-spin-container {
       .ant-table {
         .ant-table-container {
           .ant-table-body {
-            height: 550px !important;
+            height: 500px !important;
           }
         }
       }

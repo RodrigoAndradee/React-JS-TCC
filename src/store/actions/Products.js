@@ -46,7 +46,7 @@ function CreateProductActions(productInfo) {
 
       sendNotification(
         "SUCCESS",
-        `Produto "${productInfo.name}" Criado com Sucesso`,
+        `Produto "${productInfo.name}" adicionado ao sistema`,
         "Sucesso"
       );
     } catch (error) {
@@ -73,7 +73,7 @@ function UpdateProductActions(productInfo, productID) {
 
       sendNotification(
         "SUCCESS",
-        `Produto "${productInfo.name}" Editado com Sucesso`,
+        `Produto "${productInfo.name}" editado`,
         "Sucesso"
       );
     } catch (error) {

@@ -1,3 +1,6 @@
+// Helpers
+import { DEFAULT_FORMAT } from "./DateGeneratorHelper";
+
 export const returnCapitalizeFirstLetter = (productAttribute) => {
   return (
     productAttribute.charAt(0).toUpperCase() +
@@ -13,37 +16,40 @@ export const capitalizeFirstLetter = (stockInfoData) => {
   };
 };
 
-export const filterStockByCategory = (stockInfoData, selectedCategory) => {
-  if (!selectedCategory) {
-    return stockInfoData;
-  }
+export const filterStockInfos = ({
+  selectedCategory,
+  selectedDueDate,
+  typedFilter,
+  unfilteredData = [],
+}) => {
+  let filteredData = unfilteredData;
 
-  return stockInfoData.filter(
-    (stock) => stock.product.category === selectedCategory
-  );
-};
+  if (typedFilter) {
+    const typedFilterLowerCase = typedFilter.toLowerCase();
 
-export const filterStockByName = (stockInfoData, typedProductName) => {
-  if (!typedProductName) {
-    return stockInfoData;
-  }
-
-  return stockInfoData.filter((stock) => {
-    const typedInfo = stock?.toLowerCase();
-
-    return (
-      stock?.name?.toLowerCase().includes(typedInfo) ||
-      stock?.description?.toLowerCase().includes(typedInfo) ||
-      stock?.type.toLowerCase().includes(typedInfo)
+    filteredData = filteredData.filter(
+      (item) =>
+        item?.product?.name.toLowerCase().includes(typedFilterLowerCase) ||
+        item?.product?.description
+          ?.toLowerCase()
+          .includes(typedFilterLowerCase) ||
+        item?.product?.type.toLowerCase().includes(typedFilterLowerCase)
     );
-  });
-};
-
-export const filterStockByDueDate = (stockInfoData, selectedDate) => {
-  if (!selectedDate) {
-    return stockInfoData;
   }
-  const enhancedDate = selectedDate.format("YYYY-MM-DD");
 
-  return stockInfoData.filter((stock) => stock.dueDate.includes(enhancedDate));
+  if (selectedCategory) {
+    filteredData = filteredData.filter(
+      (item) => item.product.category === selectedCategory
+    );
+  }
+
+  if (selectedDueDate) {
+    const formattedSelectedDueDate = selectedDueDate.format(DEFAULT_FORMAT);
+
+    filteredData = filteredData.filter((item) => {
+      return item.dueDate.includes(formattedSelectedDueDate);
+    });
+  }
+
+  return filteredData;
 };

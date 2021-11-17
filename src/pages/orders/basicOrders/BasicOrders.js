@@ -87,7 +87,6 @@ function BasicOrders({
               const isSelected = order?.id === currentSelectedOrder?.id;
               const currentDate = moment(order.createdDate);
               const currentHour = currentDate.format("HH:mm");
-              // const currentDay = currentDate.format("DD/MM/YYYY");
 
               return (
                 <>
@@ -147,29 +146,34 @@ function BasicOrders({
           <>
             <Card className="orders-details">
               <Row gutter={[16, 16]} className="orders-detail-address">
-                <Col span={16}>
+                <Col span={24 / columnsCount}>
                   <span>Nome do Cliente</span>
                   {currentSelectedOrder.userName}
                 </Col>
 
-                <Col span={8}>
+                <Col span={24 / columnsCount}>
                   <span>CEP</span>
-                  {address?.zipCode}
+                  {address?.cep}
+                </Col>
+
+                <Col span={24 / columnsCount}>
+                  <span>Estado</span>
+                  {address?.state}
                 </Col>
 
                 <Col span={24 / columnsCount}>
                   <span>Endereço</span>
-                  {address?.address}
+                  {address?.street}
+                </Col>
+
+                <Col span={24 / columnsCount}>
+                  <span>Bairro</span>
+                  {address?.district}
                 </Col>
 
                 <Col span={24 / columnsCount}>
                   <span>Número</span>
                   {address?.number}
-                </Col>
-
-                <Col span={24 / columnsCount}>
-                  <span>Complemento</span>
-                  {address?.complement}
                 </Col>
               </Row>
             </Card>

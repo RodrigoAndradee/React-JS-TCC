@@ -13,6 +13,7 @@ function StockActions() {
     try {
       const url = "/stock";
 
+      dispatch({ loading: true, type: STOCK_INFO });
       const data = await httpClient.get(url);
 
       dispatch({ stockInfo: data.data, type: STOCK_INFO });

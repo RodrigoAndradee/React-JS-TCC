@@ -2,6 +2,8 @@ import React, { useEffect, useReducer, useState } from "react";
 import { Empty, Spin } from "antd";
 import { useDispatch } from "react-redux";
 
+// Components
+
 import BasicDrawer from "../../components/basicDrawer/BasicDrawer";
 import GenericPage from "../../components/genericPage/GenericPage";
 import ProductsForm from "./form/ProductsForm";
@@ -9,24 +11,31 @@ import ProductsPagination from "./productsPagination/ProductsPagination";
 import Toolbar from "../../components/toolbar/Toolbar";
 import ConfirmationModal from "../../components/modal/confirmationModal/ConfirmationModal";
 
+// Constants
+
+import { EMPTY_DATA } from "../../constants/errorsConstants";
+import { BUTTONS_LABELS, TITLE_LABELS } from "../../constants/drawerConstants";
+
+// Helpers
+
+import {
+  capitalizeFirstLetter,
+  filterProductsInfos,
+} from "../../helpers/ProductsHelper";
+
+// Reducers
+
+import { ProductsReducer } from "../../store/reducers/Products";
+import { CategoriesReducer } from "../../store/reducers/Categories";
 import {
   CreateProductActions,
   DeleteProductActions,
   ProductsActions,
   UpdateProductActions,
 } from "../../store/actions/Products";
-import { ProductsReducer } from "../../store/reducers/Products";
 import { CategoryActions } from "../../store/actions/Categories";
-import { CategoriesReducer } from "../../store/reducers/Categories";
 
-import {
-  capitalizeFirstLetter,
-  filterProductByName,
-  filterSelectedCategory,
-} from "../../helpers/ProductsHelper";
-
-import { EMPTY_DATA } from "../../constants/errorsConstants";
-import { BUTTONS_LABELS, TITLE_LABELS } from "../../constants/drawerConstants";
+// Styles
 
 import { StyledProducts } from "./Products.styles";
 
@@ -38,12 +47,14 @@ function Products() {
     isEditing: false,
     isOpen: false,
   });
-  const [currentProduct, setCurrentProduct] = useState(null);
-  const [filteredProducts, setFilteredProducts] = useState(null);
   const [discardProduct, setDiscardProduct] = useState({
     isOpen: false,
     productId: null,
   });
+  const [currentProduct, setCurrentProduct] = useState(null);
+  const [filteredProducts, setFilteredProducts] = useState(null);
+  const [typedFilter, setTypedFilter] = useState();
+  const [selectedCategory, setSelectedCategory] = useState();
 
   const [fetchedProductsInfos, dispatchProductsInfoData] = useReducer(
     ProductsReducer
@@ -106,24 +117,6 @@ function Products() {
     }
   };
 
-  const onSelectCategory = (selectedCategory) => {
-    const filteredValues = filterSelectedCategory(
-      fetchedProductsInfos?.productsInfo,
-      selectedCategory
-    );
-
-    setFilteredProducts(filteredValues);
-  };
-
-  const onSearchByName = (typedName) => {
-    const filteredValues = filterProductByName(
-      fetchedProductsInfos?.productsInfo,
-      typedName
-    );
-
-    setFilteredProducts(filteredValues);
-  };
-
   const confirmationButtonLabel = drawerStates.isEditing
     ? editButton
     : createButton;
@@ -156,9 +149,22 @@ function Products() {
     );
   };
 
+  // Effects
+
   useEffect(() => {
-    setFilteredProducts(fetchedProductsInfos?.productsInfo);
-  }, [fetchedProductsInfos?.productsInfo]);
+    setFilteredProducts(
+      filterProductsInfos({
+        unfilteredData: fetchedProductsInfos?.productsInfo,
+        typedFilter,
+        selectedCategory,
+      })
+    );
+  }, [
+    fetchedProductsInfos,
+    selectedCategory,
+    setFilteredProducts,
+    typedFilter,
+  ]);
 
   useEffect(() => {
     ProductsActions()(dispatchProductsInfoData);
@@ -210,8 +216,8 @@ function Products() {
             buttonLabel="Produto"
             categoriesInfoData={categoriesInfoData}
             onClickAddButton={handleCreateProduct}
-            onSearchByName={onSearchByName}
-            onSelectCategory={onSelectCategory}
+            onSearchByName={(value) => setTypedFilter(value)}
+            onSelectCategory={(value) => setSelectedCategory(value)}
             pageName="products"
           />
         }

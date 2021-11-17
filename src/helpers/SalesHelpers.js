@@ -2,14 +2,21 @@
 import React from "react";
 import { Table } from "antd";
 
+// Components
 import { expandedColumns } from "../pages/sales/SalesTableColumnDefinitions";
 
+// Constants
 import {
   DEFAULT_CELL_ALIGNMENT,
   PAYMENT_PLACES,
   PAYMENT_TYPES,
   SALES_DATA_INDEXES,
 } from "../constants/salesConstants";
+
+// Helpers
+import { DEFAULT_FORMAT } from "./DateGeneratorHelper";
+
+// Styles
 import { StyledTable } from "../styles/styledGenericComponents/TableComponent.styles";
 
 const {
@@ -28,6 +35,8 @@ export const getCalculatedTableX = (columns) => {
 
   return totalWidthSum;
 };
+
+const normalizeData = (data) => (Math.round(data * 100) / 100).toFixed(2);
 
 export const getSortedData = (firstValue, secondValue, dataIndex) => {
   if (
@@ -51,23 +60,21 @@ export const generateSummaryRows = (pageData) => {
   let taxSum = 0;
 
   pageData.forEach((item) => {
-    totalPrice += item.totalPrice;
-    subTotalPrice += item.subTotalPrice;
-    taxSum += item.tax;
+    totalPrice += Number(item.totalPrice);
+    subTotalPrice += Number(item.subTotalPrice);
+    taxSum += Number(item.tax);
   });
 
   totalPrice = Math.round(totalPrice * 100) / 100;
-  subTotalPrice = Math.round(subTotalPrice * 100) / 100;
-  taxSum = Math.round(taxSum * 100) / 100;
+  subTotalPrice = normalizeData(subTotalPrice);
+  taxSum = normalizeData(taxSum);
 
   return (
     <Table.Summary fixed>
       <Table.Summary.Row>
         <Table.Summary.Cell align={DEFAULT_CELL_ALIGNMENT} index={0} />
 
-        <Table.Summary.Cell align={DEFAULT_CELL_ALIGNMENT} index={1}>
-          Total
-        </Table.Summary.Cell>
+        <Table.Summary.Cell align={DEFAULT_CELL_ALIGNMENT} index={1} />
 
         <Table.Summary.Cell align={DEFAULT_CELL_ALIGNMENT} index={2} />
 
@@ -136,8 +143,8 @@ export const handleFilterData = ({
     const [startDate, endDate] = selectedRangeDate;
 
     if (startDate && endDate) {
-      const formattedStartDate = startDate.format("YYYY-MM-DD");
-      const formattedEndDate = endDate.format("YYYY-MM-DD");
+      const formattedStartDate = startDate.format(DEFAULT_FORMAT);
+      const formattedEndDate = endDate.format(DEFAULT_FORMAT);
 
       enhancedData = enhancedData.filter(
         (item) =>
@@ -183,4 +190,20 @@ export const handleFilterData = ({
   }
 
   return enhancedData;
+};
+
+export const normalizedSalesData = (salesData) => {
+  return salesData.map((item) => {
+    const productsNormalized = item.products.map((product) => {
+      return { ...product, price: normalizeData(product.price) };
+    });
+
+    return {
+      ...item,
+      subTotalPrice: normalizeData(item.subTotalPrice),
+      totalPrice: normalizeData(item.totalPrice),
+      tax: normalizeData(item.tax),
+      products: productsNormalized,
+    };
+  });
 };

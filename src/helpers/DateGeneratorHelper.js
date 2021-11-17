@@ -1,3 +1,6 @@
+export const DEFAULT_FORMAT = "YYYY-MM-DD";
+export const UI_DEFAULT_FORMAT = "DD/MM/YYYY";
+
 export function generateCurrentDate() {
   const currentDate = new Date();
 

@@ -3,12 +3,16 @@ import { Col, Pagination, Row, Tooltip } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import PropTypes from "prop-types";
 
+// Components
 import BasicCard from "../../../components/cards/basicCard/BasicCard";
 
-import { ProductObjectShape } from "../../../types/ProductsPropTypes";
-
+// Constants
 import { EDIT_PRODUCT_LABEL } from "../../../constants/productsConstants";
 
+// Types
+import { ProductObjectShape } from "../../../types/ProductsPropTypes";
+
+// Styles
 import { StyledProductsPagination } from "../Products.styles";
 
 const defaultPlacement = "bottom";

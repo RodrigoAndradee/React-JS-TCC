@@ -55,7 +55,6 @@ function Toolbar({
                 </Option>
               );
             })}
-          <Option key="Test">Test</Option>
         </Select>
       </Col>
 

@@ -2,10 +2,15 @@ import React, { useEffect, useState } from "react";
 import { Form, Input, Select, Steps, Switch } from "antd";
 import PropTypes from "prop-types";
 
+// Components
 import BasicSteps from "../../../components/steps/Steps";
+
+// Constants
+import { PRODUCT_FORM_INFOS } from "../../../constants/productsConstants";
+
+// Types
 import { ProductObjectShape } from "../../../types/ProductsPropTypes";
 import { CategoryObjectShape } from "../../../types/CategoryPropTypes";
-import { PRODUCT_FORM_INFOS } from "../../../constants/productsConstants";
 
 const { Option } = Select;
 const { Step } = Steps;

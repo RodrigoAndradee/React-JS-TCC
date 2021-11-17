@@ -13,28 +13,29 @@ export const capitalizeFirstLetter = (productInfo) => {
   };
 };
 
-export const filterSelectedCategory = (productsInfoData, selectedCategory) => {
-  if (!selectedCategory) {
-    return productsInfoData;
-  }
+export const filterProductsInfos = ({
+  selectedCategory,
+  typedFilter,
+  unfilteredData = [],
+}) => {
+  let filteredData = unfilteredData;
 
-  return productsInfoData.filter(
-    (product) => product.category === selectedCategory
-  );
-};
+  if (typedFilter) {
+    const typedFilterLowerCase = typedFilter.toLowerCase();
 
-export const filterProductByName = (productsInfoData, typedProductName) => {
-  if (!typedProductName) {
-    return productsInfoData;
-  }
-
-  return productsInfoData.filter((product) => {
-    const typedProduct = typedProductName.toLowerCase();
-
-    return (
-      product?.name?.toLowerCase().includes(typedProduct) ||
-      product?.description?.toLowerCase().includes(typedProduct) ||
-      product?.type.toLowerCase().includes(typedProduct)
+    filteredData = filteredData.filter(
+      (item) =>
+        item?.name.toLowerCase().includes(typedFilterLowerCase) ||
+        item?.description?.toLowerCase().includes(typedFilterLowerCase) ||
+        item?.type.toLowerCase().includes(typedFilterLowerCase)
     );
-  });
+  }
+
+  if (selectedCategory) {
+    filteredData = filteredData.filter(
+      (item) => item.category === selectedCategory
+    );
+  }
+
+  return filteredData;
 };

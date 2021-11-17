@@ -1,11 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { arrayOf } from "prop-types";
 import { DatePicker, Form, InputNumber, Select, Steps } from "antd";
+import { arrayOf } from "prop-types";
+
+// Components
+import BasicSteps from "../../../components/steps/Steps";
+
+// Constants
+import { STOCK_FORM_INFOS } from "../../../constants/stockConstants";
+
+// Helpers
+import { UI_DEFAULT_FORMAT } from "../../../helpers/DateGeneratorHelper";
+
+// Types
 
 import { ProductObjectShape } from "../../../types/ProductsPropTypes";
-
-import BasicSteps from "../../../components/steps/Steps";
-import { STOCK_FORM_INFOS } from "../../../constants/stockConstants";
 
 const { Option } = Select;
 const { Step } = Steps;
@@ -50,7 +58,7 @@ function StockForm({ productsInfo }) {
       case "date":
         return (
           <DatePicker
-            format="DD/MM/YYYY"
+            format={UI_DEFAULT_FORMAT}
             style={{ width: "100%" }}
             placeholder={placeHolder}
           />

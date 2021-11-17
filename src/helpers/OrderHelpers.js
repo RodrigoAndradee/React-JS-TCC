@@ -1,7 +1,13 @@
 import isEmpty from "lodash.isempty";
-import { ORDERS_TYPE } from "../constants/ordersConstants";
 
+// Constants
+import { ORDERS_TYPE } from "../constants/ordersConstants";
 import { PAGE_INFOS } from "../constants/routesConstants";
+
+// Helpers
+import { DEFAULT_FORMAT } from "./DateGeneratorHelper";
+
+// Store
 import { fetchOrders } from "../store/actions/Orders";
 
 export const controlOrdersRoutes = (
@@ -59,7 +65,7 @@ export const handleFilter = (dataToFilter, targetFilter, targetDate) => {
 
   if (targetDate) {
     data = data.filter((item) =>
-      item.createdDate.includes(targetDate.format("YYYY-MM-DD"))
+      item.createdDate.includes(targetDate.format(DEFAULT_FORMAT))
     );
   }
 

@@ -20,4 +20,11 @@ export const PAYMENT_PLACES = Object.freeze({
   DESTINATION: "DEST",
 });
 
+export const STATUS_TYPES = Object.freeze({
+  FINISHED: "Finalizado",
+  PENDING: "Pendente",
+  PREPARING: "Separando",
+  REJECTED: "Rejeitado",
+});
+
 export const DEFAULT_CELL_ALIGNMENT = "center";

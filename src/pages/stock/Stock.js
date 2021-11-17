@@ -1,13 +1,28 @@
 import React, { useEffect, useReducer, useState } from "react";
-import { Empty } from "antd";
+import { Empty, Spin } from "antd";
 import { useDispatch } from "react-redux";
 
+// Components
 import BasicDrawer from "../../components/basicDrawer/BasicDrawer";
 import GenericPage from "../../components/genericPage/GenericPage";
 import StockForm from "./form/StockForm";
 import StockPagination from "./stockPagination/StockPagination";
 import Toolbar from "../../components/toolbar/Toolbar";
 import ConfirmationModal from "../../components/modal/confirmationModal/ConfirmationModal";
+
+// Constants
+import { PAGE_INFOS } from "../../constants/routesConstants";
+import { DRAWER_LABELS } from "../../constants/stockConstants";
+import { EMPTY_DATA } from "../../constants/errorsConstants";
+
+// Helpers
+import { filterStockInfos } from "../../helpers/StockHelpers";
+import { DEFAULT_FORMAT } from "../../helpers/DateGeneratorHelper";
+
+// Reducers
+import { CategoriesReducer } from "../../store/reducers/Categories";
+import { StockReducer } from "../../store/reducers/Stock";
+import { ProductsReducer } from "../../store/reducers/Products";
 
 import { CategoryActions } from "../../store/actions/Categories";
 import {
@@ -17,31 +32,22 @@ import {
 } from "../../store/actions/Stock";
 import { ProductsActions } from "../../store/actions/Products";
 
-import { CategoriesReducer } from "../../store/reducers/Categories";
-import { StockReducer } from "../../store/reducers/Stock";
-import { ProductsReducer } from "../../store/reducers/Products";
-
-import {
-  filterStockByCategory,
-  filterStockByDueDate,
-  filterStockByName,
-} from "../../helpers/StockHelpers";
-
-import { PAGE_INFOS } from "../../constants/routesConstants";
-import { DRAWER_LABELS } from "../../constants/stockConstants";
-import { EMPTY_DATA } from "../../constants/errorsConstants";
-
+// Styles
 import { StyledStock } from "./Stock.styles";
 
 export default function Storage() {
   const [drawerState, setDrawerState] = useState(false);
-  const [stockProducts, setStockProducts] = useState();
+  const [filteredStockProducts, setFilteredStockProducts] = useState();
+
+  const [typedFilter, setTypedFilter] = useState();
+  const [selectedCategory, setSelectedCategory] = useState();
+  const [selectedDueDate, setSelectedDueDate] = useState();
   const [deleteStockModal, setDeleteStockModal] = useState({
     state: false,
     stockId: null,
   });
 
-  const [stockData, dispatchStockData] = useReducer(StockReducer);
+  const [fetchedStockInfos, dispatchStockData] = useReducer(StockReducer);
   const [productsData, dispatchProductsData] = useReducer(ProductsReducer);
   const [categoriesInfoData, dispatchCategoriesInfoData] = useReducer(
     CategoriesReducer
@@ -59,7 +65,7 @@ export default function Storage() {
   const onSubmitForm = (stockInfo) => {
     const enhancedStockInfo = {
       ...stockInfo,
-      dueDate: stockInfo.dueDate.format("YYYY-MM-DD"),
+      dueDate: stockInfo.dueDate.format(DEFAULT_FORMAT),
     };
 
     CreateStockActions(enhancedStockInfo)(dispatchCreateStockData).then(() => {
@@ -89,21 +95,39 @@ export default function Storage() {
     setDrawerState(false);
   };
 
-  const onFilterByName = (typedName) => {
-    setStockProducts(filterStockByName(stockData, typedName));
-  };
+  const getPageContent = () => {
+    if (fetchedStockInfos?.loading) {
+      return <Spin tip="Carregando as informações" />;
+    }
 
-  const onFilterByCategory = (category) => {
-    setStockProducts(filterStockByCategory(stockData, category));
-  };
+    if (!fetchedStockInfos?.stockInfo?.length) {
+      return (
+        <Empty
+          className="empty-data"
+          description={EMPTY_DATA.emptyProducts}
+          image={Empty.PRESENTED_IMAGE_SIMPLE}
+        />
+      );
+    }
 
-  const onFilterByDueDate = (selectedDate) => {
-    setStockProducts(filterStockByDueDate(stockData, selectedDate));
+    return (
+      <StockPagination
+        deleteStock={handleDeleteStock}
+        stockData={filteredStockProducts}
+      />
+    );
   };
 
   useEffect(() => {
-    setStockProducts(stockData);
-  }, [stockData]);
+    setFilteredStockProducts(
+      filterStockInfos({
+        selectedCategory,
+        selectedDueDate,
+        typedFilter,
+        unfilteredData: fetchedStockInfos?.stockInfo,
+      })
+    );
+  }, [typedFilter, selectedCategory, selectedDueDate, fetchedStockInfos]);
 
   useEffect(() => {
     CategoryActions()(dispatchCategoriesInfoData);
@@ -140,28 +164,13 @@ export default function Storage() {
             buttonLabel="Estoque"
             categoriesInfoData={categoriesInfoData}
             onClickAddButton={handleAddProduct}
-            onSearchByName={onFilterByName}
-            onSelectCategory={onFilterByCategory}
-            onSelectDate={onFilterByDueDate}
+            onSearchByName={(value) => setTypedFilter(value)}
+            onSelectCategory={(value) => setSelectedCategory(value)}
+            onSelectDate={(value) => setSelectedDueDate(value)}
             pageName={PAGE_INFOS.STOCK.pageName}
           />
         }
-        body={
-          <div className="stock-body">
-            {stockProducts && stockProducts.length ? (
-              <StockPagination
-                deleteStock={handleDeleteStock}
-                stockData={stockProducts}
-              />
-            ) : (
-              <Empty
-                className="empty-data"
-                description={EMPTY_DATA.emptyStock}
-                image={Empty.PRESENTED_IMAGE_SIMPLE}
-              />
-            )}
-          </div>
-        }
+        body={<div className="stock-body">{getPageContent()}</div>}
       />
     </StyledStock>
   );

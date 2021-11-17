@@ -2,6 +2,8 @@ import React from "react";
 import { Tag } from "antd";
 import PropTypes from "prop-types";
 
+import { ORDERS_TYPE } from "../../../constants/ordersConstants";
+
 function TableTag({ message, tagType, icon }) {
   let color;
 
@@ -12,7 +14,10 @@ function TableTag({ message, tagType, icon }) {
     case "card":
       color = "blue";
       break;
-    case "credit card":
+    case ORDERS_TYPE.finished:
+      color = "green";
+      break;
+    case ORDERS_TYPE.rejected:
       color = "red";
       break;
     default:
