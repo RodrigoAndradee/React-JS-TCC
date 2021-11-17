@@ -23,7 +23,7 @@ export const StyledHeader = styled.div`
 
       .barbecue-icon {
         height: 30px;
-        margin-right: 5px;
+        margin-right: 10px;
         width: 30px;
       }
     }

@@ -12,7 +12,7 @@ import { stockObjectShape } from "../../../types/StockProptypes";
 import { StyledStockPagination } from "../Stock.styles";
 
 const defaultPlacement = "bottom";
-const pageItemsCount = 8;
+const pageItemsCount = 12;
 
 function StockPagination({ stockData, deleteStock }) {
   const [paginationValue, setPaginationValues] = useState({
@@ -54,7 +54,7 @@ function StockPagination({ stockData, deleteStock }) {
             const { product: productInfo } = cardInfo;
 
             return (
-              <Col span={6} key={cardInfo.id}>
+              <Col span={24 / (pageItemsCount / 2)} key={cardInfo.id}>
                 <BasicCard
                   optionsButton={() => optionsCardButton(cardInfo)}
                   productsInfo={productInfo}

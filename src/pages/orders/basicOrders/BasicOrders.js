@@ -3,6 +3,7 @@ import { Card, Col, Empty, Row, Table, Tooltip } from "antd";
 import {
   ClockCircleOutlined,
   DislikeOutlined,
+  DollarCircleOutlined,
   LikeOutlined,
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
@@ -14,17 +15,37 @@ import OrdersCard from "../../../components/cards/ordersCard/OrdersCard";
 
 import { OrderObjectShape } from "../../../types/OrderPropTypes";
 
+import { StyledTable } from "../../../styles/styledGenericComponents/TableComponent.styles";
 import {
   StyledActionsComponent,
   StyledBasicOrders,
   StyledPromoteButton,
 } from "./BasicOrders.styles";
+
+// REMOVER ESSE IMPORT
 import colors from "../../../styles/colors";
+import TableTitle from "../../../components/table/title/TableTitle";
 
 const tableColumns = [
-  { dataIndex: "name", title: "Itens" },
-  { dataIndex: "quantity", title: "Quantidade" },
-  { dataIndex: "price", title: "Preço" },
+  {
+    dataIndex: "name",
+    key: "name",
+    title: "Itens",
+  },
+  {
+    align: "center",
+    dataIndex: "quantity",
+    key: "quantity",
+    title: "Quantidade",
+    width: "100px",
+  },
+  {
+    align: "center",
+    dataIndex: "price",
+    key: "price",
+    title: <TableTitle message="Preço" icon={<DollarCircleOutlined />} />,
+    width: "100px",
+  },
 ];
 
 const columnsCount = 3;
@@ -153,7 +174,7 @@ function BasicOrders({
               </Row>
             </Card>
 
-            <Table
+            <StyledTable
               bordered
               columns={tableColumns}
               dataSource={products}
@@ -175,8 +196,12 @@ function BasicOrders({
                   <Table.Summary fixed>
                     <Table.Summary.Row>
                       <Table.Summary.Cell>Total</Table.Summary.Cell>
-                      <Table.Summary.Cell>{totalQuantity}</Table.Summary.Cell>
-                      <Table.Summary.Cell>{totalPrice}</Table.Summary.Cell>
+                      <Table.Summary.Cell align="center">
+                        {totalQuantity}
+                      </Table.Summary.Cell>
+                      <Table.Summary.Cell align="center">
+                        {totalPrice}
+                      </Table.Summary.Cell>
                     </Table.Summary.Row>
                   </Table.Summary>
                 );

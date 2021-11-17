@@ -23,6 +23,9 @@ export const CHANGE_STATUS = Symbol("CHANGE_STATUS");
 export const FETCH_ORDERS = Symbol("FETCH_ORDERS");
 export const REJECT_ORDER = Symbol("REJECT_ORDER");
 
+/* Sales */
+export const FETCH_SALES = Symbol("FETCH_SALES");
+
 /* User */
 export const CREATE_USER = Symbol("CREATE_USER");
 

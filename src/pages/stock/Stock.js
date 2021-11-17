@@ -122,7 +122,7 @@ export default function Storage() {
         onFinish={onSubmitForm}
         title={DRAWER_LABELS.title}
       >
-        <StockForm productsInfo={productsData} />
+        <StockForm productsInfo={productsData?.productsInfo} />
       </BasicDrawer>
 
       <ConfirmationModal

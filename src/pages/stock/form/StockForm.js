@@ -11,7 +11,7 @@ const { Option } = Select;
 const { Step } = Steps;
 
 function StockForm({ productsInfo }) {
-  const [selectedFieldsTypes, setSelectedFieldsTypes] = useState();
+  const [selectedFieldsTypes, setSelectedFieldsTypes] = useState([]);
 
   const generateFieldType = (fieldName, fieldType, placeHolder) => {
     switch (fieldType) {

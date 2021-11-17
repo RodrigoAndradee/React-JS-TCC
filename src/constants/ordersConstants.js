@@ -1,12 +1,12 @@
 import { PAGE_INFOS } from "./routesConstants";
 
-export const ORDERS_TYPE = {
+export const ORDERS_TYPE = Object.freeze({
   delivery: "DELIVERY",
   finished: "FINISHED",
   pending: "PENDING",
   preparing: "PREPARING",
   rejected: "REJECTED",
-};
+});
 
 export const OrdersPage = [
   {
