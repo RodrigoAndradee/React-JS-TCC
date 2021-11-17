@@ -7,11 +7,11 @@ export default function homeScreen() {
     <GenericPage
       body={
         <iframe
-          title="report"
-          width="auto"
-          height="auto"
-          src="https://datastudio.google.com/embed/reporting/f86e0f9c-502d-4b99-807b-88dec5dd10af/page/LuBV"
           frameBorder="0"
+          height="100%"
+          src="https://datastudio.google.com/embed/reporting/f86e0f9c-502d-4b99-807b-88dec5dd10af/page/LuBV"
+          title="report"
+          width="100%"
         />
       }
     />
