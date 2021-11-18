@@ -21,14 +21,37 @@ export const StyledBasicCard = styled(Card)`
   }
 
   .ant-card-body {
+    padding: 12px;
     .ant-card-meta {
       .ant-card-meta-detail {
         .ant-card-meta-description {
-          > div {
+          .card-description {
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
             width: 100%;
+
+            .expired-warning {
+              margin-left: 10px;
+              font-size: 16px;
+            }
+
+            .expired-warning {
+              margin-left: 10px;
+              font-size: 16px;
+            }
+
+            &.expired-product {
+              .expired-warning {
+                color: ${colors.colorRed};
+              }
+            }
+
+            &.almost-expired-product {
+              .expired-warning {
+                color: ${colors.colorYellow};
+              }
+            }
           }
         }
       }

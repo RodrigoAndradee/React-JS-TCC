@@ -9,4 +9,5 @@ export default {
   colorSelect: "#ff7440",
   colorSteel: "#777b7e",
   colorWhite: "#ffffff",
+  colorYellow: "#fee400",
 };
