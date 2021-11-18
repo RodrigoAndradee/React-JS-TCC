@@ -65,7 +65,7 @@ export const generateSummaryRows = (pageData) => {
     taxSum += Number(item.tax);
   });
 
-  totalPrice = Math.round(totalPrice * 100) / 100;
+  totalPrice = normalizeData(Math.round(totalPrice * 100) / 100);
   subTotalPrice = normalizeData(subTotalPrice);
   taxSum = normalizeData(taxSum);
 
