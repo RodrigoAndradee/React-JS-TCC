@@ -114,7 +114,6 @@ export default (justificationColumn) => {
           key: EMAIL,
           title: "E-mail",
           width: 300,
-          render: () => "rodrigomachado161@gmail.com",
         },
         {
           align: DEFAULT_CELL_ALIGNMENT,
