@@ -49,7 +49,7 @@ function Header({ userData, logOut }) {
   };
 
   const menuOptions = (
-    <Menu style={{ width: 150 }}>
+    <Menu>
       {userData?.role === "admin" && (
         <>
           <Item onClick={() => setCreateUserModal(true)}>
@@ -57,11 +57,12 @@ function Header({ userData, logOut }) {
           </Item>
 
           <Item onClick={() => setCreateCategoryModal(true)}>
-            Adicionar Categoria
+            Gerenciar Categorias
           </Item>
+
+          <Divider />
         </>
       )}
-      <Divider />
       <Menu.Item onClick={() => setConfirmationModalState(true)}>
         Sair
       </Menu.Item>
