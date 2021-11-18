@@ -4,22 +4,30 @@ import PropTypes, { arrayOf } from "prop-types";
 
 import { StyledMenuComponent } from "./MenuComponent.styles";
 
-function MenuComponent({ className, menuOptions, renderMenuOptions }) {
+function MenuComponent({
+  className,
+  menuOptions,
+  renderMenuOptions,
+  userRole,
+}) {
   return (
     <StyledMenuComponent>
       {renderMenuOptions &&
-        menuOptions?.map(({ exact = false, icon, label, path }) => (
-          <NavLink
-            activeClassName="active"
-            className={`link ${className}`}
-            exact={exact}
-            key={path}
-            to={path}
-          >
-            {icon && <span className="menu-icon">{icon}</span>}
-            {label}
-          </NavLink>
-        ))}
+        menuOptions?.map(
+          ({ exact = false, icon, label, path, roles }) =>
+            roles.includes(userRole) && (
+              <NavLink
+                activeClassName="active"
+                className={`link ${className}`}
+                exact={exact}
+                key={path}
+                to={path}
+              >
+                {icon && <span className="menu-icon">{icon}</span>}
+                {label}
+              </NavLink>
+            )
+        )}
     </StyledMenuComponent>
   );
 }
@@ -35,11 +43,13 @@ MenuComponent.propTypes = {
     })
   ),
   renderMenuOptions: PropTypes.bool,
+  userRole: PropTypes.string,
 };
 
 MenuComponent.defaultProps = {
   className: "",
   menuOptions: {},
   renderMenuOptions: false,
+  userRole: "",
 };
 export default MenuComponent;

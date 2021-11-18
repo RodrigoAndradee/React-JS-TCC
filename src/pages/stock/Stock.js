@@ -1,6 +1,8 @@
 import React, { useEffect, useReducer, useState } from "react";
 import { Empty, Spin } from "antd";
 import { useDispatch } from "react-redux";
+import moment from "moment";
+import "moment-timezone";
 
 // Components
 import BasicDrawer from "../../components/basicDrawer/BasicDrawer";
@@ -63,9 +65,12 @@ export default function Storage() {
   };
 
   const onSubmitForm = (stockInfo) => {
+    const date = stockInfo.dueDate.format(DEFAULT_FORMAT);
+    const brazilianTimeZone = moment(date).tz("America/Phoenix");
+
     const enhancedStockInfo = {
       ...stockInfo,
-      dueDate: stockInfo.dueDate.format(DEFAULT_FORMAT),
+      dueDate: brazilianTimeZone,
     };
 
     CreateStockActions(enhancedStockInfo)(dispatchCreateStockData).then(() => {

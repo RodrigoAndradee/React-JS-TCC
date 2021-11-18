@@ -113,6 +113,7 @@ function Header({ userData, logOut }) {
           <MenuComponent
             menuOptions={ROUTES_CONSTANTS}
             renderMenuOptions={!!userData}
+            userRole={userData?.role}
           />
         </div>
         <div className="right-menu">
