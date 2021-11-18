@@ -85,11 +85,11 @@ export default function Storage() {
   };
 
   const handleOkDeleteStock = () => {
-    DeleteStockActions(deleteStockModal.stockId)(dispatchDeleteStockData).then(
-      () => {
+    DeleteStockActions(deleteStockModal.stockId)(dispatchDeleteStockData)
+      .then(() => {
         StockActions()(dispatchStockData);
-      }
-    );
+      })
+      .then(() => setDeleteStockModal({ state: false, stockId: null }));
   };
 
   const handleCloseDeleteModal = () => {
@@ -155,10 +155,11 @@ export default function Storage() {
       </BasicDrawer>
 
       <ConfirmationModal
-        isOpen={deleteStockModal.state}
-        handleOk={handleOkDeleteStock}
-        okText="Deletar"
+        closable={false}
         handleCancel={handleCloseDeleteModal}
+        handleOk={handleOkDeleteStock}
+        isOpen={deleteStockModal.state}
+        okText="Deletar"
       >
         Tem certeza que deseja deletar o produto do estoque?
       </ConfirmationModal>
