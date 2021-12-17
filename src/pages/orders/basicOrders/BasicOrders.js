@@ -105,7 +105,7 @@ function BasicOrders({
                       {currentHour}
                       <ClockCircleOutlined
                         style={{
-                          color: `${colors.colorRedOrange}`,
+                          color: `${colors.colorPrimary}`,
                           fontWeight: "600",
                           fontSize: "16px",
                         }}

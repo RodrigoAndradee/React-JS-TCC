@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { connect, useDispatch } from "react-redux";
 import { DownOutlined } from "@ant-design/icons";
 import { Dropdown, Menu } from "antd";
@@ -21,6 +21,7 @@ import { ROUTES_CONSTANTS } from "../../constants/routesConstants";
 import { userDataShape } from "../../types/UserDataPropTypes";
 
 import { StyledHeader } from "./Header.styles";
+import ConstantsHooks from "../../context/ConstantsContext";
 
 const { Item, Divider } = Menu;
 const userRoles = {
@@ -33,6 +34,9 @@ function Header({ userData, logOut }) {
   const [createCategoryModal, setCreateCategoryModal] = useState(false);
   const [createUserModal, setCreateUserModal] = useState(false);
   const [confirmationModalState, setConfirmationModalState] = useState(false);
+
+  const { constantsFile } = useContext(ConstantsHooks);
+  console.log("constantsFile: ", constantsFile);
 
   const routeHistory = useHistory();
   const dispatchCreateUser = useDispatch();
@@ -53,7 +57,7 @@ function Header({ userData, logOut }) {
       {userData?.role === "admin" && (
         <>
           <Item onClick={() => setCreateUserModal(true)}>
-            Adicionar Usuário
+            Gerenciar Usuários
           </Item>
 
           <Item onClick={() => setCreateCategoryModal(true)}>
@@ -109,7 +113,9 @@ function Header({ userData, logOut }) {
 
       <div className="center-menu">
         <div className="left-menu">
-          <img src={BarbecueIcon} alt="" className="barbecue-icon" />
+          {userData && (
+            <img src={BarbecueIcon} alt="" className="barbecue-icon" />
+          )}
 
           <MenuComponent
             menuOptions={ROUTES_CONSTANTS}

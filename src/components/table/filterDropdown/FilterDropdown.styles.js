@@ -16,6 +16,6 @@ export const StyledFilterDropdown = styled.div`
   .footer {
     padding: 10px;
     margin-top: 10px;
-    border-top: solid 1px ${colors.colorDarkGray};
+    border-top: solid 1px ${colors.colorBorderColors};
   }
 `;

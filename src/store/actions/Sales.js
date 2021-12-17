@@ -1,9 +1,20 @@
 import ordersClient from "../../configs/ordersClient";
 
+// Assets
+import * as constants from "../../assets/constants-file.json";
+
+// Constants
+import { NOTIFICATION_TYPES } from "../../constants/systemConstants";
+
+// Helpers
 import sendNotification from "../../helpers/NotificationsHelper";
 import { normalizedSalesData } from "../../helpers/SalesHelpers";
 
+// Reducers
 import { FETCH_SALES } from "../ActionTypes";
+
+const { ERRORS_CONSTANTS } = constants.default;
+const { GET_ORDER_ERROR } = ERRORS_CONSTANTS.SALES_PAGE;
 
 function fetchSalesData(orderStatus) {
   return async (dispatch) => {
@@ -16,7 +27,7 @@ function fetchSalesData(orderStatus) {
 
       dispatch({ type: FETCH_SALES, data: normalizedSalesData(data) });
     } catch {
-      sendNotification("ERROR", "Erro ao Obter os dados da página", "Error");
+      sendNotification(NOTIFICATION_TYPES.ERROR, GET_ORDER_ERROR);
     }
   };
 }

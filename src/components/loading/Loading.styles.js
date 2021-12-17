@@ -27,7 +27,7 @@ export const StyledLoading = styled.div`
       height: 8rem;
       position: absolute;
       width: 8rem;
-      color: ${colors.colorRedOrange};
+      color: ${colors.colorPrimary};
 
       left: auto;
       bottom: auto;
@@ -40,8 +40,7 @@ export const StyledLoading = styled.div`
   }
 
   .loading-description {
-    /* background-color: greenyellow; */
-    color: ${colors.colorPrimary};
+    color: ${colors.colorBorderColors};
     font-size: 14px;
   }
 `;

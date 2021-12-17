@@ -1,5 +1,4 @@
 import styled from "styled-components";
-
 import { Card } from "antd";
 
 import colors from "../../../styles/colors";
@@ -43,13 +42,13 @@ export const StyledBasicCard = styled(Card)`
 
             &.expired-product {
               .expired-warning {
-                color: ${colors.colorRed};
+                color: ${colors.colorWarningRed};
               }
             }
 
             &.almost-expired-product {
               .expired-warning {
-                color: ${colors.colorYellow};
+                color: ${colors.colorWarningYellow};
               }
             }
           }
@@ -59,16 +58,16 @@ export const StyledBasicCard = styled(Card)`
   }
 
   .ant-card-actions {
-    border-color: ${colors.colorDarkGray};
+    border-color: ${colors.colorBorderColors};
     margin: 0 10px;
 
     .anticon {
-      color: ${colors.colorPrimary};
+      color: ${colors.colorBorderColors};
     }
 
     > li {
       :not(:last-child) {
-        border-color: ${colors.colorDarkGray};
+        border-color: ${colors.colorBorderColors};
       }
     }
   }

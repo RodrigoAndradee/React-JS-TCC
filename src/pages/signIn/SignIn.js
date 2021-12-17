@@ -3,19 +3,28 @@ import { Button, Form, Input } from "antd";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { UserOutlined } from "@ant-design/icons";
-
 import PropTypes from "prop-types";
 
+// Assets
+import * as constants from "../../assets/constants-file.json";
 import loginImage from "../../assets/loginImage.jpeg";
+import BarbecueIcon from "../../assets/barbecueIcon.ico";
 
+// Reducers
 import { SignIn } from "../../store/actions/SignIn";
 
-import { LOGIN_CONSTANTS } from "../../constants/loginConstants";
-
+// Styles
 import { StyledSignIn } from "./SignIn.styles";
 
+const { SYSTEM_CONSTANTS } = constants.default;
+
 function Login({ getProfile }) {
-  const { APP_INTRO, LOGIN_BUTTON, USER_NAME, USER_PASSWORD } = LOGIN_CONSTANTS;
+  const {
+    app_intro,
+    login_button,
+    user_name,
+    user_password,
+  } = SYSTEM_CONSTANTS.LOGIN_CONSTANTS;
 
   const attemptLogin = (userInfo) => {
     getProfile(userInfo);
@@ -26,22 +35,24 @@ function Login({ getProfile }) {
       <img className="left-side-login" src={loginImage} alt="" />
 
       <Form className="right-side-login" onFinish={attemptLogin}>
-        <h1>{APP_INTRO}</h1>
+        <img src={BarbecueIcon} alt="" className="barbecue-icon" />
+
+        <h1>{app_intro}</h1>
 
         <Form.Item name="userName" className="input-text">
           <Input
             className="input-text"
-            placeholder={USER_NAME}
+            placeholder={user_name}
             prefix={<UserOutlined />}
           />
         </Form.Item>
 
         <Form.Item name="password" className="input-text">
-          <Input.Password placeholder={USER_PASSWORD} className="input-text" />
+          <Input.Password placeholder={user_password} className="input-text" />
         </Form.Item>
 
         <Button className="login-button" htmlType type="primary">
-          {LOGIN_BUTTON}
+          {login_button}
         </Button>
       </Form>
     </StyledSignIn>

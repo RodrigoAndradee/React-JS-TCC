@@ -39,7 +39,7 @@ ConfirmationModal.propTypes = {
 ConfirmationModal.defaultProps = {
   cancelText: "Cancelar",
   children: null,
-  closable: true,
+  closable: false,
   handleCancel: () => {},
   handleOk: () => {},
   isOpen: false,

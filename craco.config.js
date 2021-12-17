@@ -1,5 +1,8 @@
 const CracoLessPlugin = require("craco-less");
 const CracoEslintWebpackPlugin = require("craco-eslint-webpack-plugin");
+const data = require("./src/assets/constants-file.json");
+
+const colors = data.COLORS_CONFIG;
 
 module.exports = {
   plugins: [
@@ -9,7 +12,10 @@ module.exports = {
         lessLoaderOptions: {
           lessOptions: {
             modifyVars: {
-              "@primary-color": "#FF4500",
+              "@primary-color": colors.PRIMARY_COLOR,
+              "@primary-color-hover": colors.SECONDARY_COLOR,
+              "@primary-color-active": colors.SECONDARY_COLOR,
+              "@primary-color-outline": colors.SECONDARY_COLOR,
             },
             javascriptEnabled: true,
           },

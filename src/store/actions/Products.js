@@ -1,13 +1,34 @@
 import httpClient from "../../configs/httpClient";
 
+// Assets
+import * as constants from "../../assets/constants-file.json";
+
+// Constants
+import { NOTIFICATION_TYPES } from "../../constants/systemConstants";
+
+// Helpers
 import sendNotification from "../../helpers/NotificationsHelper";
 
+// Reducers
 import {
   CREATE_PRODUCT_INFO,
   DELETE_PRODUCT_INFO,
   EDIT_PRODUCT_INFO,
   PRODUCTS_INFO,
 } from "../ActionTypes";
+
+const { ERRORS_CONSTANTS, SUCCESS_CONSTANTS } = constants.default;
+const {
+  CREATE_PRODUCT_ERROR,
+  DELETE_PRODUCT_ERROR,
+  EDIT_PRODUCT_ERROR,
+  GET_PRODUCTS_ERROR,
+} = ERRORS_CONSTANTS.PRODUCTS_PAGE;
+const {
+  CREATE_PRODUCT,
+  DELETE_PRODUCT,
+  EDIT_PRODUCT,
+} = SUCCESS_CONSTANTS.PRODUCTS_PAGE;
 
 function ProductsActions() {
   return async (dispatch) => {
@@ -23,7 +44,7 @@ function ProductsActions() {
         type: PRODUCTS_INFO,
       });
     } catch (error) {
-      sendNotification("ERROR", "Erro ao Obter os Produtos", "Error");
+      sendNotification(NOTIFICATION_TYPES.ERROR, GET_PRODUCTS_ERROR);
     }
   };
 }
@@ -44,13 +65,9 @@ function CreateProductActions(productInfo) {
 
       ProductsActions()(dispatchProductsInfoData);
 
-      sendNotification(
-        "SUCCESS",
-        `Produto "${productInfo.name}" adicionado ao sistema`,
-        "Sucesso"
-      );
+      sendNotification(NOTIFICATION_TYPES.SUCCESS, CREATE_PRODUCT);
     } catch (error) {
-      sendNotification("ERROR", "Erro ao Criar Produto", "Erro");
+      sendNotification(NOTIFICATION_TYPES.ERROR, CREATE_PRODUCT_ERROR);
     }
   };
 }
@@ -71,13 +88,9 @@ function UpdateProductActions(productInfo, productID) {
 
       ProductsActions()(dispatchProductsInfoData);
 
-      sendNotification(
-        "SUCCESS",
-        `Produto "${productInfo.name}" editado`,
-        "Sucesso"
-      );
+      sendNotification(NOTIFICATION_TYPES.SUCCESS, EDIT_PRODUCT);
     } catch (error) {
-      sendNotification("ERROR", "Erro ao Editar Produto", "Erro");
+      sendNotification(NOTIFICATION_TYPES.ERROR, EDIT_PRODUCT_ERROR);
     }
   };
 }
@@ -97,9 +110,9 @@ function DeleteProductActions(productId) {
 
       ProductsActions()(dispatchProductsInfoData);
 
-      sendNotification("SUCCESS", "Produto Deletado com Sucesso", "Sucesso");
+      sendNotification(NOTIFICATION_TYPES.SUCCESS, DELETE_PRODUCT);
     } catch (error) {
-      sendNotification("ERROR", "Erro ao Deletar Produto", "Erro");
+      sendNotification(NOTIFICATION_TYPES.ERROR, DELETE_PRODUCT_ERROR);
     }
   };
 }

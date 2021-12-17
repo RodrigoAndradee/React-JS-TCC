@@ -1,5 +1,7 @@
 import { notification } from "antd";
 
+import { NOTIFICATION_TYPES } from "../constants/systemConstants";
+
 function sendSuccessNotification(description, message) {
   notification.success({
     message,
@@ -34,13 +36,13 @@ export default function sendNotification(
   message
 ) {
   switch (notificationType) {
-    case "SUCCESS":
+    case NOTIFICATION_TYPES.SUCCESS:
       sendSuccessNotification(description, message);
       break;
-    case "ERROR":
+    case NOTIFICATION_TYPES.ERROR:
       sendErrorNotification(description, message);
       break;
-    case "WARNING":
+    case NOTIFICATION_TYPES.WARNING:
       sendWarningNotification(description, message);
       break;
     default:

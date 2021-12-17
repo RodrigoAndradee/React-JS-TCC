@@ -20,8 +20,8 @@ export const StyledTable = styled(Table)`
     .ant-table-content {
       .ant-table-thead {
         .ant-table-cell {
-          background-color: ${colors.colorLighterOrange};
-          border-color: ${colors.colorDarkGray};
+          background-color: ${colors.colorSecondary};
+          border-color: ${colors.colorBorderColors};
         }
       }
     }
@@ -30,8 +30,8 @@ export const StyledTable = styled(Table)`
         .ant-table-header {
           .ant-table-thead {
             .ant-table-cell {
-              background-color: ${colors.colorLighterOrange};
-              border-color: ${colors.colorDarkGray};
+              background-color: ${colors.colorSecondary};
+              border-color: ${colors.colorBorderColors};
             }
           }
         }
@@ -40,13 +40,13 @@ export const StyledTable = styled(Table)`
           .ant-table-tbody {
             .ant-table-row {
               .ant-table-cell {
-                border-color: ${colors.colorDarkGray};
+                border-color: ${colors.colorBorderColors};
               }
             }
           }
           .payment-type-icon {
             align-items: center;
-            color: ${colors.colorRedOrange};
+            color: ${colors.colorPrimary};
             display: flex;
             justify-content: flex-end;
           }
@@ -57,8 +57,8 @@ export const StyledTable = styled(Table)`
     .ant-table-summary {
       .ant-table-summary {
         .ant-table-cell {
-          background-color: ${colors.colorLighterOrange};
-          border-color: ${colors.colorDarkGray};
+          background-color: ${colors.colorSecondary};
+          border-color: ${colors.colorBorderColors};
         }
       }
     }

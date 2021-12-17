@@ -32,3 +32,6 @@ export const CREATE_USER = Symbol("CREATE_USER");
 /* Loading */
 export const SHOW_LOADING = Symbol("SHOW_LOADING");
 export const HIDE_LOADING = Symbol("HIDE_LOADING");
+
+/* Constants */
+export const CONSTANTS_FILE = Symbol("CONSTANTS_FILE");

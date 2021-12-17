@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { PROJECT_VARIABLES } from "../../constants/uiConstants";
+import { PROJECT_VARIABLES } from "../../constants/systemConstants";
 
 import colors from "../../styles/colors";
 
@@ -27,7 +27,7 @@ export const StyledOrders = styled.div`
 
       .count-down {
         align-items: center;
-        border: solid 1px ${colors.colorDefaultGreyAntd};
+        border: solid 1px ${colors.colorBorderColors};
         display: flex;
         justify-content: space-between;
         margin-left: auto;
@@ -35,7 +35,7 @@ export const StyledOrders = styled.div`
         width: 60px;
 
         .icon {
-          color: ${colors.colorRedOrange};
+          color: ${colors.colorPrimary};
         }
       }
     }

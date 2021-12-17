@@ -36,7 +36,7 @@ export const PRODUCT_FORM_INFOS = [
     fieldType: "input",
     isRequired: true,
     placeHolder: "Digite a Unidade do Produto",
-    requiredMessage: "Digite a URL da imagem",
+    requiredMessage: "Digite a unidade do produto",
     stepTitle: "Unidade do Produto",
   },
   {

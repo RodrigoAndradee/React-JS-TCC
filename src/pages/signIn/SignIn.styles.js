@@ -18,6 +18,13 @@ export const StyledSignIn = styled.div`
     padding: 0 50px 0 50px;
     width: 30%;
 
+    .barbecue-icon {
+      width: 50px;
+      height: 50px;
+      /* padding: 10px; */
+      margin: 10px;
+    }
+
     .input-text {
       width: 100%;
     }

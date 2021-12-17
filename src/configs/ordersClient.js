@@ -1,4 +1,7 @@
 import axios from "axios";
+import * as data from "../assets/constants-file.json";
+
+const IP_CONFIG = data.BACK_END_CONFIG;
 
 class OrdersClient {
   constructor(host) {
@@ -26,7 +29,9 @@ class OrdersClient {
   }
 }
 
-const ordersClient = new OrdersClient("http://192.168.15.16:8082");
+const ordersClient = new OrdersClient(
+  `${IP_CONFIG.ORDERS_SERVER.IP}:${IP_CONFIG.ORDERS_SERVER.PORT}`
+);
 
 ordersClient.attachResponseInterceptors(
   (response) => response,

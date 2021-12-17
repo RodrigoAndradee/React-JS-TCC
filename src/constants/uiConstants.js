@@ -25,7 +25,3 @@ export const PAGE_NAME = [
     roles: ["admin", "separator"],
   },
 ];
-
-export const PROJECT_VARIABLES = {
-  systemWidth: "1280px",
-};

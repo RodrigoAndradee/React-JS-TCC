@@ -12,7 +12,7 @@ export const StyledBasicOrders = styled.div`
   .ant-card-bordered {
     .ant-card-body {
       .card-title {
-        border-bottom: solid 1px ${colors.colorDarkGray};
+        border-bottom: solid 1px ${colors.colorBorderColors};
         margin: 0 10px;
       }
     }
@@ -26,18 +26,18 @@ export const StyledBasicOrders = styled.div`
 
     .order-list-item {
       align-items: center;
-      border-bottom: solid 1px ${colors.colorDarkGray};
+      border-bottom: solid 1px ${colors.colorBorderColors};
       display: flex;
       height: auto;
       justify-content: space-between;
       padding: 8px;
 
       .action-separator {
-        color: ${colors.colorDefaultGreyAntd};
+        color: ${colors.colorBorderColors};
       }
 
       &.selected {
-        background-color: ${colors.colorSelect};
+        background-color: ${colors.colorSelectedRow};
         border-radius: 5px;
         color: ${colors.colorWhite};
       }
@@ -46,14 +46,14 @@ export const StyledBasicOrders = styled.div`
         border-radius: 5px;
 
         &:not(.selected) {
-          background-color: ${colors.colorLighterOrange};
+          background-color: ${colors.colorSecondary};
         }
       }
 
       .order-list-item-hour {
         align-items: center;
         background-color: ${colors.colorWhite};
-        border: solid 1px ${colors.colorDefaultGreyAntd};
+        border: solid 1px ${colors.colorBorderColors};
         color: ${colors.colorPrimary};
         display: flex;
         justify-content: space-between;
@@ -79,7 +79,7 @@ export const StyledBasicOrders = styled.div`
           text-align: left;
 
           > span {
-            color: ${colors.colorDarkGray};
+            color: ${colors.colorBorderColors};
           }
         }
       }
@@ -94,7 +94,7 @@ export const StyledPromoteButton = styled(Button)`
   width: 50px;
 
   > span {
-    color: ${colors.colorDefaultGreyAntd};
+    color: ${colors.colorBorderColors};
     font-size: 18px;
   }
 
@@ -109,7 +109,7 @@ export const StyledPromoteButton = styled(Button)`
 
 export const StyledActionsComponent = styled.div`
   align-items: center;
-  color: ${colors.colorDefaultGreyAntd};
+  color: ${colors.colorBorderColors};
   display: flex;
   flex-direction: row;
   justify-content: center;

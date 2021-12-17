@@ -189,7 +189,6 @@ function Products() {
         handleCancel={() =>
           setDiscardProduct({ isOpen: false, productId: null })
         }
-        closable={false}
       >
         Tem certeza que deseja deletar o produto?
       </ConfirmationModal>

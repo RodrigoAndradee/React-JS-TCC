@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { PROJECT_VARIABLES } from "../../constants/uiConstants";
+import { PROJECT_VARIABLES } from "../../constants/systemConstants";
 
 export const StyledGenericPage = styled.div`
   align-items: center;

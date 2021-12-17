@@ -8,10 +8,10 @@ export const StyledSteps = styled(Steps)`
   .ant-steps-item-container {
     .ant-steps-item-icon {
       background-color: transparent;
-      border: 1px solid ${colors.colorPrimary};
+      border: 1px solid ${colors.colorBorderColors};
 
       .ant-steps-icon {
-        color: ${colors.colorPrimary};
+        color: ${colors.colorBorderColors};
       }
     }
   }

@@ -5,7 +5,7 @@ import colors from "../../styles/colors";
 export const StyledFooterComponent = styled.div`
   align-items: center;
   background-color: ${colors.colorWhite};
-  border-top: 1px solid ${colors.colorPrimary};
+  border-top: 1px solid ${colors.colorBorderColors};
   bottom: 0;
   display: flex;
   flex-direction: row;

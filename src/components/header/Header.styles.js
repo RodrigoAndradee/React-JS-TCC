@@ -1,11 +1,11 @@
 import styled from "styled-components";
 
-import { PROJECT_VARIABLES } from "../../constants/uiConstants";
+import { PROJECT_VARIABLES } from "../../constants/systemConstants";
 
 import colors from "../../styles/colors";
 
 export const StyledHeader = styled.div`
-  background-color: ${colors.colorRedOrange};
+  background-color: ${colors.colorPrimary};
   display: flex;
   height: 60px;
   justify-content: center;

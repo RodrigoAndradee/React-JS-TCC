@@ -155,7 +155,6 @@ export default function Storage() {
       </BasicDrawer>
 
       <ConfirmationModal
-        closable={false}
         handleCancel={handleCloseDeleteModal}
         handleOk={handleOkDeleteStock}
         isOpen={deleteStockModal.state}

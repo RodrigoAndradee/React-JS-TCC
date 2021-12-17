@@ -8,23 +8,23 @@ export const StyledTabs = styled(Tabs)`
   width: 100%;
 
   .ant-tabs-tab {
-    border: solid 1px ${colors.colorRedOrange} !important;
+    border: solid 1px ${colors.colorPrimary} !important;
     display: flex;
     justify-content: center;
     width: 317px;
 
     &.ant-tabs-tab-active {
-      background-color: ${colors.colorLighterOrange};
+      background-color: ${colors.colorSecondary};
     }
 
     :hover {
-      color: ${colors.colorRedOrange};
+      color: ${colors.colorPrimary};
     }
   }
 
   .ant-tabs-tab-active {
     .ant-tabs-tab-btn {
-      color: ${colors.colorRedOrange};
+      color: ${colors.colorPrimary};
     }
   }
 `;

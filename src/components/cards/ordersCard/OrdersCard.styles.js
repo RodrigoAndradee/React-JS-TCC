@@ -33,7 +33,7 @@ export const StyledBasicOrdersCard = styled(Card)`
 
     .footer {
       align-items: center;
-      border-top: solid 1px ${colors.colorDarkGray};
+      border-top: solid 1px ${colors.colorBorderColors};
       display: flex;
       height: 60px;
       justify-content: center;

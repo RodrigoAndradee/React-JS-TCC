@@ -28,7 +28,7 @@ export const StyledBasicDrawer = styled(Drawer)`
 
       .footer {
         align-items: center;
-        border-top: 1px solid ${colors.colorDefaultGreyAntd};
+        border-top: 1px solid ${colors.colorBorderColors};
         bottom: 0;
         display: flex;
         flex-direction: row;
